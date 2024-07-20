@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+
+.h1 {
+  @apply text-2xl;
+  @apply font-medium;
+  @apply leading-[1.2];
+}
+
+@screen md {
+  .h1 {
+    @apply text-[52px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+
+@screen lg {
+  .h1 {
+    @apply text-[80px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+
+@screen xl {
+  .h1 {
+    @apply text-[96px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+
+/* header last section */
+.h2 {
+  @apply text-[24px];
+  @apply font-medium;
+  @apply leading-[1.2];
+}
+@screen md {
+  .h2 {
+    @apply text-[48px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+@screen lg {
+  .h2 {
+    @apply text-[64px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+@screen xl {
+  .h2 {
+    @apply text-[92px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+
+/* h2 header */
+.h3 {
+  @apply text-[30px];
+  @apply font-semibold;
+  @apply leading-[1.2];
+}
+@screen md {
+  .h3 {
+    @apply text-[48px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+@screen lg {
+  .h3 {
+    @apply text-[64px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+
+/* subtitle  */
+.h4 {
+  @apply text-[22px];
+  @apply font-semibold;
+  @apply leading-normal;
+}
+@screen md {
+  .h4 {
+    @apply text-[24px];
+    @apply font-medium;
+    @apply leading-[1.2];
+  }
+}
+
+/* subtitle booking form */
+
+.subtitle-booking {
+  @apply text-[18px];
+  @apply font-normal;
+  @apply leading-normal;
+}
+@screen md {
+  .subtitle-booking {
+    @apply text-[24px];
+    @apply font-normal;
+    @apply leading-[1.2];
+  }
+}
+
+@screen lg {
+  .subtitle-booking {
+    @apply text-[36px];
+    @apply font-normal;
+    @apply leading-[1.2];
+  }
+}
+/* main text */
+.body {
+  @apply text-[16px];
+  @apply font-normal;
+  @apply leading-normal;
+}
+
+@screen md {
+  .body {
+    @apply text-[16px];
+    @apply font-normal;
+    @apply leading-[1.25];
+  }
+}
+@screen lg {
+  .body {
+    @apply text-[20px];
+    @apply font-normal;
+    @apply leading-[1.2];
+  }
+}
+
+.subtext {
+  @apply text-base;
+  @apply font-normal;
+  @apply leading-normal;
+}
+@screen md {
+  .subtext {
+    @apply text-[24px];
+    @apply font-normal;
+    @apply leading-normal;
+  }
+}
+
+/* list-text for section areas */
+.list-text {
+  @apply text-[16px];
+  @apply font-normal;
+  @apply leading-normal;
+}
+
+@screen md {
+  .list-text {
+    @apply text-[36px];
+    @apply font-normal;
+    @apply leading-[1.2];
+  }
+}
+
+@screen lg {
+  .list-text {
+    @apply text-[32px];
+    @apply font-normal;
+    @apply leading-[1.2];
+  }
+}
+
+@screen xl {
+  .list-text {
+    @apply text-[36px];
+    @apply font-normal;
+    @apply leading-[1.2];
+  }
+}

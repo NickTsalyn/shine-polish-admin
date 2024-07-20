@@ -1,0 +1,98 @@
+[
+    {
+      "id": 1,
+      "descrImg": "slider 1",
+      "imageBg": "/images/background/bathroom-4130000_1920.webp"
+    },
+      {
+      "id": 2,
+      "descrImg": "slider 2",
+      "imageBg": "/images/background/kitchen-2565105_1920.webp"
+    },
+      {
+      "id": 3,
+      "descrImg": "slider 3",
+      "imageBg": "/images/background/living-room-2583032_1920.webp"
+    },
+     {
+      "id": 4,
+      "descrImg": "slider 4",
+      "imageBg": "/images/background/living-room-2605530_1920.webp"
+    },
+     {
+      "id": 5,
+      "descrImg": "slider 5",
+      "imageBg": "/images/background/pexels-curtis-adams-11593489.webp"
+    },
+      {
+      "id": 6,
+      "descrImg": "slider 6",
+      "imageBg": "/images/background/pexels-curtis-adams-15062084.webp"
+    },
+      {
+      "id": 7,
+      "descrImg": "slider 7",
+      "imageBg": "/images/background/pexels-gustavo-fring-7489207.webp"
+    },
+      {
+      "id": 8,
+      "descrImg": "slider 8",
+      "imageBg": "/images/background/pexels-gustavo-fring-3912353.webp"
+    },
+      {
+      "id": 9,
+      "descrImg": "slider 9",
+      "imageBg": "/images/background/pexels-karolina-grabowska-4239109.webp"
+    },
+      {
+      "id": 10,
+      "descrImg": "slider 10",
+      "imageBg": "/images/background/pexels-karolina-grabowska-4239113.webp"
+    },
+      {
+      "id": 11,
+      "descrImg": "slider 11",
+      "imageBg": "/images/background/pexels-matilda-wormwood-4099467.webp"
+    },
+      {
+      "id": 12,
+      "descrImg": "slider 12",
+      "imageBg": "/images/background/pexels-max-vakhtbovycn-6121088.webp"
+    },
+      {
+      "id": 13,
+      "descrImg": "slider 13",
+      "imageBg": "/images/background/pexels-max-vakhtbovycn-6444979.webp"
+    },
+      {
+      "id": 14,
+      "descrImg": "slider 14",
+      "imageBg": "/images/background/pexels-nathan-cowley-713297.webp"
+    },
+      {
+      "id": 15,
+      "descrImg": "slider 15",
+      "imageBg": "/images/background/pexels-pixabay-271624.webp"
+    },
+      {
+      "id": 16,
+      "descrImg": "slider 16",
+      "imageBg": "/images/background/pexels-pixabay-534151.webp"
+    },
+      {
+      "id": 17,
+      "descrImg": "slider 17",
+      "imageBg": "/images/background/pexels-vitaly-gariev-20459085.webp"
+    },
+      {
+      "id": 18,
+      "descrImg": "slider 18",
+      "imageBg": "/images/background/pexels-winding-knob-16932921.webp"
+    },
+      {
+      "id": 19,
+      "descrImg": "slider 19",
+      "imageBg": "/images/background/stocksnap_ilpct4zz9k.webp"
+    }
+  ]
+  

@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "descrBefore": "Bath before clining",
+    "descrAfter": "Bath after clining",
+    "imageBefore": "/images/before-after-slides/before-bath.jpg",
+    "imageAfter": "/images/before-after-slides/after-bath.jpg"
+  },
+  {
+    "id": 2,
+    "descrBefore": "Kitchen before clining",
+    "descrAfter": "Kitchen after clining",
+    "imageBefore": "/images/before-after-slides/before-kitchen.jpg",
+    "imageAfter": "/images/before-after-slides/after-kitchen.jpg"
+  },
+  {
+    "id": 3,
+    "descrBefore": "Oven before clining",
+    "descrAfter": "Oven after clining",
+    "imageBefore": "/images/before-after-slides/before-oven.jpg",
+    "imageAfter": "/images/before-after-slides/after-oven.jpg"
+  },
+  {
+    "id": 4,
+    "descrBefore": "Sink before clining",
+    "descrAfter": "Sink after clining",
+    "imageBefore": "/images/before-after-slides/before-sink .png",
+    "imageAfter": "/images/before-after-slides/after-sink.jpg"
+  },
+  {
+    "id": 5,
+    "descrBefore": "Room before clining",
+    "descrAfter": "Room after clining",
+    "imageBefore": "/images/before-after-slides/before-room.jpg",
+    "imageAfter": "/images/before-after-slides/after-room.jpg"
+  }
+]
