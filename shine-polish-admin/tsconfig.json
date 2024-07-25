@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/UI/Button.jsx", "src/app/living-room-services", "formula.ts", "src/api/charge.ts"],
-    "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
