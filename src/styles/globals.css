@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./typography.css";
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 10px 6px 10px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 2px solid #006778;
+  -webkit-text-fill-color: #006778;
+  -webkit-box-shadow: 0 0 0px 1000px #93d7f91f inset;
+  box-shadow: 0 0 0px 1000px #93d7f91f inset;
+  background-color: transparent;
+  transition: background-color 5000s ease-in-out 0s;
+  color: white;
+}
+/*  */
+/* Change Pickers styles */
+.css-15zj7fn-MuiPickersLayout-root {
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+
+}
+
+.MuiPickersDay-today {
+  background-color: #E6BA95 !important;
+  color: white !important;
+  border: #E6BA95 !important;
+}
+
+.MuiPickersDay-root:hover {
+  background-color: #DE005D;
+  color: white;
+}
+
+.MuiPickersDay  {
+  background-color: #DE005D;
+  color: white;
+}
+  
+.MuiTypography-h4 {
+     color: #DE005D;
+   }
+
+.css-1wy8uaa-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    color: #fff;
+    background-color: #DE005D !important;
+    font-weight: 500;
+}   
+
+.css-foipgg-MuiDigitalClock-root {
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+  background-color: #fff;
+}
+
+.MuiMenuItem-root {
+   border-radius: 12px;
+}
+
+.MuiMenuItem-root:hover{
+    background-color: #DE005D;
+     color: #fff;
+     }
+
+.MuiDigitalClock-selected {
+    background-color: #DE005D;
+    color: #fff;
+    }
+
+.css-1kvln7l-MuiButtonBase-root-MuiMenuItem-root-MuiDigitalClock-item.Mui-selected {
+      background-color: #DE005D;
+      color: #fff;
+    }
+.error {
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  text-align: left;
+}
