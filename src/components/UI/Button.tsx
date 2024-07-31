@@ -22,7 +22,8 @@ type PropsButtton = {
       | "work-with-us"
       | "close-button"
       | "transparent-button"
-      | "complete-booking";
+      | "complete-booking"
+      | 'sidebar';
   };
   
   export default function Button(props: PropsButtton) {
@@ -105,6 +106,9 @@ type PropsButtton = {
       case "complete-booking":
         styles =
           " py-1.5 md:py-3 lg:py-[20px] px-10 bg-transparent border-2 border-solid border-white rounded-xl ";
+        break;
+        case 'sidebar': 
+        styles = 'text-[18px] xl:text-[20px] font-normal leading-[1.2]'
         break;
         default:  
     }
