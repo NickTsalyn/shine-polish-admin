@@ -3,7 +3,7 @@
 import Link from "next/link";
 import ThemeSwitch from "./Switcher";
 import { useState } from "react";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import MobileMenu from "./MobileMenu";
 
 export default function Header() {
