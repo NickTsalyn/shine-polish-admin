@@ -1,9 +1,8 @@
 "use client";
-import ScheduleComponent from "@/components/Scheduler";
+import Scheduler from "@/components/Scheduler/Scheduler";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {data} from "./data/date-bookings";
-
+import {addDays, subDays} from "date-fns";
 const getData = async () => {
  try {
   const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
@@ -54,10 +53,12 @@ export default function Home() {
     />
     <button type="submit">Submit</button>
    </form>
-   <ScheduleComponent
-   // eventSettigs={{
-   //  dataSourse: data,
-   // }}
+   <Scheduler
+    events={[
+     {date: subDays(new Date(), 1), title: "Event 1"},
+     {date: subDays(new Date(), 1), title: "Event 2"},
+     {date: addDays(new Date(), 8), title: "Event 3"},
+    ]}
    />
    <ul></ul>
   </div>
