@@ -3,6 +3,11 @@
 import { useState } from "react"
 import BasicModal from "./UI/Modal"
 import AreasForm from "./AreasForm"
+import axios from "axios";
+
+export const setAuthHeader = (token: string) => {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  };
 
 
 type Props = {

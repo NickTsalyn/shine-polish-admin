@@ -1,0 +1,28 @@
+{
+    "beforeImage": [
+      {
+        "fieldname": "beforeImage",
+        "originalname": "example-before.jpg",
+        "encoding": "7bit",
+        "mimetype": "image/jpeg",
+        "buffer": <Buffer>,
+        "size": 123456,
+        "path": "path/to/file/example-before.jpg",
+        "destination": "uploads/",
+        "filename": "example-before.jpg"
+      }
+    ],
+    "afterImage": [
+      {
+        "fieldname": "afterImage",
+        "originalname": "example-after.jpg",
+        "encoding": "7bit",
+        "mimetype": "image/jpeg",
+        "buffer": <Buffer>,
+        "size": 123456,
+        "path": "path/to/file/example-after.jpg",
+        "destination": "uploads/",
+        "filename": "example-after.jpg"
+      }
+    ]
+  }
