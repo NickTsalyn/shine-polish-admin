@@ -1,8 +1,10 @@
 "use client";
-import Scheduler from "@/components/Scheduler/Scheduler";
+// import Scheduler from "@/components/Scheduler/Scheduler";
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {addDays, subDays} from "date-fns";
+// import {addDays, subDays} from "date-fns";
+// import CalendarComponent from "@/components/Calendar/CalendarComponent";
+import MyCalendar from "@/components/Calendar/CalendarComponent";
 const getData = async () => {
  try {
   const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
@@ -53,13 +55,15 @@ export default function Home() {
     />
     <button type="submit">Submit</button>
    </form>
-   <Scheduler
+   {/* <Scheduler
     events={[
      {date: subDays(new Date(), 1), title: "Event 1"},
      {date: subDays(new Date(), 1), title: "Event 2"},
      {date: addDays(new Date(), 8), title: "Event 3"},
     ]}
-   />
+   /> */}
+   {/* <CalendarComponent /> */}
+   <MyCalendar />
    <ul></ul>
   </div>
  );

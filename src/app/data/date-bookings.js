@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const data = [
     {
         id: 1,
@@ -129,4 +131,75 @@ export const data = [
         status: "Completed",
         priority: "High"
     }
+];
+
+
+
+export const events = [
+  {
+    id: 1,
+    title: "Event 1",
+    start: dayjs("2024-08-10T12:00:00").toDate(),
+    end: dayjs("2024-08-10T12:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    backgroundColor: "#D0F4DE",
+    textColor: "black",
+    data: {
+      description: "Event 1 description",
+    },
+  },
+  {
+    id: 2,
+    title: "Event 2",
+    start: dayjs("2024-08-18T12:00:00").toDate(),
+    end: dayjs("2024-08-18T12:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    backgroundColor: "#FCF6BD",
+    textColor: "black",
+    data: {
+      description: "Event 2 description",
+    },
+  },
+  {
+    id: 3,
+    title: "Event 3",
+    start: dayjs("2024-08-07T10:00:00").toDate(),
+    end: dayjs("2024-08-07T10:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    backgroundColor: "#FF99C8",
+    textColor: "white",
+    data: {
+      description: "Event 3 description",
+    },
+  },
+  {
+    id: 4,
+    title: "Event 4",
+    start: dayjs("2024-08-14T12:00:00").toDate(),
+    end: dayjs("2024-08-14T12:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    backgroundColor: "##FCF6BD",
+    textColor: "white",
+    data: {
+      description: "Event 4 description",
+    },
+  },
+  {
+    id: 5,
+    title: "Event 5",
+    start: dayjs("2024-08-04T12:00:00").toDate(),
+    end: dayjs("2024-08-04T12:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    backgroundColor: "#E4C1F9",
+    textColor: "white",
+    data: {
+      description: "Event 5 description",
+    },
+  },
+  {
+    id: 6,
+    title: "Event 6",
+    start: dayjs("2024-08-04T09:00:00").toDate(),
+    end: dayjs("2024-08-04T09:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    backgroundColor: "#A9DEF9",
+    textColor: "white",
+    data: {
+      description: "Event 6 description",
+    },
+  },
 ];
