@@ -6,31 +6,25 @@ import TextField from "@mui/material/TextField";
 import CloseButton from "@/components/UI/CloseButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
-import { setAuthHeader } from "./AreasModal";
+import { getAreas } from "@/helpers/api";
+import { CircularProgress } from "@mui/material";
 
 type Props = {
 	onClose: () => void;
 };
 
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-const token = user.accessToken;
 
 export default function AreasForm({ onClose }: Props) {
 	const [result, setResult] = useState<{ areaOptions: { name: string; value: number }[] } | null>(null);
 	const [place, setPlace] = useState("");
 	const [coff, setCoff] = useState<string>("");
+    const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
-				setResult(response.data);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		fetchData();
+        getAreas().then((res) => {
+            setResult(res);
+            setLoading(false);
+          })
 	}, []);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,6 +58,13 @@ export default function AreasForm({ onClose }: Props) {
 			}
 		}
 	};
+
+    if (loading) {
+        return (
+            <Box sx={{ display: "flex", color: "#006778" }}>
+            <CircularProgress />
+          </Box>)
+      }
 
 	return (
 		<div className="flex flex-col gap-8 px-4">
