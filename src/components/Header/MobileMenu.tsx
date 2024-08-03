@@ -2,53 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { styled } from "@mui/system";
+
 
 import Button from "../UI/Button";
+import { DrawerContent, StyledItem, StyledMenuIcon } from "../StyledComponents";
+import { ShineLogo } from "../images";
+import { buttons } from "../Arrays";
 
-const StyledMenuIcon = styled(MenuIcon)(() => ({
-  color: "#006778",
-  fontSize: 42,
-  "@media (min-width: 768px)": {
-    fontSize: 52,
-  },
-}));
 
-const DrawerContent = styled("div")(() => ({
-  display: "flex",
-  flexDirection: "column",
-  backgroundColor: "#FFF",
-  width: "280px",
-  height: "598px",
-  padding: "16px",
-  borderRadius: "12px",
-  "@media (min-width: 768px)": {
-    width: "400px",
-    padding: "28px",
-    height: "820px",
-  },
-}));
 
-const StyledItem = styled(ListItem)(() => ({
-  color: "#006778",
-  padding: "0px",
-  fontFamily: "Lato",
-}));
-const buttons = [
-  "Home",
-  "Upload photos",
-  "Clients",
-  "Change price",
-  "Add areas",
-  "Hired workers",
-];
 
 export default function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -86,15 +54,7 @@ export default function MobileMenu() {
               className="flex w-[108px] h-[97px] md:w-[136px] md:h-[122px] "
               onClick={toggleDrawer}
             >
-              <Link href={"/"} className="w-full h-full relative">
-                <Image
-                  src="/icons/logo/logo_shine.svg"
-                  alt="Logo"
-                  layout="fill"
-                  objectFit="contain"
-                  priority
-                />
-              </Link>
+             <ShineLogo/>
             </div>
             <IconButton
               onClick={toggleDrawer}
