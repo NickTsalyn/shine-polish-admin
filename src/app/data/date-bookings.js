@@ -140,7 +140,7 @@ export const events = [
     id: 1,
     title: "Event 1",
     start: dayjs("2024-08-10T12:00:00").toDate(),
-    end: dayjs("2024-08-10T12:00:00").add(3, "hour").toDate(), // Додавання 3 годин до початку
+    end: dayjs("2024-08-10T12:00:00").add(2, "hour").toDate(), // Додавання 3 годин до початку
     backgroundColor: "#D0F4DE",
     textColor: "black",
     data: {

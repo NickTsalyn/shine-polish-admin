@@ -256,12 +256,13 @@
 }
 
 .rbc-agenda-date-cell{
-    color: #DE005D;
+    color: #006778;
     font-weight: 500;
     font-size: 0.8rem;
     padding: 4px 4px;
     align-items: center;
     text-wrap: wrap;
+    justify-content: center;
 }
 @media screen and (min-width: 768px) {
     .rbc-agenda-date-cell {
@@ -329,7 +330,7 @@
     height: 40px !important;
 }
 
-/*  */
+
 
 
 

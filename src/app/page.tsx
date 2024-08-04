@@ -3,8 +3,8 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 // import {addDays, subDays} from "date-fns";
-// import CalendarComponent from "@/components/Calendar/CalendarComponent";
-import MyCalendar from "@/components/Calendar/CalendarComponent";
+import CalendarComponent from "@/components/Calendar/CalendarComponent";
+// import MyCalendar from "@/components/Calendar/CalendarComponent";
 const getData = async () => {
  try {
   const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
@@ -62,8 +62,8 @@ export default function Home() {
      {date: addDays(new Date(), 8), title: "Event 3"},
     ]}
    /> */}
-   {/* <CalendarComponent /> */}
-   <MyCalendar />
+   <CalendarComponent />
+   {/* <MyCalendar /> */}
    <ul></ul>
   </div>
  );
