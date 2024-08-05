@@ -3,22 +3,29 @@ import React, {useState} from "react";
 import {Calendar, dayjsLocalizer, View} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
-import {events} from "../../app/data/date-bookings";
+// import {events} from "../../app/data/date-bookings";
 import "./Calendar.css";
 import {components} from "./BookingEventComponent";
-import BasicModal from "../UI/Modal";
+import EditEventModal from "./EditEventModal";
+// import BasicModal from "../UI/Modal";
 
 interface CalendarComponentProps {
+ events: Array<any>;
  defaultDate?: Date;
  defaultView?: string;
  minDate?: Date;
  maxDate?: Date;
+ onUpdateEvent?: (updateEvent: any) => void;
+ onDeleteEvent?: (eventId: number) => void;
 }
 
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
+ events,
  defaultDate = dayjs().toDate(),
  minDate = dayjs("2024-08-01T08:00:00").toDate(),
  maxDate = dayjs("2024-08-31T16:00:00").toDate(),
+ onUpdateEvent,
+ onDeleteEvent,
 }) => {
  const localizer = dayjsLocalizer(dayjs);
 
@@ -28,9 +35,17 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [selectedEvent, setSelectedEvent] = useState(null);
 
- const handleSelectEvent = (event) => {
+ const handleSelectEvent = (event: any) => {
   setSelectedEvent(event);
   setIsModalOpen(true);
+ };
+
+ const HandleSaveEvent = (upDateEvent: any) => {
+  onUpdateEvent?.(upDateEvent);
+ };
+
+ const HandleDeleteEvent = (eventId: number) => {
+  onDeleteEvent?.(eventId);
  };
 
  return (
@@ -53,12 +68,15 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     components={components}
     onSelectEvent={handleSelectEvent}
    />
-
-   <BasicModal
-    open={isModalOpen}
-    onClose={() => setIsModalOpen(false)}
-    event={selectedEvent}
-   />
+   {selectedEvent && (
+    <EditEventModal
+     open={isModalOpen}
+     onClose={() => setIsModalOpen(false)}
+     event={selectedEvent}
+     onSave={HandleSaveEvent}
+     onDelete={HandleDeleteEvent}
+    />
+   )}
   </div>
  );
 };
