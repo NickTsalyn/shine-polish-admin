@@ -4,7 +4,6 @@ import CircleRoundedIcon from "@mui/icons-material/CircleRounded";
 export const components = {
  event: (props: {
   event: {
-   //    [x: string]: SetStateAction<Date | null | undefined>;
    backgroundColor?: any;
    textColor?: any;
    title?: any;

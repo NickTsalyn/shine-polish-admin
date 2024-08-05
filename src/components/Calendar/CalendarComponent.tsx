@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import {events} from "../../app/data/date-bookings";
 import "./Calendar.css";
 import {components} from "./BookingEventComponent";
+import BasicModal from "../UI/Modal";
 
 interface CalendarComponentProps {
  defaultDate?: Date;
@@ -23,6 +24,14 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 
  const [view, setView] = useState<View>("month");
  const [date, setDate] = useState(dayjs().toDate());
+
+ const [isModalOpen, setIsModalOpen] = useState(false);
+ const [selectedEvent, setSelectedEvent] = useState(null);
+
+ const handleSelectEvent = (event) => {
+  setSelectedEvent(event);
+  setIsModalOpen(true);
+ };
 
  return (
   <div className="p-4 h-[600px] w-[300px] md:h-[800px] md:w-[680px] lg:w-[980px] xl:w-[1400px] mx-auto">
@@ -42,6 +51,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      dayHeaderFormat: (date) => dayjs(date).format("dd-MMMM-yyyy"),
     }}
     components={components}
+    onSelectEvent={handleSelectEvent}
+   />
+
+   <BasicModal
+    open={isModalOpen}
+    onClose={() => setIsModalOpen(false)}
+    event={selectedEvent}
    />
   </div>
  );
