@@ -85,4 +85,4 @@ const Scheduler = ({events}: SchedulerProps) => {
   </div>
  );
 };
-export default Scheduler;
+// export default Scheduler;

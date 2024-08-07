@@ -1,5 +1,4 @@
 import CircleRoundedIcon from "@mui/icons-material/CircleRounded";
-// import {SetStateAction} from "react";
 
 export const components = {
  event: (props: {
