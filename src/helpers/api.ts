@@ -2,7 +2,7 @@ import axios from "axios";
 
 const setAuthHeader = (token: string) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-};
+  };
 
 const clearAuthHeader = () => {
 	axios.defaults.headers.common["Authorization"] = "";
@@ -13,9 +13,8 @@ const BASE_URL = "https://shine-polish-server.onrender.com";
 export const signin = async (user: any) => {
 	const res = await axios.post(`${BASE_URL}/auth/signin`, user);
 	setAuthHeader(res.data.accessToken);
-	localStorage.setItem("user", JSON.stringify(res.data.accessToken));
 	return res;
-};
+  };
 
 export const getPhotos = async () => {
 	try {

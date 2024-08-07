@@ -1,24 +1,15 @@
 'use client'
-import AreasModal from '@/components/AreasModal';
+
 import * as React from 'react';
-import { signin } from '@/helpers/api';
+import SignInForm from '@/components/SignInForm';
 
 
 
 export default function App () {
 
-	const handleSignin = async () => {
-		const response = await signin({
-			email: "AlvaroCapibaraTESTER@mail.com",
-			password: "qwerty123",});
-	};
-
   return (
-	<div>
-		<div>
-		<AreasModal/>
-		</div>
-	<div><button onClick={handleSignin}>signIn</button></div>
-	</div>
+	<div className="py-5 md:p-7 lg:py-20">
+	<SignInForm />
+  	</div>
   );
 }
