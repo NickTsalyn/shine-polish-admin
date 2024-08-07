@@ -1,3 +1,4 @@
+import { light } from "@mui/material/styles/createPalette";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -43,6 +44,7 @@ const config: Config = {
         backdrop: 'rgba(51, 77, 81, 0.50)',
         bookingSubText: "rgba(0, 0, 0, 0.50)",
         customRed: "#FF4E56",
+        lightSand: 'rgba(230, 186, 149, 0.25)'
       },
 
       boxShadow: {
