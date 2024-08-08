@@ -18,6 +18,7 @@ interface CalendarComponentProps {
  onDeleteEvent?: (eventId: number) => void;
 }
 interface Booking {
+ _id: any;
  id: number | string;
  name: string;
  surname: string;
@@ -58,8 +59,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  defaultDate = dayjs().toDate(),
  minDate = dayjs("2024-08-01T08:00:00").toDate(),
  maxDate = dayjs("2024-08-31T16:00:00").toDate(),
- onUpdateEvent,
- onDeleteEvent,
+ //  onUpdateEvent,
+ //  onDeleteEvent,
 }) => {
  const localizer = dayjsLocalizer(dayjs);
 
@@ -73,21 +74,21 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   const setAuthHeader = (token: string) => {
    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   };
+  setAuthHeader(
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzEyOTc0NywiZXhwIjoxNzIzMjE2MTQ3fQ.RqmmyKvAUsfN7mGMTTHjsah6Nob0MV0iwu7Y13cEOoM"
+  );
 
   const fetchData = async () => {
    const bookings = await getBookings();
    if (Array.isArray(bookings)) {
     const transformedEvents = bookings.map((booking) => {
      const start = dayjs(`${booking.selectedDate}`).toDate();
-     console.log(booking);
      const end = dayjs(`${booking.selectedDate}`).add(3, "hour").toDate();
-     console.log("Start:", start, "End:", end);
-
      const isRegistered = booking.email && booking.phone;
-     const backgroundColor = isRegistered ? "#D0F4DE" : "#FF99C8";
+     const backgroundColor = isRegistered ? "#c1f3d5" : "#FF99C8";
 
      return {
-      id: booking.id,
+      id: booking._id,
       title: `${booking.name} ${booking.surname}`,
       start,
       end,
@@ -106,12 +107,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     console.error("Bookings is not an array:", bookings);
    }
   };
-
   fetchData();
  }, []);
+
  const handleSelectEvent = (event: any) => {
   setSelectedEvent(event);
   setIsModalOpen(true);
+  console.log("Selected event:", event);
  };
 
  const handleSaveEvent = (updatedEvent: BookingEvent) => {
@@ -120,8 +122,10 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   });
   setIsModalOpen(false);
  };
+
  const handleDeleteEvent = (eventId: number) => {
-  setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
+  console.log("Deleting event with id:", eventId);
+  setEvents((prevState) => prevState.filter((event) => event.id !== eventId));
  };
 
  return (
@@ -152,7 +156,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      onClose={() => setIsModalOpen(false)}
      event={selectedEvent}
      onSave={handleSaveEvent}
-     onDelete={handleDeleteEvent}
+     onDelete={() => handleDeleteEvent(selectedEvent?.id)}
     />
    )}
   </div>

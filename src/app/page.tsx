@@ -2,7 +2,7 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import CalendarComponent from "@/components/Calendar/CalendarComponent";
-
+import ClientCard from "@/components/ClientCard/ClientCard";
 
 const getData = async () => {
  try {
@@ -22,8 +22,7 @@ export default function Home() {
    try {
     const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
     // console.log(response.data);
-   
-   
+
     setResult(response.data);
     // setEvents(transformedEvent);
 
@@ -54,7 +53,7 @@ export default function Home() {
  }
 
  return (
-  <div>
+  <div className="container mx-auto px-4 md:px-5 lg:px-10">
    <h1>Hello Admin page</h1>
    <form>
     <input
@@ -67,12 +66,15 @@ export default function Home() {
     />
     <button type="submit">Submit</button>
    </form>
-   <CalendarComponent
-    events={events}
-    onUpdateEvent={updateEvent}
-    onDeleteEvent={deleteEvent}
-   />
-   
+   <div className="flex">
+    <ClientCard />
+    <CalendarComponent
+     events={events}
+     onUpdateEvent={updateEvent}
+     onDeleteEvent={deleteEvent}
+    />
+   </div>
+
    <ul></ul>
   </div>
  );

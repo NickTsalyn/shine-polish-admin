@@ -13,8 +13,8 @@ interface EditEventModalProps {
 }
 
 const EditEventModal: React.FC<EditEventModalProps> = ({open, onClose, event, onSave, onDelete}) => {
- const [startDate, setStartDate] = useState(dayjs(event.start).format("YYYY-MM-DDTHH:mm"));
- const [endDate, setEndDate] = useState(dayjs(event.end).format("YYYY-MM-DDTHH:mm"));
+ const [startDate, setStartDate] = useState(dayjs(event.start).format("YYYY-MM-DD"));
+ const [endDate, setEndDate] = useState(dayjs(event.end).format("YYYY-MM-DD"));
 
  const handleSave = () => {
   onSave({
