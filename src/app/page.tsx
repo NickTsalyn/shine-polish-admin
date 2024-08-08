@@ -3,6 +3,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import CalendarComponent from "@/components/Calendar/CalendarComponent";
 import ClientCard from "@/components/ClientCard/ClientCard";
+import ClientCardList from "@/components/ClientCard/ClientCardList";
 
 const getData = async () => {
  try {
@@ -53,9 +54,9 @@ export default function Home() {
  }
 
  return (
-  <div className="container mx-auto px-4 md:px-5 lg:px-10">
+  <div className="container mx-auto  py-5">
    <h1>Hello Admin page</h1>
-   <form>
+   {/* <form>
     <input
      type="text"
      className=" border border-s-orange-500"
@@ -65,9 +66,10 @@ export default function Home() {
      className=" border border-s-orange-500"
     />
     <button type="submit">Submit</button>
-   </form>
+   </form> */}
    <div className="flex">
-    <ClientCard />
+    {/* <ClientCard /> */}
+    <ClientCardList />
     <CalendarComponent
      events={events}
      onUpdateEvent={updateEvent}

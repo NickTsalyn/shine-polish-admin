@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {Calendar, dayjsLocalizer, View} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import dayjs from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
@@ -45,7 +45,7 @@ interface BookingEvent {
 
 const getBookings = async (): Promise<Booking[]> => {
  try {
-  console.log("Getting bookings...");
+  //   console.log("Getting bookings...");
   const response = await axios.get<Booking[]>("https://shine-polish-server.onrender.com/admin/bookings");
   console.log("Bookings received:", response.data);
   return response.data;
@@ -82,8 +82,11 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
    const bookings = await getBookings();
    if (Array.isArray(bookings)) {
     const transformedEvents = bookings.map((booking) => {
-     const start = dayjs(`${booking.selectedDate}`).toDate();
-     const end = dayjs(`${booking.selectedDate}`).add(3, "hour").toDate();
+     const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
+     const start = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A").toDate();
+     console.log("Start:", start);
+     const end = dayjs(start).add(3, "hour").toDate();
+     console.log("End:", end);
      const isRegistered = booking.email && booking.phone;
      const backgroundColor = isRegistered ? "#c1f3d5" : "#FF99C8";
 

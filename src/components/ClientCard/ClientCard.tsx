@@ -7,7 +7,9 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import {title} from "process";
 
-interface ClientCardProps {}
+interface ClientCardProps {
+ booking: any;
+}
 interface Booking {
  id: number | string;
  name: string;
@@ -16,12 +18,17 @@ interface Booking {
  time: string;
  email: string;
  phone: string;
- address: string;
+ address: {
+  city: string;
+  street: string;
+  aptSuite: string;
+  zip: string;
+  state: string;
+ };
  areas: string[];
 }
 const getBookings = async (): Promise<Booking[]> => {
  try {
-  console.log("Getting bookings...");
   const response = await axios.get<Booking[]>("https://shine-polish-server.onrender.com/admin/bookings");
   console.log("Bookings received:", response.data);
   return response.data;
@@ -30,9 +37,9 @@ const getBookings = async (): Promise<Booking[]> => {
   return [];
  }
 };
-const ClientCard: React.FC = () => {
- const [selectedDate, setSelectedDate] = React.useState<string>("");
- const [bookings, setBookings] = React.useState<Booking[]>([]);
+const ClientCard: React.FC<ClientCardProps> = ({booking}) => {
+ //  const [selectedDate, setSelectedDate] = React.useState<string>("");
+ const [bookings, setBookings] = React.useState<Booking | null>(null);
  useEffect(() => {
   const setAuthHeader = (token: string) => {
    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -43,39 +50,10 @@ const ClientCard: React.FC = () => {
 
   const fetchData = async () => {
    const bookings = await getBookings();
-   if (Array.isArray(bookings)) {
-    const getingDate = bookings.map((booking) => {
-     const start = dayjs(`${booking.selectedDate}`).toDate();
-     console.log(booking);
-     const end = dayjs(`${booking.selectedDate}`).add(3, "hour").toDate();
-     console.log("Start:", start, "End:", end);
-
-     const isRegistered = booking.email && booking.phone;
-     const backgroundColor = isRegistered ? "#D0F4DE" : "#FF99C8";
-
-     return {
-      id: booking.id,
-      title: `${booking.name} ${booking.surname}`,
-      start,
-      end,
-      email: booking.email,
-      phone: booking.phone,
-      address: booking.address,
-      areas: booking.areas,
-      selectedDate: booking.selectedDate,
-      time: booking.time,
-      backgroundColor,
-      textColor: isRegistered ? "#000" : "#fff",
-     };
-    });
-    // setBookings(getingDate);
-    setSelectedDate(getingDate[0].selectedDate);
-   } else {
-    console.error("Bookings is not an array:", bookings);
-   }
+   setBookings(booking);
   };
   fetchData();
- }, []);
+ }, [booking]);
 
  //  AVATAR //
 
@@ -110,27 +88,28 @@ const ClientCard: React.FC = () => {
 
  return (
   <div className="flex flex-col">
-   <h2 className="text-3xl mb-5 text-main text-center">Our Clients</h2>
    <div className="w-[320px] h-[180px] shadow-2xl rounded-xl flex">
-    <div className="w-[10px] h-full bg-main rounded-l-xl"></div>
+    <div
+     className="w-[10px] h-full rounded-l-xl"
+     style={{backgroundColor: stringToColor(`${booking.name} ${booking.surname}`)}}
+    ></div>
     <div className="w-full h-full p-5 flex flex-col justify-between">
      <div className="flex items-center">
       <Stack
        direction="row"
        spacing={2}
       >
-       <Avatar {...stringAvatar("Kent Dodds")} />
-       <p>name</p>
+       <Avatar {...stringAvatar(`${booking.name} ${booking.surname}`)} />
+       <p>{`${booking.name} ${booking.surname}`}</p>
       </Stack>
      </div>
-
-     <p>email</p>
-     <p>{selectedDate}</p>
+     <p>{booking.email}</p>
+     <p>{dayjs(booking.selectedDate).format("MM/DD/YYYY")}</p>
      <Button
       type="button"
       style={"burger-book-now"}
      >
-      <span className="text-main"> Booking details</span>
+      <span className="text-main">Booking details</span>
      </Button>
     </div>
    </div>
