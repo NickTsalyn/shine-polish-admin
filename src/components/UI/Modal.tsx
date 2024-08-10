@@ -10,7 +10,10 @@ const style = {
   bgcolor: "#fff",
   borderRadius: "12px",
   boxShadow: 24,
-  p: 5,
+  p: 4,
+  "@media(max-width:767px)":{
+    p: 2,
+  }
 };
 
 type Props = {
@@ -27,7 +30,7 @@ export default function BasicModal({ children, open, onClose }: Props) {
         onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        className=" flex justify-center items-center w-full h-full bg-backdrop bg-opacity-50"
+        className=" flex justify-center items-center  w-full h-full bg-backdrop bg-opacity-50"
       >
         <Box sx={style}>{children}</Box>
       </Modal>

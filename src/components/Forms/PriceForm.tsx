@@ -30,16 +30,22 @@ const inputFields: InputField[] = [
 
 export default function PriceForm({ onClose }: Props) {
   const [inputValues, setInputValues] = useState<InputValues>({
-    base: '',
-    coff: '',
-    bathPrice: ''
+    base: "",
+    coff: "",
+    bathPrice: "",
   });
-  const [result, setResult] = useState<{ base: number; coff: number; bathPrice: number } | null>(null);
+  const [result, setResult] = useState<{
+    base: number;
+    coff: number;
+    bathPrice: number;
+  } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
+        const { data } = await axios.get(
+          "https://shine-polish-server.onrender.com/bookings/options"
+        );
         setResult(data);
         setInputValues({
           base: data.base.toString(),
@@ -57,9 +63,9 @@ export default function PriceForm({ onClose }: Props) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (/^\d*$/.test(value)) {
-      setInputValues(prev => ({
+      setInputValues((prev) => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
   };
@@ -74,7 +80,10 @@ export default function PriceForm({ onClose }: Props) {
     };
 
     try {
-      const { data } = await axios.put("https://shine-polish-server.onrender.com/admin/bookings/pricing", updatedPricing);
+      const { data } = await axios.put(
+        "https://shine-polish-server.onrender.com/admin/bookings/pricing",
+        updatedPricing
+      );
       setResult(data);
     } catch (error) {
       console.error(error);
@@ -82,28 +91,59 @@ export default function PriceForm({ onClose }: Props) {
   };
 
   return (
-    <div className="w-[400px] h-[427px] bg-white rounded-xl flex flex-col gap-8">
-      <h2 className="text-accent text-4xl">Change Price</h2>
+    <div className="w-[280px]  md:w-[400px] lg:w-[572px]  bg-white rounded-xl ">
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-6 md:mb-10">
+        Change Price
+      </h2>
       <Box
         component="form"
         noValidate
         autoComplete="off"
-        className="flex flex-col gap-8 items-center text-sand"
+        className="flex flex-col gap-4 md:gap-8 items-center text-sand mb-6 md:mb-10"
         onSubmit={handleSubmit}
       >
-        {inputFields.map(field => (
-          <div key={field.id} className="flex flex-row justify-between items-center w-full">
+        {inputFields.map((field) => (
+          <div
+            key={field.id}
+            className="flex flex-row justify-between items-center w-full"
+          >
             <TextField
               label={field.label}
               variant="outlined"
               size="small"
-              className="border-2 border-solid border-sand rounded-xl text-sm w-3/4"
+              // className="border-2 border-solid rounded-xl text-sm w-3/4"
               value={inputValues[field.name]}
               name={field.name}
               onChange={handleChange}
+              sx={{
+                width: "75%",
+                borderRadius: "12px", // Користувацький бордер-радіус
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderWidth: "2px", // Задаємо ширину бордера
+                    borderColor: "rgba(230, 186, 149, 0.68)", // Колір бордера
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "rgba(230, 186, 149, 0.9)", // Колір бордера при наведенні
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgba(230, 186, 149, 0.68)", // Колір бордера при фокусі
+                  },
+                },
+                "& .MuiInputLabel-root": {
+                  color: "rgba(230, 186, 149, 0.68)",
+                  "&.Mui-focused": {
+                    color: "rgba(230, 186, 149, 0.68)", // Колір лейбла при фокусі
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  color: "#522600", // Колір тексту
+                  opacity: 0.5,
+                },
+              }}
             />
             <button className="w-1/4 text-main">
-              <EditRoundedIcon fontSize="large" />
+              <EditRoundedIcon className="size-6 lg:size-9" />
             </button>
           </div>
         ))}
@@ -112,3 +152,4 @@ export default function PriceForm({ onClose }: Props) {
     </div>
   );
 }
+// MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root
