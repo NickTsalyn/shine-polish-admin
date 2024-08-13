@@ -67,7 +67,7 @@ export default function Home() {
     />
     <button type="submit">Submit</button>
    </form> */}
-   <div className="flex">
+   <div className="flex flex-col lg:flex-row">
     {/* <ClientCard /> */}
     <ClientCardList />
     <CalendarComponent

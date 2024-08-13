@@ -7,6 +7,7 @@ import dayjs, {Dayjs} from "dayjs";
 import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
+// import {getBookings} from "@/api";
 
 interface CalendarComponentProps {
  events: Array<any>;
@@ -75,7 +76,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   };
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzEyOTc0NywiZXhwIjoxNzIzMjE2MTQ3fQ.RqmmyKvAUsfN7mGMTTHjsah6Nob0MV0iwu7Y13cEOoM"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzQ4MTA0MiwiZXhwIjoxNzIzNTY3NDQyfQ.ilQerSG7S-VHplSlp_64Ttp4rNEti8RVE-JzumIsKWY"
   );
 
   const fetchData = async () => {
@@ -84,9 +85,9 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     const transformedEvents = bookings.map((booking) => {
      const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
      const start = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A").toDate();
-     console.log("Start:", start);
+     //  console.log("Start:", start);
      const end = dayjs(start).add(3, "hour").toDate();
-     console.log("End:", end);
+     //  console.log("End:", end);
      const isRegistered = booking.email && booking.phone;
      const backgroundColor = isRegistered ? "#c1f3d5" : "#FF99C8";
 
@@ -132,7 +133,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  };
 
  return (
-  <div className="p-4 h-[600px] w-[300px] md:h-[800px] md:w-[680px] lg:w-[980px] xl:w-[1400px] mx-auto">
+  <div className="p-4 h-[600px] w-[300px] md:h-[800px] md:min-w-[748px] lg:w-[980px] xl:w-[1400px] mx-auto">
    <Calendar
     localizer={localizer}
     events={events}

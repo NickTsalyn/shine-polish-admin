@@ -2,10 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import dayjs from "dayjs";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import {title} from "process";
+
 import ClientCard from "./ClientCard";
 
 interface ClientCardListProps {
@@ -49,7 +46,7 @@ const ClientCardList: React.FC = () => {
    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   };
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzEyOTc0NywiZXhwIjoxNzIzMjE2MTQ3fQ.RqmmyKvAUsfN7mGMTTHjsah6Nob0MV0iwu7Y13cEOoM"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzQ4MTA0MiwiZXhwIjoxNzIzNTY3NDQyfQ.ilQerSG7S-VHplSlp_64Ttp4rNEti8RVE-JzumIsKWY"
   );
 
   const fetchData = async () => {
@@ -65,9 +62,9 @@ const ClientCardList: React.FC = () => {
  }, []);
 
  return (
-  <div className="flex flex-col w-[320px] mr-10">
+  <div className="flex flex-col w-[320px] mr-10 lg:h-[980px] md:w-[768px] m-auto lg:mx-10 lg:w-[320px]">
    <h2 className="text-3xl mb-5 text-main text-center">Our Clients</h2>
-   <div className="flex flex-wrap gap-4">
+   <div className="flex  lg:flex-col gap-4 max-h-[900px] overflow-y-auto box-border">
     {bookings.map((booking) => (
      <ClientCard
       key={booking.id}
