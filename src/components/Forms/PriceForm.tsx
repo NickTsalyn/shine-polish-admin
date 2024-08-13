@@ -5,6 +5,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CloseButton from "../UI/CloseButton";
+import { styledTextField } from '../../styles/overrides';
 
 type Props = {
   onClose: () => void;
@@ -91,15 +92,15 @@ export default function PriceForm({ onClose }: Props) {
   };
 
   return (
-    <div className="w-[280px]  md:w-[400px] lg:w-[572px]  bg-white rounded-xl ">
-      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-6 md:mb-10">
+    <div className="w-[280px]  md:w-[400px] lg:w-[572px] xl:w-[672px]  bg-white rounded-xl ">
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-6 xl:mb-8">
         Change Price
       </h2>
       <Box
         component="form"
         noValidate
         autoComplete="off"
-        className="flex flex-col gap-4 md:gap-8 items-center text-sand mb-6 md:mb-10"
+        className="flex flex-col gap-4 md:gap-8 items-center text-sand mb-4 md:mb-6 xl:md-8"
         onSubmit={handleSubmit}
       >
         {inputFields.map((field) => (
@@ -117,29 +118,7 @@ export default function PriceForm({ onClose }: Props) {
               onChange={handleChange}
               sx={{
                 width: "75%",
-                borderRadius: "12px", // Користувацький бордер-радіус
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderWidth: "2px", // Задаємо ширину бордера
-                    borderColor: "rgba(230, 186, 149, 0.68)", // Колір бордера
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgba(230, 186, 149, 0.9)", // Колір бордера при наведенні
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "rgba(230, 186, 149, 0.68)", // Колір бордера при фокусі
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "rgba(230, 186, 149, 0.68)",
-                  "&.Mui-focused": {
-                    color: "rgba(230, 186, 149, 0.68)", // Колір лейбла при фокусі
-                  },
-                },
-                "& .MuiInputBase-input": {
-                  color: "#522600", // Колір тексту
-                  opacity: 0.5,
-                },
+                ...styledTextField
               }}
             />
             <button className="w-1/4 text-main">
@@ -152,4 +131,4 @@ export default function PriceForm({ onClose }: Props) {
     </div>
   );
 }
-// MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root
+
