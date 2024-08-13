@@ -21,7 +21,8 @@
     "next": "14.2.1",
     "react": "^18",
     "react-big-calendar": "^1.13.1",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.52.1"
   },
   "devDependencies": {
     "@types/date-fns": "^2.6.0",
