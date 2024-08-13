@@ -107,7 +107,7 @@ const ClientCard: React.FC<ClientCardProps> = ({booking}) => {
      <p>{dayjs(booking.selectedDate).format("MM/DD/YYYY")}</p>
      <Button
       type="button"
-      style={"burger-book-now"}
+      style={"confirm"}
      >
       <span className="text-main">Booking details</span>
      </Button>

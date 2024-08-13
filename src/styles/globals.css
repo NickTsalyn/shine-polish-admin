@@ -94,5 +94,26 @@ select:-webkit-autofill:focus {
   text-align: left;
 }
 
+.custom-scrollbar {
+  padding-right: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #E6BA95 transparent; 
+  overflow-y: scroll; 
+}
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 16px;
+}
 
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E6BA95;
+  border-radius: 32px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
