@@ -117,3 +117,12 @@ select:-webkit-autofill:focus {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+
+.MuiFormControl-root .MuiTextField-root .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  border: #E6BA95;
+}
+
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
+  color: #E6BA95;
+}

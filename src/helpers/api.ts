@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Booking } from "@/interfaces";
 
 const setAuthHeader = (token: string) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -42,3 +43,14 @@ export const getAreas = async () => {
     console.log(error);
   }
 };
+
+export const getBookings = async (): Promise<Booking[]> => {
+	try {
+	 const response = await axios.get<Booking[]>(`${BASE_URL}/admin/bookings`);
+	 console.log("Bookings received:", response.data);
+	 return response.data;
+	} catch (error) {
+	 console.error("Error getting bookings:", error);
+	 return [];
+	}
+   };

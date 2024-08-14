@@ -4,40 +4,9 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 import ClientCard from "./ClientCard";
+import {Booking} from "@/interfaces";
+import {getBookings} from "@/helpers/api";
 
-interface ClientCardListProps {
- id: number | string;
- name: string;
- surname: string;
- selectedDate: string;
- time: string;
- email: string;
- bookings: any;
- // phone: string;
- // address: string;
- // areas: string[];
-}
-interface Booking {
- id: number | string;
- name: string;
- surname: string;
- selectedDate: string;
- time: string;
- email: string;
- // phone: string;
- // address: string;
- // areas: string[];
-}
-const getBookings = async (): Promise<Booking[]> => {
- try {
-  const response = await axios.get<Booking[]>("https://shine-polish-server.onrender.com/admin/bookings");
-  console.log("Bookings received:", response.data);
-  return response.data;
- } catch (error) {
-  console.error("Error getting bookings:", error);
-  return [];
- }
-};
 const ClientCardList: React.FC = () => {
  const [bookings, setBookings] = React.useState<Booking[]>([]);
 
@@ -46,7 +15,7 @@ const ClientCardList: React.FC = () => {
    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   };
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzQ4MTA0MiwiZXhwIjoxNzIzNTY3NDQyfQ.ilQerSG7S-VHplSlp_64Ttp4rNEti8RVE-JzumIsKWY"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzY0ODQ4NywiZXhwIjoxNzIzNzM0ODg3fQ.8FkcJOSWK9cWDRi8Uw9ckhT8SDi4EPrTiMsNu0NE1p4"
   );
 
   const fetchData = async () => {

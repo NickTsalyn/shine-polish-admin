@@ -3,7 +3,14 @@ type PropsButtton = {
  onClick?: () => void;
  disabled?: boolean;
  type: "button" | "submit" | "reset";
- style: "confirm" | "sidebar" | "close-button" | "auth-sign" | "auth-sign-up-border" | "transparent-button";
+ style:
+  | "confirm"
+  | "sidebar"
+  | "close-button"
+  | "auth-sign"
+  | "auth-sign-up-border"
+  | "transparent-button"
+  | "delete-button";
 };
 
 export default function Button(props: PropsButtton) {
@@ -11,7 +18,8 @@ export default function Button(props: PropsButtton) {
 
  switch (props.style) {
   case "confirm":
-   styles = "flex justify-center items-center w-full h-[40px] bg-light-sand rounded-[12px] border border-solid ";
+   styles =
+    "flex justify-center items-center w-full h-[40px] bg-lightSand rounded-[12px] border border-solid text-accent hover:bg-accent hover:text-white";
    break;
   case "sidebar":
    styles = "text-[18px] xl:text-[20px] font-normal leading-[1.2]";
@@ -30,6 +38,10 @@ export default function Button(props: PropsButtton) {
    break;
   case "transparent-button":
    styles = " w-[52px] h-[52px] ld:w-[64px] lg:h-[64px] rounded-full bg-transparent border-none ";
+   break;
+
+  case "delete-button":
+   styles = " w-full h-[40px]  rounded-xl bg-accent-light border-none hover:bg-accent text-white ";
    break;
   default:
  }
