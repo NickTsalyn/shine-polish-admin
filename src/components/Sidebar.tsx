@@ -19,6 +19,7 @@ import { buttons } from "./Arrays";
 //   { label: "Add areas", modal: "areas" },
 //   { label: "Add employee", modal: "employee" },
 //   { label: "Add booking", modal: "booking" },
+//   { label: "Transactions", modal: null, link: "/transactions"},
 // ];
 export const Sidebar = () => {
   const [openModal, setOpenModal] = useState<string | null>(null);
