@@ -97,7 +97,6 @@ select:-webkit-autofill:focus {
   padding-right: 10px;
   scrollbar-width: thin;
   scrollbar-color: #e6ba95 transparent;
-
   overflow-y: scroll;
 }
 

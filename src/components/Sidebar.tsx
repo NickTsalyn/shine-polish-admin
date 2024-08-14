@@ -9,16 +9,17 @@ import AreasModal from "./Modals/AreasModal";
 import { useState } from "react";
 import AddBookingModal from "./Modals/AddBookingModal";
 import AddEmployee from "./Modals/AddEmployee";
+import { buttons } from "./Arrays";
 
-const buttons = [
-  { label: "Home", modal: null, link: "/home"},
-  { label: "Upload photos", modal: "photo" },
-  { label: "Clients", modal: null },
-  { label: "Change price", modal: "price" },
-  { label: "Add areas", modal: "areas" },
-  { label: "Add employee", modal: "employee" },
-  { label: "Add booking", modal: "booking" },
-];
+// const buttons = [
+//   { label: "Home", modal: null, link: "/home"},
+//   { label: "Upload photos", modal: "photo" },
+//   { label: "Clients", modal: null },
+//   { label: "Change price", modal: "price" },
+//   { label: "Add areas", modal: "areas" },
+//   { label: "Add employee", modal: "employee" },
+//   { label: "Add booking", modal: "booking" },
+// ];
 export const Sidebar = () => {
   const [openModal, setOpenModal] = useState<string | null>(null);
 
@@ -40,7 +41,7 @@ export const Sidebar = () => {
           href={"https://shine-polish.vercel.app"}
           className="text-[18px] xl:text-[20px] font-normal leading-[1.2] text-white"
         >
-          Router Togler{" "}
+          Client Side{" "}
         </Link>
       </div>
 

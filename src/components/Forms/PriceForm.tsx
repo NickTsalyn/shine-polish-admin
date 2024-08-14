@@ -5,7 +5,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CloseButton from "../UI/CloseButton";
-import { styledTextField } from '../../styles/overrides';
+import { styledTextField } from "../../styles/overrides";
 
 type Props = {
   onClose: () => void;
@@ -92,7 +92,7 @@ export default function PriceForm({ onClose }: Props) {
   };
 
   return (
-    <div className="w-[280px]  md:w-[400px] lg:w-[572px] xl:w-[672px]  bg-white rounded-xl ">
+    <div className="w-[280px] md:w-[400px] lg:w-[572px] xl:w-[672px]  bg-white rounded-xl ">
       <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-6 xl:mb-8">
         Change Price
       </h2>
@@ -100,7 +100,7 @@ export default function PriceForm({ onClose }: Props) {
         component="form"
         noValidate
         autoComplete="off"
-        className="flex flex-col gap-4 md:gap-8 items-center text-sand mb-4 md:mb-6 xl:md-8"
+        className="flex flex-col gap-4 md:gap-8 items-center text-secondary mb-4 md:mb-6 xl:md-8"
         onSubmit={handleSubmit}
       >
         {inputFields.map((field) => (
@@ -118,7 +118,7 @@ export default function PriceForm({ onClose }: Props) {
               onChange={handleChange}
               sx={{
                 width: "75%",
-                ...styledTextField
+                ...styledTextField,
               }}
             />
             <button className="w-1/4 text-main">
@@ -131,4 +131,3 @@ export default function PriceForm({ onClose }: Props) {
     </div>
   );
 }
-

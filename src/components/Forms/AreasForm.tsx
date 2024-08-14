@@ -114,11 +114,11 @@ export default function AreasForm({ onClose }: Props) {
               ...styledTextField,
             }}
           />
-          <button className="flex justify-center items-center w-[12%]">
+          <button className="flex justify-center items-center w-auto">
             <AddCircleOutlineRoundedIcon fontSize="large" />
           </button>
         </Box>
-        <ul className="flex flex-col gap-3 max-h-[300px] overflow-y-auto custom-scrollbar mb-4 md:mb-6 xl:mb-8 ">
+        <ul className="flex flex-col gap-3 max-h-[300px] custom-scrollbar mb-4 md:mb-6 xl:mb-8 ">
           {result &&
             result.areaOptions.map((item) => (
               <li key={item.name} className="flex gap-1 flex-col relative">
