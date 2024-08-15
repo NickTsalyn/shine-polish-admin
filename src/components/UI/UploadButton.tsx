@@ -27,7 +27,7 @@ const UploadButton: React.FC<UploadButtonProps> = ({ onFileChange, label, accept
   };
 
   return (
-    <Button component="label" variant="contained" className="bg-sand hover:bg-secondary">
+    <Button component="label" variant="contained" className="bg-sand hover:bg-secondary text-nowrap rounded-xl normal-case">
       {label}
       <VisuallyHiddenInput type="file" onChange={handleFileChange} accept={accept} />
     </Button>

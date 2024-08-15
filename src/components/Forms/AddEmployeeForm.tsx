@@ -61,7 +61,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
 
   return (
     <>
-      <div className="w-[280px] md:w-[400px] lg:w-[572px] xl:w-[672px]  bg-white rounded-xl flex flex-col gap-4 md:gap-6 overflow-y-auto">
+      <div className=" bg-white  flex flex-col gap-4 md:gap-6 overflow-y-auto">
         <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl ">
           Add Employee
         </h2>
@@ -79,7 +79,6 @@ const AddEmployeeForm = ({ onClose }: Props) => {
               label={field.label}
               variant="outlined"
               size="small"
-              // className="border-2 border-solid border-sand rounded-xl text-sm w-3/4"
               value={inputValues[field.name]}
               name={field.name}
               onChange={handleChange}
@@ -91,13 +90,9 @@ const AddEmployeeForm = ({ onClose }: Props) => {
           ))}
 
           <div className=" flex flex-row justify-between items-center gap-8">
-            {imagePreview &&
-            // ? (
+            {imagePreview && (
               <Image src={imagePreview} alt="Uploaded" width={75} height={50} />
-            // ) : (
-            //   <span></span>
-            // )
-            }
+            )}
             <UploadButton
               label="Upload Photo"
               onFileChange={handleFileChange}

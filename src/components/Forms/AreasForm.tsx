@@ -77,7 +77,7 @@ export default function AreasForm({ onClose }: Props) {
 
   return (
     <>
-      <div className=" w-[280px] md:w-[400px] lg:w-[572px] xl:w-[672px]  flex flex-col gap-4 md:gap-6  ">
+      <div className=" flex flex-col gap-4 md:gap-6  ">
         <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">
           Add Areas
         </h2>

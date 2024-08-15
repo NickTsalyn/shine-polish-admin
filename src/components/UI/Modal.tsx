@@ -11,9 +11,9 @@ const style = {
   borderRadius: "12px",
   boxShadow: 24,
   p: 4,
-  "@media(max-width:767px)":{
+  "@media(max-width:767px)": {
     p: 2,
-  }
+  },
 };
 
 type Props = {
@@ -32,7 +32,9 @@ export default function BasicModal({ children, open, onClose }: Props) {
         aria-describedby="modal-modal-description"
         className=" flex justify-center items-center  w-full h-full bg-backdrop bg-opacity-50"
       >
-        <Box sx={style}>{children}</Box>
+        <Box sx={style}>
+          <div className="w-[280px] md:w-[400px] lg:w-[572px] xl:w-[672px] rounded-xl">{children}</div>
+        </Box>
       </Modal>
     </div>
   );

@@ -92,7 +92,7 @@ export default function PriceForm({ onClose }: Props) {
   };
 
   return (
-    <div className="w-[280px] md:w-[400px] lg:w-[572px] xl:w-[672px]  bg-white rounded-xl ">
+    <>
       <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-6 xl:mb-8">
         Change Price
       </h2>
@@ -112,7 +112,6 @@ export default function PriceForm({ onClose }: Props) {
               label={field.label}
               variant="outlined"
               size="small"
-              // className="border-2 border-solid rounded-xl text-sm w-3/4"
               value={inputValues[field.name]}
               name={field.name}
               onChange={handleChange}
@@ -128,6 +127,6 @@ export default function PriceForm({ onClose }: Props) {
         ))}
         <CloseButton type="button" onClick={onClose} />
       </Box>
-    </div>
+    </>
   );
 }
