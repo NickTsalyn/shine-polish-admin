@@ -133,51 +133,52 @@ export default function AddBookingForm({ onClose }: Props) {
   };
 
   return (
-    <div className=" flex flex-col gap-8">
-      <h2 className="text-accent text-4xl">Add Booking</h2>
+    <div className=" flex flex-col gap-4 md:gap-6">
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">Add Booking</h2>
       <form
-        className="flex flex-col gap-8 items-center text-sand"
+        className="flex flex-col gap-4  items-center text-sand"
         onSubmit={handleSubmit}
       >
         <div className="flex flex-col gap-3">
           <BasicSelect
             name="areas"
-            placeholder="Select an area*"
+            placeholder="Area*"
             value={form.area}
             items={areas}
             onChange={handleChange}
+            
           />
           <BasicSelect
             name="bedroom"
-            placeholder="Select number of bedrooms*"
+            placeholder="Bedrooms*"
             value={form.bedroom}
             items={bedroomOptions}
             onChange={handleChange}
           />
           <BasicSelect
             name="bathroom"
-            placeholder="Select number of bathrooms*"
+            placeholder="Bathrooms*"
             value={form.bathroom}
             items={bathroomOptions}
             onChange={handleChange}
           />
           <BasicSelect
             name="frequency"
-            placeholder="Select booking frequency*"
+            placeholder="Booking frequency*"
             value={form.frequency}
             items={frequencyOptions}
             onChange={handleChange}
           />
           <BasicSelect
             name="service"
-            placeholder="Select booking service*"
+            placeholder="Booking service*"
             value={form.service}
             items={services}
             onChange={handleChange}
           />
           <MultipleSelectCheckmarks
             name="extras"
-            placeholder="Select extras*"
+            placeholder="Extras*"
             value={form.extra || []}
             items={extras}
             onChange={handleCheckChange}
