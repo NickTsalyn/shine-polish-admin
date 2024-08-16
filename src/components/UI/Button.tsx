@@ -11,6 +11,7 @@ type PropsButtton = {
     | "auth-sign"
     | "auth-sign-up-border"
     | "transparent-button";
+    
 };
 
 export default function Button(props: PropsButtton) {
