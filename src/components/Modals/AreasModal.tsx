@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from "react"
 import BasicModal from "../UI/Modal"
 import AreasForm from "../Forms/AreasForm"
 import axios from "axios";

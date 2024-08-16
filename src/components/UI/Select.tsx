@@ -60,6 +60,9 @@ export default function BasicSelect(props: BasicSelectProps) {
         fullWidth
         sx={{
           // padding: "12",
+          display: "flex",
+          margin:"0 auto",
+          width: "90%",
           border: "2px solid #E6BA95",
           borderRadius: "12px",
           transition: "all 0.3s ease",
