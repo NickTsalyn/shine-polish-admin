@@ -7,12 +7,12 @@ export const buttons = [
     link: "/transactions"
   },
   { label: "HIRED WORKERS", modal: null, 
-    link: "/workers"
+    link: "/employees"
   },
   
   { label: "Add booking", modal: "booking" },
   { label: "Change price", modal: "price" },
   { label: "Add areas", modal: "areas" },
   { label: "Upload photos", modal: "photo" },    
-  { label: "Add workers", modal: "employee" },  
+  { label: "Add employee", modal: "employee" },  
 ];

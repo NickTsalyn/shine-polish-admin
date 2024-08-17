@@ -1,4 +1,5 @@
-import { SelectChangeEvent } from "@mui/material";
+import { Box, SelectChangeEvent, TextField } from "@mui/material";
+
 import CloseButton from "../UI/CloseButton";
 import BasicSelect from "../UI/Select";
 import React, { useEffect, useState } from "react";
@@ -6,6 +7,7 @@ import axios from "axios";
 import { bathroomOptions, bedroomOptions } from "@/data/bookingOptions";
 import MultipleSelectCheckmarks from "../UI/CheckedSelect";
 import Button from "../UI/Button";
+import { styledTextField } from "@/styles/overrides";
 
 type Props = {
   onChange?: (event: SelectChangeEvent<string | number>) => void;
@@ -19,6 +21,7 @@ type Form = {
   frequency: string;
   service: string;
   extra: string[];
+  additionalInfo?: string;
 };
 
 export default function AddBookingForm({ onClose }: Props) {
@@ -134,7 +137,9 @@ export default function AddBookingForm({ onClose }: Props) {
 
   return (
     <div className=" flex flex-col gap-4 md:gap-6">
-      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">Add Booking</h2>
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">
+        Add Booking
+      </h2>
       <form
         className="flex flex-col gap-4  items-center text-sand"
         onSubmit={handleSubmit}
@@ -146,7 +151,6 @@ export default function AddBookingForm({ onClose }: Props) {
             value={form.area}
             items={areas}
             onChange={handleChange}
-            
           />
           <BasicSelect
             name="bedroom"
@@ -182,6 +186,126 @@ export default function AddBookingForm({ onClose }: Props) {
             value={form.extra || []}
             items={extras}
             onChange={handleCheckChange}
+          />
+          <TextField
+            id="outlined-basic"
+            label="First name"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Last name"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+
+          <TextField
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Phone"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Address"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="City"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="State"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="ZIP Code"
+            variant="outlined"
+            size="small"
+            value={""}
+            name="place"
+            // onChange={handleChange}
+            sx={{
+              width: "30%",
+              ...styledTextField,
+            }}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="Additional Information"
+            multiline
+            rows={4}
+            variant="outlined"
+            size="small"
+            value={form.additionalInfo || ""}
+            name="additionalInfo"
+            // onChange={handleChange}
+            sx={{
+              width: "56%",
+              ...styledTextField,
+            }}
           />
         </div>
         <Button type="submit" style="confirm">

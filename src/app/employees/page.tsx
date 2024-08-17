@@ -9,7 +9,7 @@ interface Employee {
 	phone: number;
 	area: string;
 	email: string;
-	avatar: File;
+	avatar: File | string;
 }
 
 interface TableHeaders {
@@ -61,7 +61,12 @@ const Employees = () => {
 							<td className="border border-gray-200 px-4 py-2">{employee.area}</td>
 							<td className="border border-gray-200 px-4 py-2">{employee.email}</td>
 							<td className="border border-gray-200 px-4 py-2">
+							{employee.avatar instanceof File ? (
+								<Image src={URL.createObjectURL(employee.avatar)} alt="Avatar" width={50} height={50} />
+								) : (
 								<Image src={employee.avatar} alt="Avatar" width={50} height={50} />
+								)}
+								{/* <Image src={URL.createObjectURL(employee.avatar)} alt="Avatar" width={50} height={50} /> */}
 							</td>
 						</tr>
 					))}
