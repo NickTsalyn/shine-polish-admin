@@ -14,6 +14,13 @@ type Props = {
   onClose: () => void;
 };
 
+type Address = {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+};
+
 type Form = {
   area: string;
   bedroom: string;
@@ -22,6 +29,11 @@ type Form = {
   service: string;
   extra: string[];
   additionalInfo?: string;
+  name: string;
+  surname: string;
+  email: string;
+  phone: number | string;
+  address: Address;
 };
 
 export default function AddBookingForm({ onClose }: Props) {
@@ -38,6 +50,17 @@ export default function AddBookingForm({ onClose }: Props) {
     frequency: "",
     service: "",
     extra: [],
+    additionalInfo: '',
+    name: "",
+    surname: "",
+    email: "",
+    phone: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+    },
   });
   const [result, setResult] = useState<{
     area: string;
@@ -95,12 +118,6 @@ export default function AddBookingForm({ onClose }: Props) {
       };
     }) || [];
 
-  useEffect(() => {
-    if (result) {
-      console.log(result);
-    }
-  }, [result]);
-
   const handleChange = (event: SelectChangeEvent<string | number>) => {
     const value = event.target.value as string;
     switch (event.target.name) {
@@ -124,15 +141,39 @@ export default function AddBookingForm({ onClose }: Props) {
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name in form.address) {
+      setForm({
+        ...form,
+        address: {
+          ...form.address,
+          [name]: value,
+        },
+      });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+  };
+
   const handleCheckChange = (event: SelectChangeEvent<string[]>) => {
     const value = event.target.value as string[];
     setForm({ ...form, extra: value });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setResult(form);
-    alert("Booking submitted successfully");
+    // setResult(form);
+    try {
+      const response = await axios.post(
+        "https://shine-polish-server.onrender.com/bookings",
+        form
+      );
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    
   };
 
   return (
@@ -192,9 +233,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="First name"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.name}
+            name="name"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -205,9 +246,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="Last name"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.surname}
+            name="surname"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -219,9 +260,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="Email"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.email}
+            name="email"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -232,9 +273,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="Phone"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.phone}
+            name="phone"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -245,9 +286,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="Address"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.address.street}
+            name="street"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -258,9 +299,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="City"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.address.city}
+            name="city"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -271,9 +312,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="State"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.address.state}
+            name="state"
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
@@ -284,9 +325,9 @@ export default function AddBookingForm({ onClose }: Props) {
             label="ZIP Code"
             variant="outlined"
             size="small"
-            value={""}
-            name="place"
-            // onChange={handleChange}
+            value={form.address.zip}
+            name="zip"
+            onChange={handleInputChange}
             sx={{
               width: "30%",
               ...styledTextField,
@@ -301,7 +342,7 @@ export default function AddBookingForm({ onClose }: Props) {
             size="small"
             value={form.additionalInfo || ""}
             name="additionalInfo"
-            // onChange={handleChange}
+            onChange={handleInputChange}
             sx={{
               width: "56%",
               ...styledTextField,
