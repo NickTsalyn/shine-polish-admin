@@ -42,9 +42,9 @@ export default function Transactions() {
 
 	useEffect(() => {
 		const getClients = async () => {
-			setAuthHeader(
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzUyMjYyMywiZXhwIjoxNzIzNjA5MDIzfQ.iP6RfrD3vVaVNQKls0faQVjBSatM24tpWxkk1YqXe2Y"
-			);
+			// setAuthHeader(
+			// 	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzUyMjYyMywiZXhwIjoxNzIzNjA5MDIzfQ.iP6RfrD3vVaVNQKls0faQVjBSatM24tpWxkk1YqXe2Y"
+			// );
 			const response = await axios.get(`https://shine-polish-server.onrender.com/admin/bookings`);
 			// const sortedClients = response.data.sort((a: Client, b: Client) => {
 			// 	return dayjs(a.selectedDate, "MM/DD/YYYY").diff(dayjs(b.selectedDate, "MM/DD/YYYY"));
