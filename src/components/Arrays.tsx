@@ -4,10 +4,10 @@ export const buttons = [
     // link: "/clients"
   },
   { label: "TRANSACTIONS", modal: null, 
-    // link: "/transactions"
+    link: "/transactions"
   },
   { label: "HIRED WORKERS", modal: null, 
-    // link: "/workers"
+    link: "/workers"
   },
   
   { label: "Add booking", modal: "booking" },

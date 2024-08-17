@@ -36,9 +36,9 @@ export default function Transactions() {
 	const [clients, setClients] = useState<Client[]>([]);
 	const [loading, setLoading] = useState(true);
 
-	// useEffect(() => {
-	// 	signin({ email: "AlvaroCapibaraTESTER@mail.com", password: "qwerty123" });
-	// }, []);
+	useEffect(() => {
+		signin({ email: "AlvaroCapibaraTESTER@mail.com", password: "qwerty123" });
+	}, []);
 
 	useEffect(() => {
 		const getClients = async () => {

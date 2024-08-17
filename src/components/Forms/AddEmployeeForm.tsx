@@ -5,6 +5,7 @@ import Button from "../UI/Button";
 import UploadButton from "../UI/UploadButton";
 import Image from "next/image";
 import { styledTextField } from "@/styles/overrides";
+import axios from "axios";
 
 type Props = {
   onClose: () => void;
@@ -53,10 +54,31 @@ const AddEmployeeForm = ({ onClose }: Props) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(inputValues);
-    alert("Employee added successfully");
+    try {
+
+      const formData = new FormData();
+      formData.append("username", inputValues.name);
+      formData.append("phone", inputValues.phone);
+      formData.append("email", inputValues.email);
+      formData.append("area", inputValues.area);
+      if (image) {
+        formData.append("avatar", image);
+      }
+
+      await axios.post("https://shine-polish-server.onrender.com/admin/employees", formData);
+      setInputValues({
+        name: "",
+        phone: "",
+        email: "",
+        area: "",
+      })
+      setImagePreview(null);
+      onClose();
+    } catch (error) {
+      console.error("Error adding employee", error);
+    }
   };
 
   return (

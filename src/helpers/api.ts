@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Booking } from "@/interfaces";
 
-const setAuthHeader = (token: string) => {
+export const setAuthHeader = (token: string) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   };
 
