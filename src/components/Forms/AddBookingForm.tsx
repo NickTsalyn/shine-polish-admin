@@ -34,6 +34,12 @@ type Form = {
   email: string;
   phone: number | string;
   address: Address;
+  selectedDate: string;
+  time: string;
+  aboutUs: string;
+  specialInstructions: string;
+  homeAccess: string;
+  totalPrice: number;
 };
 
 export default function AddBookingForm({ onClose }: Props) {
@@ -61,15 +67,13 @@ export default function AddBookingForm({ onClose }: Props) {
       state: "",
       zip: "",
     },
+    selectedDate: "",
+    time: "",
+    aboutUs: "",
+    specialInstructions: "",
+    homeAccess: "",
+    totalPrice: 0,
   });
-  const [result, setResult] = useState<{
-    area: string;
-    bedroom: string;
-    bathroom: string;
-    frequency: string;
-    service: string;
-    extra?: string[];
-  } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
