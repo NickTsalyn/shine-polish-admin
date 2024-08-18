@@ -27,7 +27,7 @@ type Form = {
   bathroom: string;
   frequency: string;
   service: string;
-  extra: string[];
+  extras: string[];
   additionalInfo?: string;
   name: string;
   surname: string;
@@ -55,7 +55,7 @@ export default function AddBookingForm({ onClose }: Props) {
     bathroom: "",
     frequency: "",
     service: "",
-    extra: [],
+    extras: [],
     additionalInfo: '',
     name: "",
     surname: "",
@@ -153,7 +153,7 @@ export default function AddBookingForm({ onClose }: Props) {
         address: {
           ...form.address,
           [name]: value,
-        },
+        }, 
       });
     } else {
       setForm({ ...form, [name]: value });
@@ -162,7 +162,8 @@ export default function AddBookingForm({ onClose }: Props) {
 
   const handleCheckChange = (event: SelectChangeEvent<string[]>) => {
     const value = event.target.value as string[];
-    setForm({ ...form, extra: value });
+    console.log("Value:", value);
+    setForm({ ...form, extras: value });
   };
 
   const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
@@ -228,7 +229,7 @@ export default function AddBookingForm({ onClose }: Props) {
           <MultipleSelectCheckmarks
             name="extras"
             placeholder="Extras*"
-            value={form.extra || []}
+            value={form.extras || []}
             items={extras}
             onChange={handleCheckChange}
           />
