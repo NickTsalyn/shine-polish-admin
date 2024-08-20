@@ -10,9 +10,11 @@ import Button from "../UI/Button";
 import { styledTextField } from "@/styles/overrides";
 import { Address, Form } from "@/types/types";
 import { initialForm } from "@/data/initialForm";
+import DateTime from "../../components/DateTimePicker";
+import dayjs, { Dayjs } from "dayjs";
 
 type Props = {
-  onChange?: (event: SelectChangeEvent<string | number>) => void;
+  // onChange?: (event: SelectChangeEvent<string | number>) => void;
   onClose: () => void;
 };
 
@@ -23,7 +25,10 @@ export default function AddBookingForm({ onClose }: Props) {
     serviceOptions: { name: string; value: number }[];
     extrasOptions: { name: string; value: number }[];
   } | null>(null);
+
   const [form, setForm] = useState<Form>(initialForm);
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
+  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +42,8 @@ export default function AddBookingForm({ onClose }: Props) {
 
     fetchData();
   }, []);
+
+
 
   const areas =
     data?.areaOptions.map((area) => {
@@ -70,8 +77,17 @@ export default function AddBookingForm({ onClose }: Props) {
       };
     }) || [];
 
+  const handleStart = (date: Dayjs | null) => {
+    setStartTime(date);
+  };
+
+  const handleEnd = (date: Dayjs | null) => {
+    setEndTime(date);
+  };
+
   const handleChange = (event: SelectChangeEvent<string | number>) => {
     const value = event.target.value as string;
+    
     switch (event.target.name) {
       case "areas":
         setForm({ ...form, area: value });
@@ -116,6 +132,12 @@ export default function AddBookingForm({ onClose }: Props) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const bookingData = {
+      ...form,
+      startTime,
+      endTime,
+    };
+    console.log(bookingData);
     // setResult(form);
     try {
       const response = await axios.post("https://shine-polish-server.onrender.com/bookings", form);
@@ -203,6 +225,11 @@ export default function AddBookingForm({ onClose }: Props) {
               }}
             />
           ))}
+        </div>
+        <DateTime onStartTime={handleStart} onEndTime={handleEnd} />
+        <div className="flex flex-col gap-2">
+          <div>Start Time: {startTime?.format("YYYY-MM-DD HH:mm")}</div>
+          <div>End Time: {endTime?.format("YYYY-MM-DD HH:mm")}</div>
         </div>
         <Button type="submit" style="confirm">
           Submit
