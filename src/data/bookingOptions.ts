@@ -1,3 +1,4 @@
+import { InputField } from "@/types/types";
 
 export const bedroomOptions = [
 	{ value: 1, label: "1 bedroom" },
@@ -22,3 +23,17 @@ export const bathroomOptions = [
 	{ value: 8, label: "8 bathroom" },
 	{ value: 9, label: "9 bathroom" },
 ];
+
+export const inputFields: InputField[] = [
+	{ id: "1", label: "First Name", name: "firstName", width: "90%" },
+	{ id: "2", label: "Last Name", name: "lastName", width: "90%" },
+	{ id: "3", label: "Email", name: "email", width: "80%" },
+	{ id: "4", label: "Area", name: "phone", width: "56%" },
+  ];
+  
+export const inputAddressFields: InputField[] = [
+	{ id: "1", label: "Address", name: "street", width: "100%" },
+	{ id: "2", label: "City", name: "city", width: "50%" },
+	{ id: "3", label: "State", name: "state", width: "20%" },
+	{ id: "4", label: "ZIP", name: "zip", width: "20%" },
+  ];

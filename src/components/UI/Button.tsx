@@ -6,7 +6,7 @@ type PropsButtton = {
   style:
     | "confirm"
     | "sidebar"
-	| "mob-menu"
+	  | "mob-menu"
     | "close-button"
     | "auth-sign"
     | "auth-sign-up-border"
@@ -19,7 +19,7 @@ export default function Button(props: PropsButtton) {
 
   switch (props.style) {
     case "confirm":
-      styles = "flex justify-center items-center w-full h-[40px] bg-sand hover:bg-secondary text-accent rounded-[12px] border border-solid ";
+      styles = "flex justify-center items-center w-full bg-sand hover:bg-secondary text-accent rounded-[12px] px-4 py-2 ";
       break;
     case "sidebar":
       styles = "text-[18px] xl:text-[20px] font-normal leading-[1.2]";

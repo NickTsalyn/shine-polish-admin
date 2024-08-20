@@ -1,24 +1,46 @@
+const COLOR = "#E6BA95";
+const TEXT_COLOR = "#52260080";
 export const styledTextField = {
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      border: "2px solid #E6BA95",
+      border: `2px solid ${COLOR}`,
       borderRadius: "12px",
     },
     "&:hover fieldset": {
-      borderColor: "#E6BA95",
+      borderColor: COLOR,
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#E6BA95",
+      borderColor: COLOR,
     },
   },
   "& .MuiInputLabel-root": {
-    color: "#E6BA95",
+    color: COLOR,
     "&.Mui-focused": {
-      color: "#E6BA95",       
+      color: COLOR,
     },
   },
   "& .MuiInputBase-input": {
-    color: "#522600",
-    opacity: 0.5,
+    color: TEXT_COLOR
+  },
+};
+export const styledOutlinedInput = {
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: `2px solid ${COLOR}`, 
+    borderRadius: "12px", 
+  },
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: COLOR, 
+  },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: COLOR, 
+  },
+  "& .MuiInputLabel-root": {
+    color: COLOR, 
+  },
+  "& .MuiOutlinedInput-input": {
+    color: TEXT_COLOR,
+  },
+  "& .MuiSelect-icon": {
+    color: COLOR, 
   },
 };
