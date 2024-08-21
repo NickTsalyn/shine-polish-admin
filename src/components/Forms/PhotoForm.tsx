@@ -160,7 +160,6 @@ export default function PhotoForm({ onClose }: Props) {
                 className=" rounded-lg"
                 onClick={() => handleImageClick(afterImageURL)}
               />
-
               <button onClick={() => handleDelete(_id)}>
                 <DeleteForeverRoundedIcon
                   fontSize="large"
