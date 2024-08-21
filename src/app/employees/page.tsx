@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { signin } from "@/helpers/api";
 import Image from "next/image";
+import ImageModal from "@/components/UI/ImageModal";
 
 interface Employee {
 	username: string;
@@ -26,7 +27,8 @@ const tableHeaders: TableHeaders = {
 
 const Employees = () => {
 	const [employees, setEmployees] = useState<Employee[]>([]);
-	const [photo, setPhoto] = useState<{ avatar: string }[] | null>(null);
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 		signin({ email: "AlvaroCapibaraTESTER@mail.com", password: "qwerty123" });
@@ -39,6 +41,15 @@ const Employees = () => {
 		};
 		fetchData();
 	}, []);
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleImageClick = (imageUrl: string) => {
+		setSelectedImage(imageUrl);
+		setIsModalOpen(true);
+	};
 
 	return (
 		<div className="py-5 md:p-7 lg:py-20">
@@ -61,17 +72,24 @@ const Employees = () => {
 							<td className="border border-gray-200 px-4 py-2">{employee.area}</td>
 							<td className="border border-gray-200 px-4 py-2">{employee.email}</td>
 							<td className="border border-gray-200 px-4 py-2">
-							{employee.avatar instanceof File ? (
-								<Image src={URL.createObjectURL(employee.avatar)} alt="Avatar" width={50} height={50} />
-								) : (
-								<Image src={employee.avatar} alt="Avatar" width={50} height={50} />
-								)}
-								{/* <Image src={URL.createObjectURL(employee.avatar)} alt="Avatar" width={50} height={50} /> */}
+								<Image
+									src={employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar}
+									alt="Avatar"
+									width={50}
+									height={50}
+									onClick={() =>
+										handleImageClick(
+											employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar
+										)
+									}
+									className="cursor-pointer"
+								/>
 							</td>
 						</tr>
 					))}
 				</tbody>
 			</table>
+			{selectedImage && <ImageModal isOpen={isModalOpen} onClose={handleCloseModal} imageUrl={selectedImage} />}
 		</div>
 	);
 };

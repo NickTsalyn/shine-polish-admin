@@ -17,6 +17,7 @@ export const initialForm = {
       zip: "",
     },
     selectedDate: "",
+    endDate: "",
     time: "",
     aboutUs: "",
     specialInstructions: "",

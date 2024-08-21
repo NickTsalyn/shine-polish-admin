@@ -25,10 +25,10 @@ export const bathroomOptions = [
 ];
 
 export const inputFields: InputField[] = [
-	{ id: "1", label: "First Name", name: "firstName", width: "90%" },
-	{ id: "2", label: "Last Name", name: "lastName", width: "90%" },
+	{ id: "1", label: "First Name", name: "name", width: "90%" },
+	{ id: "2", label: "Last Name", name: "surname", width: "90%" },
 	{ id: "3", label: "Email", name: "email", width: "80%" },
-	{ id: "4", label: "Area", name: "phone", width: "56%" },
+	{ id: "4", label: "Phone", name: "phone", width: "56%" },
   ];
   
 export const inputAddressFields: InputField[] = [

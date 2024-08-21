@@ -6,8 +6,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 type DateTimeProps = {
-  onStartTime: (date: Dayjs | null) => void;
-  onEndTime: (date: Dayjs | null) => void;
+  onStartTime: (date: Dayjs | string | number | any | null) => void;
+  onEndTime: (date: Dayjs | string | number | any | null) => void;
 };
 
 export default function DateTime({ onStartTime, onEndTime }: DateTimeProps) {
@@ -31,7 +31,7 @@ export default function DateTime({ onStartTime, onEndTime }: DateTimeProps) {
    
       <DemoItem label="Start Time">
         <DateTimePicker
-          value={startTime}
+          value={dayjs(startTime, "MM/DD/YYYY h:mm A")}
           onChange={handleStart}
           disablePast
           views={["year", "month", "day", "hours", "minutes"]}
@@ -39,10 +39,10 @@ export default function DateTime({ onStartTime, onEndTime }: DateTimeProps) {
       </DemoItem>
       <DemoItem label="End Time">
         <DateTimePicker
-          value={endTime}
+          value={dayjs(endTime, "MM/DD/YYYY")}
           onChange={handleEnd}
           disablePast
-          views={["year", "month", "day", "hours", "minutes"]}
+          views={["year", "month", "day"]}
         />
       </DemoItem>
   

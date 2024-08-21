@@ -19,6 +19,7 @@ export type Form = {
     phone: number | string;
     address: Address;
     selectedDate: string;
+    endDate: string;
     time: string;
     aboutUs: string;
     specialInstructions: string;
@@ -34,8 +35,8 @@ export type Form = {
   };
   
 export  type InputValues = {
-    firstName: string;
-    lastName: string;
+    name: string;
+    surname: string;
     email: string;
     phone: string;
     street: string;
