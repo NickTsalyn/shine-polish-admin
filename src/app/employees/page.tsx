@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { signin } from "@/helpers/api";
 import Image from "next/image";
 import ImageModal from "@/components/UI/ImageModal";
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import DialogAgree from "@/components/DialogAgree";
 
 interface Employee {
   _id: string;
@@ -24,7 +25,7 @@ const tableHeaders: TableHeaders = {
   phone: "Phone",
   area: "Area",
   email: "Email",
-  avatar: "ID",
+  avatar: "Avatar",
   delete: "Delete",
 };
 
@@ -32,6 +33,7 @@ const Employees = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     signin({ email: "AlvaroCapibaraTESTER@mail.com", password: "qwerty123" });
@@ -54,6 +56,10 @@ const Employees = () => {
     setIsModalOpen(true);
   };
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
   const handleDelete = async (_id: string) => {
     try {
       await axios.delete(`https://shine-polish-server.onrender.com/admin/employees/${_id}`);
@@ -61,7 +67,12 @@ const Employees = () => {
     } catch (error) {
       console.error(error);
     }
+    setOpen(false);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };  
 
   return (
     <div className="py-5 md:p-7 lg:py-20 text-text">
@@ -72,7 +83,7 @@ const Employees = () => {
         <thead>
           <tr>
             {Object.keys(tableHeaders).map((key) => (
-              <th key={key} className="border-2 border-secondary ">
+              <th key={key} className="border-2 border-secondary p-2">
                 {tableHeaders[key]}
               </th>
             ))}
@@ -81,11 +92,12 @@ const Employees = () => {
         <tbody>
           {employees.map((employee) => (
             <tr key={employee._id} className="text-center">
-              <td className="border-2 border-secondary p-2" >{employee.username}</td>
+              <td className="border-2 border-secondary p-2">{employee.username}</td>
               <td className="border-2 border-secondary p-2">{employee.phone}</td>
               <td className="border-2 border-secondary p-2">{employee.area}</td>
               <td className="border-2 border-secondary p-2">{employee.email}</td>
               <td className="border-2 border-secondary p-2 text-center">
+              <div className="flex justify-center items-center">
                 <Image
                   src={employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar}
                   alt="Avatar"
@@ -96,15 +108,15 @@ const Employees = () => {
                       employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar
                     )
                   }
-                  className="cursor-pointer"
+                  className="cursor-pointer "
                 />
+              </div>
               </td>
               <td className="border-2 border-secondary p-2">
-                <button
-                 onClick={() => handleDelete(employee._id )}                
-                 >
-                  <CloseRoundedIcon className='size-6  md:size-9 text-main'/>				
+                <button onClick={handleClick}>
+                  <CloseRoundedIcon className="size-6  md:size-9 text-main" />
                 </button>
+                <DialogAgree open={open} onClose={handleClose} onConfirm={() => handleDelete(employee._id)} />
               </td>
             </tr>
           ))}
