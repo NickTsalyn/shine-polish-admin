@@ -20,27 +20,43 @@ export const styledTextField = {
     },
   },
   "& .MuiInputBase-input": {
-    color: TEXT_COLOR
+    color: TEXT_COLOR,
   },
 };
+
 export const styledOutlinedInput = {
   "& .MuiOutlinedInput-notchedOutline": {
-    border: `2px solid ${COLOR}`, 
-    borderRadius: "12px", 
+    border: `2px solid ${COLOR}`,
+    borderRadius: "12px",
   },
   "&:hover .MuiOutlinedInput-notchedOutline": {
-    borderColor: COLOR, 
+    borderColor: COLOR,
   },
   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: COLOR, 
+    borderColor: COLOR,
   },
   "& .MuiInputLabel-root": {
-    color: COLOR, 
+    color: COLOR,
   },
   "& .MuiOutlinedInput-input": {
     color: TEXT_COLOR,
   },
   "& .MuiSelect-icon": {
-    color: COLOR, 
+    color: COLOR,
+  },
+};
+
+export const styledDateTimeInput = {
+  "& .MuiInputBase-root": {
+    "& fieldset": {
+      border: `2px solid ${COLOR}`,
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: COLOR,
+    },
+
+    "& .MuiSvgIcon-root": {
+      color: "#006778",
+    },
   },
 };

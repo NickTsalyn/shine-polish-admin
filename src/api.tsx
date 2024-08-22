@@ -29,3 +29,11 @@ export const getBookings = async (): Promise<Booking[]> => {
   return [];
  }
 };
+
+export const deleteBooking = async (id: string): Promise<void> => {
+ try {
+  await axios.delete(`https://shine-polish-server.onrender.com/admin/bookings/${id}`);
+ } catch (error) {
+  console.error("Error deleting booking:", error);
+ }
+}

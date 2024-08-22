@@ -7,6 +7,7 @@ import ImageModal from "@/components/UI/ImageModal";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 interface Employee {
+  _id: string;
   username: string;
   phone: number;
   area: string;
@@ -53,10 +54,19 @@ const Employees = () => {
     setIsModalOpen(true);
   };
 
+  const handleDelete = async (_id: string) => {
+    try {
+      await axios.delete(`https://shine-polish-server.onrender.com/admin/employees/${_id}`);
+      setEmployees(employees.filter((employee) => employee._id !== _id));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="py-5 md:p-7 lg:py-20 text-text">
       <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-6 xl:mb-8 text-center text-accent">
-        Clients
+        Employees
       </h1>
       <table className="min-w-full border-collapse border-2 border-secondary">
         <thead>
@@ -69,9 +79,9 @@ const Employees = () => {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee, index) => (
-            <tr key={index} className="text-center">
-              <td className="border-2 border-secondary p-2">{employee.username}</td>
+          {employees.map((employee) => (
+            <tr key={employee._id} className="text-center">
+              <td className="border-2 border-secondary p-2" >{employee.username}</td>
               <td className="border-2 border-secondary p-2">{employee.phone}</td>
               <td className="border-2 border-secondary p-2">{employee.area}</td>
               <td className="border-2 border-secondary p-2">{employee.email}</td>
@@ -91,11 +101,9 @@ const Employees = () => {
               </td>
               <td className="border-2 border-secondary p-2">
                 <button
-                //  onClick={() => handleDelete(_id)}
-                >
-                  <CloseRoundedIcon className='size-6  md:size-9 text-main'/>
-				
-				
+                 onClick={() => handleDelete(employee._id )}                
+                 >
+                  <CloseRoundedIcon className='size-6  md:size-9 text-main'/>				
                 </button>
               </td>
             </tr>
