@@ -1,4 +1,6 @@
 export interface Booking {
+    [x: string]: any;
+    clientName: any;
     _id: any;
     id: number | string;
     name: string;
@@ -40,13 +42,23 @@ export interface CalendarComponentProps {
    }
 
 export interface EditEventModalProps {
+    // _id: string;
     open: boolean;
+    // onChange: () => void;
     onClose: () => void;
     event: any;
     onSave: (updateEvent: any) => void;
-    onDelete: (eventId: number) => void;
+    onDelete: (eventId: string) => void;
    }
    
 export interface ClientCardProps {
     booking: any;
    }   
+
+ export  interface EventType {
+    id: string;
+    title: string;
+    start: Date;
+    end: Date;
+    // Додаткові поля подій
+  }

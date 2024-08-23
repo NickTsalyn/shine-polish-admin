@@ -54,3 +54,55 @@ export const getBookings = async (): Promise<Booking[]> => {
 	 return [];
 	}
    };
+export const getExtras = async () => {
+	try {
+	 const response = await axios.get(`${BASE_URL}/admin/bookings`);
+	 return response.data;
+	} catch (error) {
+	 console.error("Error getting extras:", error);
+	 return [];
+	}
+}
+
+export const fetchEvents = async (): Promise<Booking[]> => {
+	try {
+	  const response = await axios.get(`${BASE_URL}/admin/bookings`); 
+		return response.data;
+	} catch (error) {
+	  console.error('Error fetching events:', error);
+	  return [];
+	}
+  };
+
+  export const deleteEvent = async (id: string): Promise<void> => {
+	try {
+	  await axios.delete(`${BASE_URL}/admin/bookings/${id}`);
+	  console.log('Event deleted successfully');
+	} catch (error) {
+	  console.error('Error deleting event:', error);
+	}
+  }
+
+export const addEvent = async (event: any): Promise<void> => {
+	try {
+	  await axios.post(`${BASE_URL}/admin/bookings`, event);
+	} catch (error) {
+	  console.error('Error adding event:', error);
+	}
+}
+
+export const updateEvent = async (event: any): Promise<void> => {
+	try {
+	  await axios.patch(`${BASE_URL}/admin/bookings`, event._id);
+	} catch (error) {
+	  console.error('Error updating event:', error);
+	}
+}
+// export const fetchEvents = async () => {
+// 	try {
+// 	  const response = await axios.get(`${BASE_URL}/admin/bookings`); 
+// 		return response.data;	  
+// 	} catch (error) {
+// 	  console.error('Error fetching events:', error);
+// 	}
+//   };

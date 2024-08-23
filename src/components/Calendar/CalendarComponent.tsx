@@ -1,14 +1,16 @@
 "use client";
 import React, {useState, useEffect} from "react";
-import axios from "axios";
 import {Calendar, dayjsLocalizer, View} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
-import {BookingEvent, CalendarComponentProps} from "@/interfaces";
-import {getBookings} from "@/helpers/api";
+import {Booking, BookingEvent, CalendarComponentProps} from "@/interfaces";
+import {getBookings, updateEvent, deleteEvent} from "@/helpers/api";
+import {setAuthHeader} from "../../helpers/auth";
+// import {fetchEvents} from "../../helpers/api";
+import {getBackgroundColor} from "../../helpers/colorUtils";
 
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
  defaultDate = dayjs().toDate(),
@@ -26,11 +28,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  const [events, setEvents] = useState<BookingEvent[]>([]);
 
  useEffect(() => {
-  const setAuthHeader = (token: string) => {
-   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  };
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzY0ODQ4NywiZXhwIjoxNzIzNzM0ODg3fQ.8FkcJOSWK9cWDRi8Uw9ckhT8SDi4EPrTiMsNu0NE1p4"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ0MjU0MDgsImV4cCI6MTcyNDUxMTgwOH0.8uEECuFpDXRn3bhcBaIsHCRSg7gzkMlTiaspuQuoAkQ"
   );
 
   const fetchData = async () => {
@@ -44,7 +43,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      const end = dayjs(start).add(3, "hour").toDate();
      //  console.log("End:", end);
      const isRegistered = booking.email && booking.phone;
-     const backgroundColor = isRegistered ? "#c1f3d5" : "#FF99C8";
 
      return {
       id: booking._id,
@@ -57,8 +55,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
       areas: booking.areas,
       selectedDate: booking.selectedDate,
       time: booking.time,
-      backgroundColor,
-      textColor: isRegistered ? "#000" : "#fff",
+      backgroundColor: getBackgroundColor(`${booking.name} ${booking.surname}`),
+      textColor: isRegistered ? "#fff" : "#000",
      };
     });
     setEvents(transformedEvents);
@@ -75,16 +73,41 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   console.log("Selected event:", event);
  };
 
- const handleSaveEvent = (updatedEvent: BookingEvent) => {
-  setEvents((prevEvents) => {
-   return prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event));
-  });
-  setIsModalOpen(false);
+ //  const handleSaveEvent = (updatedEvent: BookingEvent) => {
+ //   setEvents((prevEvents) => {
+ //    return prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event));
+ //   });
+ //   setIsModalOpen(false);
+ //  };
+
+ //  const handleDeleteEvent = (eventId: string) => {
+ //   console.log("Deleting event with id:", eventId);
+ //   setEvents((prevState) => prevState.filter((event) => event.id !== eventId || []));
+ //  };
+
+ //  const openEditModal = (event: Booking) => {
+ //   setSelectedEvent(event);
+ //   setIsModalOpen(true);
+ //   console.log("Opening modal for event:", event);
+ //  };
+ const handleSaveEvent = async (updatedEvent: BookingEvent) => {
+  try {
+   await updateEvent(updatedEvent); // Оновлення на сервері через API
+   setEvents((prevEvents) => prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event)));
+   setIsModalOpen(false);
+  } catch (error) {
+   console.error("Error updating event:", error);
+  }
  };
 
- const handleDeleteEvent = (eventId: number) => {
-  console.log("Deleting event with id:", eventId);
-  setEvents((prevState) => prevState.filter((event) => event.id !== eventId));
+ const handleDeleteEvent = async (eventId: string) => {
+  try {
+   await deleteEvent(eventId); // Видалення з сервера через API
+   setEvents((prevState) => prevState.filter((event) => event.id !== eventId));
+   setIsModalOpen(false);
+  } catch (error) {
+   console.error("Error deleting event:", error);
+  }
  };
 
  return (
@@ -115,7 +138,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      onClose={() => setIsModalOpen(false)}
      event={selectedEvent}
      onSave={handleSaveEvent}
-     onDelete={() => handleDeleteEvent(selectedEvent?.id)}
+     onDelete={() => handleDeleteEvent(selectedEvent.id)}
     />
    )}
   </div>
