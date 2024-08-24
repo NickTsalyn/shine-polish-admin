@@ -31,6 +31,7 @@ const tableHeaders: TableHeaders = {
 
 const Employees = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employeeId, setEmployeeId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -56,22 +57,26 @@ const Employees = () => {
     setIsModalOpen(true);
   };
 
-  const handleClick = () => {
+  const handleClick = (id: string) => {
+	setEmployeeId(id)
     setOpen(true);
   };
 
-  const handleDelete = async (_id: string) => {
+  const handleDelete = async () => {
+	if (!employeeId) return;
     try {
-      await axios.delete(`https://shine-polish-server.onrender.com/admin/employees/${_id}`);
-      setEmployees(employees.filter((employee) => employee._id !== _id));
+      await axios.delete(`https://shine-polish-server.onrender.com/admin/employees/${employeeId}`);
+      setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
     } catch (error) {
       console.error(error);
     }
     setOpen(false);
+    setEmployeeId(null);
   };
 
   const handleClose = () => {
     setOpen(false);
+	setEmployeeId(null)
   };  
 
   return (
@@ -113,10 +118,14 @@ const Employees = () => {
               </div>
               </td>
               <td className="border-2 border-secondary p-2">
-                <button onClick={handleClick}>
+			  <button onClick={() => handleClick(employee._id)}>
                   <CloseRoundedIcon className="size-6  md:size-9 text-main" />
                 </button>
-                <DialogAgree open={open} onClose={handleClose} onConfirm={() => handleDelete(employee._id)} />
+				<DialogAgree
+                  open={open && employeeId === employee._id}
+                  onClose={handleClose}
+                  onConfirm={handleDelete}
+                />
               </td>
             </tr>
           ))}
