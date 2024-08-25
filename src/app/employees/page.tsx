@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { signin } from "@/helpers/api";
+import { Box, CircularProgress } from "@mui/material";
 import Image from "next/image";
 import ImageModal from "@/components/UI/ImageModal";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -35,15 +35,13 @@ const Employees = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    signin({ email: "AlvaroCapibaraTESTER@mail.com", password: "qwerty123" });
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`https://shine-polish-server.onrender.com/admin/employees`);
       setEmployees(response.data);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -67,7 +65,9 @@ const Employees = () => {
     try {
       await axios.delete(`https://shine-polish-server.onrender.com/admin/employees/${employeeId}`);
       setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error(error);
     }
     setOpen(false);
@@ -78,6 +78,14 @@ const Employees = () => {
     setOpen(false);
 	setEmployeeId(null)
   };  
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", color: "#006778" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div className="py-5 md:p-7 lg:py-20 text-text">

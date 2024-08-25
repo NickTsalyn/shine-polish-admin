@@ -26,13 +26,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  const [events, setEvents] = useState<BookingEvent[]>([]);
 
  useEffect(() => {
-  const setAuthHeader = (token: string) => {
-   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  };
-  setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NmVlOGM3MzE3MmUzNDM3OTNlNjQwZiIsImVtYWlsIjoiQWx2YXJvQ2FwaWJhcmFURVNURVJAbWFpbC5jb20iLCJ1c2VybmFtZSI6IkFsdmFybyBDYXBpYmFyYSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMzY0ODQ4NywiZXhwIjoxNzIzNzM0ODg3fQ.8FkcJOSWK9cWDRi8Uw9ckhT8SDi4EPrTiMsNu0NE1p4"
-  );
-
   const fetchData = async () => {
    const bookings = await getBookings();
    console.log("Bookings:", bookings);

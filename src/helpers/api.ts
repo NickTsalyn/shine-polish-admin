@@ -5,16 +5,20 @@ export const setAuthHeader = (token: string) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   };
 
-const clearAuthHeader = () => {
+export const clearAuthHeader = () => {
 	axios.defaults.headers.common["Authorization"] = "";
 };
-// console.log(axios.defaults.headers.common.Authorization);
 const BASE_URL = "https://shine-polish-server.onrender.com";
 
 export const signin = async (user: any) => {
-	const res = await axios.post(`${BASE_URL}/auth/signin`, user);
-	setAuthHeader(res.data.accessToken);
-	return res;
+	try {
+		const res = await axios.post(`${BASE_URL}/auth/signin`, user);
+	const token = res.data.accessToken;
+	setAuthHeader(token);
+	return token;
+	} catch (error) {
+		throw error;
+	}
   };
 
 export const getPhotos = async () => {
