@@ -1,23 +1,11 @@
 "use client";
 
-import { setAuthHeader } from "@/components/Modals/AreasModal";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { signin } from "@/helpers/api";
+import { getBookings } from "@/helpers/api";
 import { Box, CircularProgress } from "@mui/material";
+import { Booking } from "@/interfaces";
 
-interface Client {
-	id: string;
-	name: string;
-	phone: string;
-	area: string;
-	email: string;
-	selectedDate: string;
-	bedroom: number;
-	bathroom: number;
-	totalPrice: number;
-}
 
 interface TableHeaders {
 	[key: string]: string;
@@ -36,19 +24,18 @@ const tableHeaders: TableHeaders = {
 };
 
 export default function Transactions() {
-	const [clients, setClients] = useState<Client[]>([]);
+	const [clients, setClients] = useState<Booking[]>([]);
 	const [loading, setLoading] = useState(true);
 
 
 	useEffect(() => {
 		const getClients = async () => {
-			const response = await axios.get(`https://shine-polish-server.onrender.com/admin/bookings`);
-			setClients(response.data);
+			const response = await getBookings();
+			setClients(response);
 			setLoading(false);
 		};
 		getClients();
 	}, []);
-	console.log(clients);
 
 	if (loading) {
 		return (
@@ -57,7 +44,6 @@ export default function Transactions() {
 			</Box>
 		);
 	}
-	console.log(clients);
 	return (
 		<div className="py-5 md:p-7 lg:py-20 text-text">
 			<h1 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-6 xl:mb-8 text-center text-accent">

@@ -1,25 +1,26 @@
 import axios from "axios";
 import { Booking } from "@/interfaces";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const setAuthHeader = (token: string) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  };
+};
 
 export const clearAuthHeader = () => {
 	axios.defaults.headers.common["Authorization"] = "";
 };
-const BASE_URL = "https://shine-polish-server.onrender.com";
 
 export const signin = async (user: any) => {
 	try {
 		const res = await axios.post(`${BASE_URL}/auth/signin`, user);
-	const token = res.data.accessToken;
-	setAuthHeader(token);
-	return token;
+		const token = res.data.accessToken;
+		setAuthHeader(token);
+		return token;
 	} catch (error) {
 		throw error;
 	}
-  };
+};
 
 export const getPhotos = async () => {
 	try {
@@ -33,28 +34,63 @@ export const getPhotos = async () => {
 export const addPhotos = async (data: FormData) => {
 	try {
 		const res = await axios.post(`${BASE_URL}/admin/files/images/upload`, data);
-		return res
+		return res;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
 export const getAreas = async () => {
-  try {
-    const res = await axios.get(`${BASE_URL}/bookings/options`);
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const res = await axios.get(`${BASE_URL}/bookings/options`);
+		return res.data;
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 export const getBookings = async (): Promise<Booking[]> => {
 	try {
-	 const response = await axios.get<Booking[]>(`${BASE_URL}/admin/bookings`);
-	 console.log("Bookings received:", response.data);
-	 return response.data;
+		const response = await axios.get<Booking[]>(`${BASE_URL}/admin/bookings`);
+		return response.data;
 	} catch (error) {
-	 console.error("Error getting bookings:", error);
-	 return [];
+		console.error("Error getting bookings:", error);
+		return [];
 	}
-   };
+};
+
+export const getEmployees = async () => {
+	try {
+		const res = await axios.get(`${BASE_URL}/admin/employees`);
+		return res.data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const addEmployee = async (data: FormData) => {
+	try {
+		const res = await axios.post(`${BASE_URL}/admin/employees`, data);
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const deleteEmployee = async (id: string) => {
+	try {
+		const res = await axios.delete(`${BASE_URL}/admin/employees/${id}`);
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const updateOptions = async (data: any) => {
+	try {
+		const res = await axios.patch(`${BASE_URL}/admin/bookings/areaOptions`, data);
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+}

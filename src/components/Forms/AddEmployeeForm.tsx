@@ -6,6 +6,7 @@ import UploadButton from "../UI/UploadButton";
 import Image from "next/image";
 import { styledTextField } from "@/styles/overrides";
 import axios from "axios";
+import { addEmployee } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
@@ -67,7 +68,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
         formData.append("avatar", image);
       }
 
-      await axios.post("https://shine-polish-server.onrender.com/admin/employees", formData);
+     addEmployee(formData)
       setInputValues({
         name: "",
         phone: "",

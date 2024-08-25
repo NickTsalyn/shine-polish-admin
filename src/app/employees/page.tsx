@@ -6,6 +6,7 @@ import Image from "next/image";
 import ImageModal from "@/components/UI/ImageModal";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import DialogAgree from "@/components/DialogAgree";
+import { deleteEmployee, getEmployees } from "@/helpers/api";
 
 interface Employee {
   _id: string;
@@ -39,12 +40,12 @@ const Employees = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`https://shine-polish-server.onrender.com/admin/employees`);
-      setEmployees(response.data);
+     const data = await getEmployees()
+      setEmployees(data);
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [employees]);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -63,7 +64,7 @@ const Employees = () => {
   const handleDelete = async () => {
 	if (!employeeId) return;
     try {
-      await axios.delete(`https://shine-polish-server.onrender.com/admin/employees/${employeeId}`);
+      await deleteEmployee(employeeId)
       setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
       setLoading(false);
     } catch (error) {

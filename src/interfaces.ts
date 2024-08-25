@@ -8,13 +8,14 @@ export interface Booking {
     email: string;
     phone: string;
     address: string;
-    areas: string[];
+    area: string[];
     service: string;
     frequency: string;
     specialInstructions: string;
     extras: string[];
-    bedrooms: number;
-    bathrooms: number;
+    bedroom: number;
+    bathroom: number;
+    totalPrice: number
 }
 
 export interface BookingEvent {

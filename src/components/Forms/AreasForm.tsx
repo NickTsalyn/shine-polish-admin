@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import CloseButton from "@/components/UI/CloseButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
-import { getAreas } from "@/helpers/api";
+import { getAreas, updateOptions } from "@/helpers/api";
 import { CircularProgress } from "@mui/material";
 import { styledTextField } from "../../styles/overrides";
 
@@ -19,7 +19,7 @@ export default function AreasForm({ onClose }: Props) {
     areaOptions: { name: string; value: number }[];
   } | null>(null);
   const [place, setPlace] = useState("");
-  const [coff, setCoff] = useState<string>("");
+  const [coff, setCoff] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,17 +32,15 @@ export default function AreasForm({ onClose }: Props) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const response = await axios.patch(
-      `https://shine-polish-server.onrender.com/admin/bookings/areaOptions`,
-      {
-        name: place,
-        value: Number(coff),
-      }
-    );
+    const data = {
+      name: place,
+      value: Number(coff),
+    }
+    await updateOptions(data);
 
-    setResult(response.data);
+    setResult({areaOptions: [data]})
     setPlace("");
-    setCoff("");
+    setCoff(0);
   };
 
   const handleDelete = async (name: string) => {
@@ -62,7 +60,7 @@ export default function AreasForm({ onClose }: Props) {
       setPlace(value);
     } else {
       if (/^\d*$/.test(value)) {
-        setCoff(value);
+        setCoff(Number(value));
       }
     }
   };
