@@ -47,7 +47,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
       email: booking.email,
       phone: booking.phone,
       address: booking.address,
-      areas: booking.areas,
+      areas: booking.area,
       selectedDate: booking.selectedDate,
       time: booking.time,
       backgroundColor,

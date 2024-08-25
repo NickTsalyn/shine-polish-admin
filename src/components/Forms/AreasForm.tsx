@@ -23,11 +23,13 @@ export default function AreasForm({ onClose }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getAreas().then((res) => {
-      setResult(res);
-      setLoading(false);
-    });
-  }, []);
+   const fetchData = async () => {
+    const areas = await getAreas()
+    setResult(areas);
+    setLoading(false);
+   }
+   fetchData()
+  }, [result]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
