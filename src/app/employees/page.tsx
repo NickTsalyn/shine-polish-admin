@@ -5,17 +5,11 @@ import { Box, CircularProgress } from "@mui/material";
 import Image from "next/image";
 import ImageModal from "@/components/UI/ImageModal";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DialogAgree from "@/components/DialogAgree";
 import { deleteEmployee, getEmployees } from "@/helpers/api";
-
-interface Employee {
-  _id: string;
-  username: string;
-  phone: number;
-  area: string;
-  email: string;
-  avatar: File | string;
-}
+import { Employee } from "@/types/interfaces";
+import EditEmployee from "@/components/Modals/EditEmployee";
 
 interface TableHeaders {
   [key: string]: string;
@@ -27,58 +21,81 @@ const tableHeaders: TableHeaders = {
   area: "Area",
   email: "Email",
   avatar: "Avatar",
+  edite: "Edit",
   delete: "Delete",
 };
 
 const Employees = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [employeeId, setEmployeeId] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // ВСІ EMPLOYEES
     const fetchData = async () => {
-     const data = await getEmployees()
+      const data = await getEmployees();
       setEmployees(data);
       setLoading(false);
     };
     fetchData();
-  }, [employees]);
+  }, []);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  // ВІДКРИТТЯ МОДАЛКИ ВИДАЛЕННЯ
+  const handleOpenDeleteModal = (id: string) => {
+    setEmployeeId(id);
+    setOpenDelete(true);
   };
-
-  const handleImageClick = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
-    setIsModalOpen(true);
-  };
-
-  const handleClick = (id: string) => {
-	setEmployeeId(id)
-    setOpen(true);
-  };
-
+  // ВИДАЛЕННЯ EMPLOYEE
   const handleDelete = async () => {
-	if (!employeeId) return;
+    if (!employeeId) return;
     try {
-      await deleteEmployee(employeeId)
+      await deleteEmployee(employeeId);
       setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error(error);
+    } finally {
+      setOpenDelete(false);
+      setEmployeeId(null);
     }
-    setOpen(false);
+  };
+  //ЗАКРИТТЯ МОДАЛКИ ВИДАЛЕННЯ
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
     setEmployeeId(null);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-	setEmployeeId(null)
-  };  
+  //ВІДКРИТТЯ МОДАЛКИ РЕДАГУВАННЯ
+  const handleOpenEditModal = (id: string) => {
+//  if (!employeeId) return;
+    const empl = employees.find((employee) => employee._id === id);
+   
+    setSelectedEmployee(empl as Employee);
+    setEmployeeId(id);
+    setOpenEdit(true);
+  };
+  //ЗАКРИТТЯ МОДАЛКИ РЕДАГУВАННЯ
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+    setEmployeeId(null);
+    setSelectedEmployee(null);
+  };
+  // ВІДКРИТТЯ МОДАЛКИ ФОТО
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  //ЗАКРИТТЯ МОДАЛКИ ФОТО
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   if (loading) {
     return (
@@ -111,28 +128,40 @@ const Employees = () => {
               <td className="border-2 border-secondary p-2">{employee.area}</td>
               <td className="border-2 border-secondary p-2">{employee.email}</td>
               <td className="border-2 border-secondary p-2 text-center">
-              <div className="flex justify-center items-center">
-                <Image
-                  src={employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar}
-                  alt="Avatar"
-                  width={50}
-                  height={50}
-                  onClick={() =>
-                    handleImageClick(
-                      employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar
-                    )
-                  }
-                  className="cursor-pointer "
-                />
-              </div>
+                <div className="flex justify-center items-center ">
+                  <Image
+                    src={employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar}
+                    alt="Avatar"
+                    width={50}
+                    height={50}
+                    onClick={() =>
+                      handleImageClick(
+                        employee.avatar instanceof File ? URL.createObjectURL(employee.avatar) : employee.avatar
+                      )
+                    }
+                    className="cursor-pointer "
+                  />
+                </div>
               </td>
               <td className="border-2 border-secondary p-2">
-			  <button onClick={() => handleClick(employee._id)}>
-                  <CloseRoundedIcon className="size-6  md:size-9 text-main" />
+                <button onClick={() => handleOpenEditModal(employee._id)}>
+                  <EditRoundedIcon className="size-4  md:size-6 xl:size-9 text-accent" />
                 </button>
-				<DialogAgree
-                  open={open && employeeId === employee._id}
-                  onClose={handleClose}
+                {openEdit && selectedEmployee && (
+                  <EditEmployee
+                    open={openEdit && employeeId === employee._id}
+                    onClose={handleCloseEdit}
+                    employee={selectedEmployee}
+                  />
+                )}
+              </td>
+              <td className="border-2 border-secondary p-2">
+                <button onClick={() => handleOpenDeleteModal(employee._id)}>
+                  <CloseRoundedIcon className="size-4  md:size-6 xl:size-9 text-main" />
+                </button>
+                <DialogAgree
+                  open={openDelete && employeeId === employee._id}
+                  onClose={handleCloseDelete}
                   onConfirm={handleDelete}
                 />
               </td>

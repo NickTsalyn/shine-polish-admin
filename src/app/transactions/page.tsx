@@ -68,14 +68,14 @@ export default function Transactions() {
 							<td className="border-2 border-secondary p-2">
 								{client.bedroom} / {client.bathroom}
 							</td>
-							<td className="border-2 border-secondary py-2">{client.phone}</td>
-							<td className="border-2 border-secondary py-2">{client.email}</td>
-							<td className="border-2 border-secondary py-2">
+							<td className="border-2 border-secondary p-2">{client.phone}</td>
+							<td className="border-2 border-secondary p-2">{client.email}</td>
+							<td className="border-2 border-secondary p-2">
 								{dayjs(client.selectedDate, "MM/DD/YYYY").format("MMMM D, YYYY")}
 							</td>
 
-							<td className="border-2 border-secondary py-2">Rab</td>
-							<td className="border-2 border-secondary py-2">{client.totalPrice}</td>
+							<td className="border-2 border-secondary p-2">Rab</td>
+							<td className="border-2 border-secondary p-2">{client.totalPrice}</td>
 						</tr>
 					))}
 				</tbody>

@@ -14,14 +14,13 @@ import AreasModal from "../Modals/AreasModal";
 import AddBookingModal from "../Modals/AddBookingModal";
 import AddEmployee from "../Modals/AddEmployee";
 
-
 import Button from "../UI/Button";
 import { DrawerContent, StyledItem, StyledMenuIcon } from "../StyledComponents";
 import { ShineLogo } from "../images";
 import { buttons } from "../Arrays";
 
 export default function MobileMenu() {
-  const [open, setOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const [openModal, setOpenModal] = useState<string | null>(null);
 
   const handleOpenModal = (modalType: string | null) => {
@@ -32,24 +31,15 @@ export default function MobileMenu() {
     setOpenModal(null);
   };
 
-  const toggleDrawer = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
   return (
     <div className="flex lg:hidden ">
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        onClick={toggleDrawer}
-      >
+      <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setOpenMenu(true)}>
         <StyledMenuIcon />
       </IconButton>
       <Drawer
         anchor="right"
-        open={open}
-        onClose={toggleDrawer}
+        open={openMenu}
+        onClose={() => setOpenMenu(false)}
         sx={{
           "& .MuiDrawer-paper": {
             borderRadius: "12px",
@@ -61,16 +51,10 @@ export default function MobileMenu() {
       >
         <DrawerContent>
           <div className="flex flex-row md:flex-row-reverse justify-center items-start mb-4 md:mb-8 relative">
-            <div
-              className="flex w-[108px] h-[97px] md:w-[136px] md:h-[122px] "
-              onClick={toggleDrawer}
-            >
-             <ShineLogo/>
+            <div className="flex w-[108px] h-[97px] md:w-[136px] md:h-[122px] " onClick={() => setOpenMenu(false)}>
+              <ShineLogo />
             </div>
-            <IconButton
-              onClick={toggleDrawer}
-              className="absolute top-0 right-0"
-            >
+            <IconButton onClick={() => setOpenMenu(false)} className="absolute top-0 right-0">
               <CloseIcon className="text-main size-6 md:size-9" />
             </IconButton>
           </div>
@@ -83,45 +67,28 @@ export default function MobileMenu() {
               Client Side
             </Link>
           </div>
-{/* 
-          <List className="p-0 flex flex-col grow gap-4 md:gap-6">
-            <StyledItem>
-              <ul className="flex flex-col gap-3 md:gap-[18px] justify-start  ">
-                {buttons.map((button) => (
-                  <li key={button}>
-                    <Button type={"button"} style={"sidebar"}>
-                      {button}
+          <List className="p-0 flex flex-col grow gap-4 md:gap-6 text-main">
+            {buttons.map((button) => (
+              <li key={button.label}>
+                {button.link ? (
+                  <Link href={button.link}>
+                    <Button type={"button"} style={"mob-menu"} onClick={() => setOpenMenu(false)}>
+                      {button.label}
                     </Button>
-                  </li>
-                ))}
-              </ul>
-            </StyledItem>
-          </List> */}
-           {/* <div className="mb-5 "> */}
-        {/* <ul className="flex flex-col gap-5 justify-start text-white "> */}
-        <List className="p-0 flex flex-col grow gap-4 md:gap-6 text-main">
-          {buttons.map((button) => (
-            <li key={button.label}>
-            {button.link ? (
-              <Link href={button.link}>
-                  <Button type={"button"} style={"mob-menu"}>
+                  </Link>
+                ) : (
+                  <Button type={"button"} style={"sidebar"} onClick={() => handleOpenModal(button.modal)}>
                     {button.label}
                   </Button>
-              </Link>
-            ) : (
-              <Button type={"button"} style={"sidebar"} onClick={() => handleOpenModal(button.modal)}>
-                {button.label}
-              </Button>
-            )}
-          </li>
-          ))}
-        </List>
-      {/* </div> */}
-      {openModal === "photo" && <PhotoModal open={openModal === "photo"} onClose={handleCloseModal} />}
-      {openModal === "price" && <PriceModal open={openModal === "price"} onClose={handleCloseModal} />}
-      {openModal === "areas" && <AreasModal open={openModal === "areas"} onClose={handleCloseModal} />}
-      {openModal === "booking" && <AddBookingModal open={openModal === "booking"} onClose={handleCloseModal} />}
-      {openModal === "employee" && <AddEmployee open={openModal === "employee"} onClose={handleCloseModal} />}
+                )}
+              </li>
+            ))}
+          </List>
+          {openModal === "photo" && <PhotoModal open={openModal === "photo"} onClose={handleCloseModal} />}
+          {openModal === "price" && <PriceModal open={openModal === "price"} onClose={handleCloseModal} />}
+          {openModal === "areas" && <AreasModal open={openModal === "areas"} onClose={handleCloseModal} />}
+          {openModal === "booking" && <AddBookingModal open={openModal === "booking"} onClose={handleCloseModal} />}
+          {openModal === "employee" && <AddEmployee open={openModal === "employee"} onClose={handleCloseModal} />}
         </DrawerContent>
       </Drawer>
     </div>

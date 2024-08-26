@@ -2,6 +2,8 @@ import axios from "axios";
 import { Booking } from "@/interfaces";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+// const BASE_URL = "https://shine-polish-server.onrender.com";
+
 
 export const setAuthHeader = (token: string) => {
 	axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

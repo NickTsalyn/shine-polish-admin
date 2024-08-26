@@ -5,7 +5,6 @@ import Button from "../UI/Button";
 import UploadButton from "../UI/UploadButton";
 import Image from "next/image";
 import { styledTextField } from "@/styles/overrides";
-import axios from "axios";
 import { addEmployee } from "@/helpers/api";
 
 type Props = {

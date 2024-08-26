@@ -1,12 +1,14 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import { Employee } from "@/types/interfaces";
 
 type Props = {
   children: React.ReactNode;
   open: boolean;
   onClose: () => void;
   isLoading?: boolean;
+  employee?: Employee;
 };
 
 export default function BasicModal({
@@ -14,6 +16,7 @@ export default function BasicModal({
   open,
   onClose,
   isLoading = false,
+  employee,
 }: Props) {
   const style = {
     position: "absolute" as "absolute",
