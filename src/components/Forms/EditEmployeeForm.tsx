@@ -1,12 +1,13 @@
-import { getEmployees } from "@/helpers/api";
+" use client";
 import { styledTextField } from "@/styles/overrides";
 import { Employee } from "@/types/interfaces";
 import { Box, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UploadButton from "../UI/UploadButton";
 import Button from "../UI/Button";
 import CloseButton from "../UI/CloseButton";
 import Image from "next/image";
+import { editEmployee } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
@@ -24,6 +25,7 @@ type InputValues = {
   phone: string;
   email: string;
   area: string;
+  // avatar?: File | string;
 };
 
 const inputFields: InputField[] = [
@@ -34,7 +36,7 @@ const inputFields: InputField[] = [
 ];
 
 const EditEmployeeForm = ({ onClose, employee }: Props) => {
-  const [inputValues, setInputValues] = useState({
+  const [inputValues, setInputValues] = useState<InputValues>({
     name: employee.username,
     phone: employee.phone,
     email: employee.email,
@@ -53,53 +55,27 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
     setInputValues((prevValues) => ({
       ...prevValues,
       [name]: value,
-      
     }));
   };
 
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Логування оновлених полів
-    console.log("Updated employee data:", inputValues);
-    if (image) {
-      console.log("Uploaded image file:", image);
+    try {
+      const formData = new FormData();
+      formData.append("username", inputValues.name || employee.username);
+      formData.append("phone", inputValues.phone || employee.phone);
+      formData.append("email", inputValues.email || employee.email);
+      formData.append("area", inputValues.area || employee.area);
+      if (image) {
+        formData.append("avatar", image);
+      }
+      const updatedEmployee = await editEmployee(employee._id, formData);
+      console.log("Updated Employee:", updatedEmployee);
+      onClose();
+    } catch (error) {
+      console.error("Error editing employee", error);
     }
-    // Закриття форми
-    onClose();
   };
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("username", inputValues.name);
-  //     formData.append("phone", inputValues.phone);
-  //     formData.append("email", inputValues.email);
-  //     formData.append("area", inputValues.area);
-  //     if (image) {
-  //       formData.append("avatar", image);
-  //     }
-  //     //   EditEmployee(formData, id);
-  //     const formDataObj: Record<string, any> = {};
-  //     formData.forEach((value, key) => {
-  //       formDataObj[key] = value;
-  //     });
-  //     console.log("FormData contents:", formDataObj);
-
-  //     onClose();
-  //   } catch (error) {
-  //     console.error("Error editing employee", error);
-  //   }
-  //   // finally{
-  //   // setInputValues({
-  //   //   name: "",
-  //   //   phone: "",
-  //   //   email: "",
-  //   //   area: "",
-  //   // });
-  //   // setImagePreview(null);
-  //   // }
-  // };
 
   return (
     <>

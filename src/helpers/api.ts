@@ -96,3 +96,12 @@ export const updateOptions = async (data: any) => {
 		console.log(error);
 	}
 }
+
+export const editEmployee = async (id: string, data: FormData) => {
+	try {
+		const res = await axios.patch(`${BASE_URL}/admin/employees/${id}`, data);
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+}

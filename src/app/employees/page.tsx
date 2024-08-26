@@ -73,13 +73,14 @@ const Employees = () => {
 
   //ВІДКРИТТЯ МОДАЛКИ РЕДАГУВАННЯ
   const handleOpenEditModal = (id: string) => {
-//  if (!employeeId) return;
+    //  if (!employeeId) return;
     const empl = employees.find((employee) => employee._id === id);
-   
+    console.log(empl);
     setSelectedEmployee(empl as Employee);
     setEmployeeId(id);
     setOpenEdit(true);
   };
+
   //ЗАКРИТТЯ МОДАЛКИ РЕДАГУВАННЯ
   const handleCloseEdit = () => {
     setOpenEdit(false);
@@ -145,19 +146,12 @@ const Employees = () => {
               </td>
               <td className="border-2 border-secondary p-2">
                 <button onClick={() => handleOpenEditModal(employee._id)}>
-                  <EditRoundedIcon className="size-4  md:size-6 xl:size-9 text-accent" />
+                  <EditRoundedIcon className="size-4  md:size-6 xl:size-9 text-accent" focusable="false" />
                 </button>
-                {openEdit && selectedEmployee && (
-                  <EditEmployee
-                    open={openEdit && employeeId === employee._id}
-                    onClose={handleCloseEdit}
-                    employee={selectedEmployee}
-                  />
-                )}
               </td>
               <td className="border-2 border-secondary p-2">
                 <button onClick={() => handleOpenDeleteModal(employee._id)}>
-                  <CloseRoundedIcon className="size-4  md:size-6 xl:size-9 text-main" />
+                  <CloseRoundedIcon className="size-4  md:size-6 xl:size-9 text-main" focusable="false" />
                 </button>
                 <DialogAgree
                   open={openDelete && employeeId === employee._id}
@@ -170,6 +164,13 @@ const Employees = () => {
         </tbody>
       </table>
       {selectedImage && <ImageModal isOpen={isModalOpen} onClose={handleCloseModal} imageUrl={selectedImage} />}
+      {openEdit && selectedEmployee && (
+        <EditEmployee
+          open={openEdit && employeeId === selectedEmployee._id}
+          onClose={handleCloseEdit}
+          employee={selectedEmployee}
+        />
+      )}
     </div>
   );
 };
