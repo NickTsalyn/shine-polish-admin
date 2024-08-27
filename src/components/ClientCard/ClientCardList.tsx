@@ -12,7 +12,7 @@ const ClientCardList: React.FC = () => {
 
  useEffect(() => {
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ0MjU0MDgsImV4cCI6MTcyNDUxMTgwOH0.8uEECuFpDXRn3bhcBaIsHCRSg7gzkMlTiaspuQuoAkQ"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ3OTI0MzMsImV4cCI6MTcyNDg3ODgzM30.gWY4sAZ65mjwwbT5AXQg2BxrPRt9KLzpvROjvZoaHBQ"
   );
 
   const fetchData = async () => {
@@ -33,7 +33,7 @@ const ClientCardList: React.FC = () => {
  }, []);
 
  return (
-  <div className="flex flex-col w-[320px] mr-10 lg:h-[830px] md:w-[768px] m-auto lg:mx-10 lg:w-[320px]">
+  <div className="flex flex-col w-[320px] mr-10 lg:h-[830px] md:w-[768px] m-auto  lg:w-[320px]">
    <h2 className="text-3xl mb-5 text-main text-center">Our Clients</h2>
    <div className="flex lg:flex-col gap-4 max-h-[900px] overflow-y-auto box-border">
     {bookings.map((booking) => (

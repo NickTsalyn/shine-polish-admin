@@ -4,6 +4,7 @@ import {signin} from "@/helpers/api";
 import {useEffect} from "react";
 import ClientCardList from "@/components/ClientCard/ClientCardList";
 import CalendarComponent from "@/components/Calendar/CalendarComponent";
+import {Booking, CalendarEvent} from "@/interfaces";
 
 export default function Home() {
  const [events, setEvents] = React.useState([]);
@@ -12,11 +13,15 @@ export default function Home() {
   signin({email: "AlvaroCapibaraTESTER@mail.com", password: "qwerty123"});
  }, []);
 
- function updateEvent(updateEvent: any): void {
+ function updateEvent(): void {
   throw new Error("Function not implemented.");
  }
 
- function deleteEvent(eventId: number): void {
+ function handleSave(): void {
+  throw new Error("Function not implemented.");
+ }
+
+ function handleDeleteEvent(eventId: string): void {
   throw new Error("Function not implemented.");
  }
  return (
@@ -28,7 +33,8 @@ export default function Home() {
     <CalendarComponent
      events={events}
      onUpdateEvent={updateEvent}
-     onDeleteEvent={deleteEvent}
+     onDeleteEvent={handleDeleteEvent}
+     onSave={handleSave}
     />
    </div>
   </div>

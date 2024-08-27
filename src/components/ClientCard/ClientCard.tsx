@@ -13,7 +13,7 @@ const ClientCard: React.FC<ClientCardProps> = ({booking}) => {
  const [bookings, setBookings] = React.useState<Booking | null>(null);
  useEffect(() => {
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ0MjU0MDgsImV4cCI6MTcyNDUxMTgwOH0.8uEECuFpDXRn3bhcBaIsHCRSg7gzkMlTiaspuQuoAkQ"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ3OTI0MzMsImV4cCI6MTcyNDg3ODgzM30.gWY4sAZ65mjwwbT5AXQg2BxrPRt9KLzpvROjvZoaHBQ"
   );
 
   const fetchData = async () => {
