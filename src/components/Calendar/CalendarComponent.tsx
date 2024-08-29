@@ -16,8 +16,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  minDate = dayjs("2024-08-01T08:00:00").toDate(),
  maxDate = dayjs("2024-08-31T16:00:00").toDate(),
  onSave,
- onUpdateEvent,
- onDeleteEvent,
 }) => {
  const localizer = dayjsLocalizer(dayjs);
 
@@ -29,13 +27,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 
  useEffect(() => {
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ3OTI0MzMsImV4cCI6MTcyNDg3ODgzM30.gWY4sAZ65mjwwbT5AXQg2BxrPRt9KLzpvROjvZoaHBQ"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ5NDk3MTgsImV4cCI6MTcyNTAzNjExOH0.oruSDsjVzmqSzimdr8Cx6Y5ZKek2FxhISgQ59Yy3WRk"
   );
   const fetchAndSetNewEvents = async () => {
    const bookings = await getBookings();
 
    if (Array.isArray(bookings)) {
-    const transformedEvents: (Booking & CalendarEvent)[] = bookings.map((booking: Booking) => {
+    const transformedEvents = bookings.map((booking: Booking) => {
      const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
      const start = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A").toDate();
      const end = dayjs(start).add(3, "hour").toDate();
@@ -62,27 +60,32 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  const handleSelectEvent = (event: Booking & CalendarEvent) => {
   setSelectedEvent(event);
   setIsModalOpen(true);
-  console.log("Selected event:", event);
  };
 
- //  const handleSave = async (updatedEvent: Booking & CalendarEvent) => {
+ //  const handleSave = async (updatedEvent: any) => {
+ //   // Оновлюємо подію у backend
  //   try {
- //    await updateEvent(updatedEvent.id, updateEvent);
- //    console.log("Updated bookings:", updatedEvent);
-
- //    setEvents((prevEvents) => prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event)));
- //    setIsModalOpen(false);
+ //    await updateEvent(updatedEvent.id, updatedEvent);
+ //    // Оновлюємо стан подій у CalendarComponent
+ //    const updatedEvents = events.map((event) => (event.id === updatedEvent.id ? updatedEvent : event));
+ //    setEvents(updatedEvents);
+ //    setIsModalOpen(false); // Закриваємо модальне вікно
  //   } catch (error) {
  //    console.error("Error updating event:", error);
  //   }
  //  };
- const handleSave = (updatedEvent: any) => {
-  if (onSave) {
-   onSave(updatedEvent);
-  } else {
-   console.error("onSave not defined");
-  }
+
+ const handleSave = (updatedEvent: Booking & CalendarEvent) => {
+  console.log("Handling save for event:", updatedEvent);
+  setEvents((prevEvents) =>
+   prevEvents.map((event) => (event.id === updatedEvent.id ? {...event, ...updatedEvent} : event))
+  );
  };
+ //  const handleSave = (updatedEvent: Booking & CalendarEvent) => {
+ //   setEvents((prevEvents) =>
+ //    prevEvents.map((event) => (event.id === updatedEvent.id ? {...event, ...updatedEvent} : event))
+ //   );
+ //  };
 
  const handleDeleteEvent = async (eventId: string) => {
   try {
@@ -92,6 +95,16 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   } catch (error) {
    console.error("Error deleting event:", error);
   }
+ };
+
+ const handleOpenModal = (event: Booking & CalendarEvent) => {
+  setSelectedEvent(event);
+  setIsModalOpen(true);
+ };
+
+ const handleCloseModal = () => {
+  setIsModalOpen(false);
+  setSelectedEvent(null);
  };
 
  return (
@@ -121,8 +134,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      open={isModalOpen}
      onClose={() => setIsModalOpen(false)}
      event={selectedEvent}
-     start={dayjs(selectedEvent.start).format("MM/DD/YYYYThh:mm A")}
-     end={dayjs(selectedEvent.end).format("MM/DD/YYYYThh:mm A")}
+     start={dayjs(selectedEvent.start).format("MM/DD/YYYY")}
+     end={dayjs(selectedEvent.end).format("MM/DD/YYYY")}
      onSave={handleSave}
      onDelete={() => handleDeleteEvent(selectedEvent.id)}
     />

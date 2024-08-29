@@ -130,11 +130,12 @@ export interface CalendarComponentProps {
     onSave?: (updatedEvent: Booking & CalendarEvent ) => void;
    }
 
-export interface EditEventModalProps {
+export type EditEventModalProps = {
     end: string | number | Date | Dayjs | null | undefined;
     start: string | number | Date | Dayjs | null | undefined;
     // _id: string;
     open: boolean;
+   
     // onChange: () => void;
     onClose: () => void;
     event: any;

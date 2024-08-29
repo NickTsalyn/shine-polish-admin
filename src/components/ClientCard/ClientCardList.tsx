@@ -12,7 +12,7 @@ const ClientCardList: React.FC = () => {
 
  useEffect(() => {
   setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ3OTI0MzMsImV4cCI6MTcyNDg3ODgzM30.gWY4sAZ65mjwwbT5AXQg2BxrPRt9KLzpvROjvZoaHBQ"
+   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ5NDk3MTgsImV4cCI6MTcyNTAzNjExOH0.oruSDsjVzmqSzimdr8Cx6Y5ZKek2FxhISgQ59Yy3WRk"
   );
 
   const fetchData = async () => {

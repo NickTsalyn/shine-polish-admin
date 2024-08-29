@@ -64,29 +64,7 @@ export const getExtras = async () => {
 	}
 }
 
-// export const fetchData = async (): Promise<Booking[]> => {
-// 	try {
-// 	  const response = await axios.get(`${BASE_URL}/admin/bookings`); 
-// 		return response.data;
-// 	} catch (error) {
-// 	  console.error('Error fetching events:', error);
-// 	  return [];
-// 	}
-//   };
 
-//   export const fetchData = async () => {
-// 	try {
-// 	  const response = await fetch(`${BASE_URL}/admin/bookings`); // URL вашого API
-// 	  if (!response.ok) {
-// 		throw new Error('Network response was not ok');
-// 	  }
-// 	  const data = await response.json();
-// 	  return data; // Очікується, що це масив букінгів
-// 	} catch (error) {
-// 	  console.error('Failed to fetch data:', error);
-// 	  throw error; // Перенаправляє помилку до handleSaveEvent
-// 	}
-//   };
 export const updateEvent = async (id: string | number, eventData: UpdateEventPayload): Promise<void> => {
 	try {
 	  await axios.put(`${BASE_URL}/admin/bookings/${id}`, eventData);
@@ -94,13 +72,7 @@ export const updateEvent = async (id: string | number, eventData: UpdateEventPay
 	  console.error('Error updating event:', error.response?.data || error.message);
 	}
   }
-//   export const updateEvent = async (id: string | number, EventData: any): Promise<void> => {
-// 	try {
-// 	  await axios.put(`${BASE_URL}/admin/bookings/${id}`, EventData);
-// 	} catch (error: any) {
-// 	  console.error('Error updating event:', error.response?.data || error.message);
-// 	}
-//   }
+
   export const deleteEvent = async (id: string): Promise<void> => {
 	try {
 	  await axios.delete(`${BASE_URL}/admin/bookings/${id}`);

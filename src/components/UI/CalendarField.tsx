@@ -1,9 +1,10 @@
 "use client";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {DigitalClock} from "@mui/x-date-pickers/DigitalClock";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import axios from "axios";
 
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
@@ -25,6 +26,7 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
  const handleStartDateChange = (newDate: Dayjs | null) => {
   if (newDate) {
    setStartDate(newDate);
+   console.log("Start date", newDate);
   } else {
    console.error("Invalid date selected");
   }
@@ -33,6 +35,8 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
  const handleEndDateChange = (newDate: Dayjs | null) => {
   if (newDate) {
    setEndDate(newDate);
+   setStartDate(newDate);
+   console.log("End date", newDate);
   } else {
    console.error("Invalid date selected");
   }
@@ -67,40 +71,29 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
   };
  };
 
- const handleSave = async (updatedEvent: Booking & CalendarEvent) => {
-  const {
-   id,
-   email,
-   name,
-   surname,
-   phone,
-   address,
-   area,
-   selectedDate,
-   endDate,
-   time,
-   bedroom,
-   bathroom,
-   extras,
-   service,
-   frequency,
-   aboutUs,
-   specialInstructions,
-   homeAccess,
-   tips,
-   totalPrice,
-  } = updatedEvent;
+ const handleSave = async () => {
+  // Перевірка та форматування дат перед збереженням
+  const selectedDateISO = startDate ? dayjs(startDate).toISOString() : "";
+  const endDateISO = endDate ? dayjs(endDate).toISOString() : "";
+  const timeISO = time ? dayjs(time).toISOString() : "";
+
+  const updatedEvent = {
+   ...event,
+   selectedDate: selectedDateISO,
+   endDate: endDateISO,
+   time: timeISO,
+  };
 
   const updatePayload: UpdateEventPayload = {
    email: updatedEvent.email,
    name: updatedEvent.name,
    surname: updatedEvent.surname,
    phone: updatedEvent.phone,
-   address: constructAddress(updatedEvent.address),
+   address: updatedEvent.address,
    area: updatedEvent.area,
-   selectedDate: updatedEvent.selectedDate ? dayjs(updatedEvent.selectedDate).format("MM/DD/YYYY") : " ",
-   endDate: updatedEvent.endDate ? dayjs(updatedEvent.endDate).format("MM/DD/YYYY") : " ",
-   time: updatedEvent.time ? dayjs(updatedEvent.time).format("HH:mm") : " ",
+   selectedDate: selectedDateISO, // Переконайтеся, що це рядок
+   endDate: endDateISO, // Переконайтеся, що це рядок
+   time: timeISO, // Переконайтеся, що це рядок
    bedroom: updatedEvent.bedroom,
    bathroom: updatedEvent.bathroom,
    extras: updatedEvent.extras,
@@ -114,12 +107,14 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
   };
 
   try {
+   // Надсилаємо оновлений об'єкт події на бекенд
    await updateEvent(updatedEvent.id, updatePayload);
    console.log("Updated bookings:", updatedEvent);
+
+   // Якщо є функція onSave, викликаємо її
    if (onSave) {
-    onSave(updatedEvent); // Call onSave if it is provided
+    onSave(updatedEvent);
    }
-   setIsModalOpen(false);
   } catch (error) {
    console.error("Error updating event:", error);
   }
@@ -128,7 +123,7 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
  return (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
    <div className="flex flex-col gap-4  mb-6">
-    <div>
+    <div className="flex gap-4">
      <DatePicker
       label="Start Date"
       value={startDate}
@@ -157,7 +152,9 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
        </div>
       )}
      </div>
-     <div>
+    </div>
+    <div className="flex flex-col gap-4">
+     <div className="flex gap-4">
       <DatePicker
        label="End Date"
        value={endDate}
@@ -186,14 +183,14 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
         </div>
        )}
       </div>
-      <Button
-       type={"submit"}
-       style="confirm"
-       onClick={() => handleSave({...event})}
-      >
-       Save
-      </Button>
      </div>
+     <Button
+      type={"submit"}
+      style="confirm"
+      onClick={() => handleSave()}
+     >
+      Save
+     </Button>
     </div>
    </div>
   </LocalizationProvider>
