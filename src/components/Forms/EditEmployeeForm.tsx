@@ -25,7 +25,7 @@ type InputValues = {
   phone: string;
   email: string;
   area: string;
-  // avatar?: File | string;
+  avatar?: File | string;
 };
 
 const inputFields: InputField[] = [
@@ -41,6 +41,7 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
     phone: employee.phone,
     email: employee.email,
     area: employee.area,
+    avatar: employee.avatar,
   });
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -62,16 +63,19 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("username", inputValues.name || employee.username);
-      formData.append("phone", inputValues.phone || employee.phone);
-      formData.append("email", inputValues.email || employee.email);
-      formData.append("area", inputValues.area || employee.area);
-      if (image) {
-        formData.append("avatar", image);
+      if (inputValues.name !== employee.username) formData.append("username", inputValues.name);
+      if (inputValues.phone !== employee.phone) formData.append("phone", inputValues.phone);
+      if (inputValues.email !== employee.email) formData.append("email", inputValues.email);
+      if (inputValues.area !== employee.area) formData.append("area", inputValues.area);
+      if (image) formData.append("avatar", image);
+      if (formData.has("username") || formData.has("phone") || formData.has("email") || formData.has("area") || formData.has("avatar")) {
+        const updatedEmployee = await editEmployee(employee._id, formData);
+        console.log("Updated Employee:", updatedEmployee);
+        onClose();
+      } else {
+        console.log("No changes detected.");
+        onClose();
       }
-      const updatedEmployee = await editEmployee(employee._id, formData);
-      console.log("Updated Employee:", updatedEmployee);
-      onClose();
     } catch (error) {
       console.error("Error editing employee", error);
     }
@@ -111,7 +115,7 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
           </div>
 
           <Button style="confirm" type="submit">
-            Add Employee
+            Adit
           </Button>
         </Box>
       </div>
