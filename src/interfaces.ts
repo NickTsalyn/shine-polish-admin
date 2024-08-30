@@ -38,15 +38,16 @@ export interface CalendarEvent {
   }
 
   export interface UpdateEventPayload {
+    _id?: string | number;
     email: string;
     name: string;
     surname: string;
     phone: string;
     address: Address;
     area: string;
-    selectedDate: string; // ISO date format string
-    endDate: string; // ISO date format string
-    time: string; // Time in "HH:mm" format
+    selectedDate: string; 
+    endDate: string; 
+    time: string; 
     bedroom: number;
     bathroom: number;
     extras: string[];
@@ -55,8 +56,9 @@ export interface CalendarEvent {
     aboutUs: string;
     specialInstructions: string;
     homeAccess: string;
-    tips: string; // Assuming tips is a string; adjust if it's a number
-    totalPrice: number; // Assuming totalPrice is a number
+    tips: string; 
+    totalPrice: number; 
+    discountCode?: string;
   }
 
   export interface Address {
@@ -66,58 +68,6 @@ export interface CalendarEvent {
     zip: string;
     state: string;
   }
-  
-//   export interface EventData {
-//     email: string;
-//     name: string;
-//     surname: string;
-//     phone: string;
-//     address: Address;
-//     area: string;
-//     selectedDate: string; // ISO date format string
-//     endDate: string; // ISO date format string
-//     time: string; // Time in "HH:mm" format
-//     bedroom: number;
-//     bathroom: number;
-//     extras: string[]; // Array of extra items
-//     service: string;
-//     frequency: string;
-//     aboutUs: string;
-//     specialInstructions: string;
-//     homeAccess: string;
-//     tips: string; // Assuming tips is a string; adjust if it's a number
-//     totalPrice: number; // Assuming totalPrice is a number
-//   }
-// export interface BookingEvent {
-//     id: number | string;
-//     title: string;
-//     start: Date;
-//     end: Date;
-//     email: string;
-//     phone: string;
-//     address: string;
-//     areas: string[];
-//     selectedDate: string;
-//     time: string;
-//     spesialInstructions?: string;
-//     bedrooms: number;
-//     bathrooms: number;
-// }
-// export type CalendarEvent = {
-//     id: string | number;
-//     title: string;
-//     start: Date;
-//     end: Date;
-//     email: string;
-//     phone: string;
-//     address: string;
-//     areas: string[];
-//     selectedDate: string | Dayjs | null;
-//     time: string | Dayjs | null;
-//     backgroundColor: string;
-//     textColor: string;
-//     spesialInstructions?: string;
-//   };
 
 export interface CalendarComponentProps {
     events: Array<any>;
@@ -133,10 +83,7 @@ export interface CalendarComponentProps {
 export type EditEventModalProps = {
     end: string | number | Date | Dayjs | null | undefined;
     start: string | number | Date | Dayjs | null | undefined;
-    // _id: string;
     open: boolean;
-   
-    // onChange: () => void;
     onClose: () => void;
     event: any;
     onSave: (updateEvent: any) => void;
@@ -146,8 +93,6 @@ export type EditEventModalProps = {
 export interface ClientCardProps {
     booking: any;
    }   
-
-
 
  export  interface EventType {
     id: string;
