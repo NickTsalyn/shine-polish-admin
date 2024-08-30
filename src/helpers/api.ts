@@ -42,6 +42,15 @@ export const addPhotos = async (data: FormData) => {
 	}
 };
 
+export const deletePhotos = async( id: string) => {
+	try {
+		const res = await axios.delete(`${BASE_URL}/admin/files/images/${id}`);
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const getAreas = async () => {
 	try {
 		const res = await axios.get(`${BASE_URL}/bookings/options`);
@@ -91,6 +100,24 @@ export const deleteEmployee = async (id: string) => {
 export const updateOptions = async (data: any) => {
 	try {
 		const res = await axios.patch(`${BASE_URL}/admin/bookings/areaOptions`, data);
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const getPrice = async () => {
+	try {
+		const res = await axios.get(`${BASE_URL}/bookings/options`);
+		return res.data;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const updatePrice = async (data: any) => {
+	try {
+		const res = await axios.patch(`${BASE_URL}/admin/bookings/pricing/edit`, data);
 		return res;
 	} catch (error) {
 		console.log(error);

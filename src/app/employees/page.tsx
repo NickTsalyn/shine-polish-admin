@@ -43,7 +43,7 @@ const Employees = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [selectedEmployee]);
 
   // ВІДКРИТТЯ МОДАЛКИ ВИДАЛЕННЯ
   const handleOpenDeleteModal = (id: string) => {

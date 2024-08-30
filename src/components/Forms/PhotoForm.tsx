@@ -5,7 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import ImageModal from "../UI/ImageModal";
-import { getPhotos } from "@/helpers/api";
+import { getPhotos, deletePhotos } from "@/helpers/api";
 import UploadButton from "../UI/UploadButton";
 import { styledTextField } from "@/styles/overrides";
 
@@ -66,9 +66,7 @@ export default function PhotoForm({ onClose }: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    await axios.delete(
-      `https://shine-polish-server.onrender.com/admin/files/images/${id}`
-    );
+    await deletePhotos(id)
     setPhoto((prevState) => prevState?.filter((item) => item._id !== id) || []);
   };
 
@@ -81,8 +79,6 @@ export default function PhotoForm({ onClose }: Props) {
     setIsModalOpen(false);
     setSelectedImage(null);
   };
-
-  console.log(photo);
 
   if (loading) {
     return (

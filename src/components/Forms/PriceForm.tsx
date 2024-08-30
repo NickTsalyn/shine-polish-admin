@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CloseButton from "../UI/CloseButton";
 import { styledTextField } from "../../styles/overrides";
+import { getPrice } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
@@ -44,9 +45,7 @@ export default function PriceForm({ onClose }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(
-          "https://shine-polish-server.onrender.com/bookings/options"
-        );
+        const data = await getPrice()
         setResult(data);
         setInputValues({
           base: data.base.toString(),
@@ -63,7 +62,7 @@ export default function PriceForm({ onClose }: Props) {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (/^\d*$/.test(value)) {
+    if (/^\d*\.?\d*$/.test(value)) {
       setInputValues((prev) => ({
         ...prev,
         [name]: value,
@@ -82,10 +81,11 @@ export default function PriceForm({ onClose }: Props) {
 
     try {
       const { data } = await axios.put(
-        "https://shine-polish-server.onrender.com/admin/bookings/pricing",
+        "https://shine-polish-server.onrender.com/admin/bookings/pricing/edit",
         updatedPricing
       );
       setResult(data);
+      onClose()
     } catch (error) {
       console.error(error);
     }
