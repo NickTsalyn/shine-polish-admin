@@ -25,6 +25,12 @@ const StartBooking: React.FC<{
  const shouldDisableDate = (date: Dayjs) => {
   return date.isSame(dayjs(), "day");
  };
+
+ //  shouldDisableDate={(date) => {
+ //     return events.some(event =>
+ //       dayjs(date).isSame(dayjs(event.start), 'day')
+ //     );
+ //   }}
  const handleTimeChange = (newTime: Dayjs | null) => {
   setTime(newTime);
   console.log("New time", newTime);
@@ -38,8 +44,9 @@ const StartBooking: React.FC<{
 
  return (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-   <div className="flex flex-col gap-2">
-    <div className="flex justify-center">
+   {/* <div className="flex flex-col gap-2 "> */}
+   <div className="flex flex-col gap-2 justify-center md:flex-row md:justify-between">
+    <div className="md:w-[200px]">
      <DatePicker
       label="Start Date"
       onChange={handleDateChange}
@@ -51,9 +58,17 @@ const StartBooking: React.FC<{
       openTo="day"
       autoFocus
      />
-     <button onClick={openTimePicker}>
-      <AccessTimeRoundedIcon />
-      <span className="text-secondary">Choose Time</span>
+    </div>
+    <div className="flex flex-col gap-2">
+     <button
+      onClick={openTimePicker}
+      className="border-color-main flex flex-col gap-1 rounded-lg border-[1px] p-2 md:border-none md:p-0"
+     >
+      <span className="text-[16px] text-secondary">Choose Time</span>
+      <div className="flex flex-row gap-2">
+       <AccessTimeRoundedIcon className="text-main text-[28px]" />
+       <span className="text-[16px] text-accent">{time ? time.format("h:mm A") : "Select Time"}</span>
+      </div>
      </button>
      {isTimeOpen && (
       <div className="absolute right-0 bottom-[22px]">
@@ -70,6 +85,7 @@ const StartBooking: React.FC<{
      )}
     </div>
    </div>
+   {/* </div> */}
   </LocalizationProvider>
  );
 };

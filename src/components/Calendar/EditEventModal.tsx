@@ -7,6 +7,10 @@ import {EditEventModalProps, Booking, CalendarEvent, UpdateEventPayload} from "@
 import {deleteEvent, updateEvent} from "@/helpers/api";
 import StartBooking from "../UI/StartDayComponent";
 import EndBooking from "../UI/EndDateComponent";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded";
+import EventRoundedIcon from "@mui/icons-material/EventRounded";
+import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, onDelete, start, end, open}) => {
  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(event.selectedDate));
  const [time, setTime] = useState<Dayjs | null>(dayjs(event.time));
@@ -59,20 +63,46 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
    open={open}
    onClose={onClose}
   >
-   <div className="mb-4 lg:mb-6">
+   {/* <div className="flex flex-col gap-4"> */}
+   <div className="flex flex-col gap-2 mb-4 lg:mb-6 h-[90%]">
     <h2 className="text-[24px] md:text-[32px] text-accent text-center">Edit booking</h2>
     <p className="text-subtext">
      Are you sure you want to edit this booking? <br /> This action cannot be undone.
-     <br /> Please select the new start and end dates.
     </p>
     <p className="text-[24px] text-main">{event.title}</p>
-    <p className="text-[18px] text-text">{`${event.email}, ${event.phone}`}</p>
-    <p className="text-[18px] text-text">{`${event.address.street}, ${event.address.city}, ${event.address.state}`}</p>
-    <p>{event.specialInstructions}</p>
-    <p className="text-[18px] text-text">{`${dayjs(event.selectedDate).format("MM/DD/YYYY")} - ${event.time}`}</p>
-    <p>{event.extras && event.extras.length > 0 ? `Extras: ${event.extras.join(", ")}` : "Extras: Not specified"}</p>
+    <div className="flex gap-2 align-center">
+     <MailOutlineRoundedIcon className="w-6 h-6 text-main" />
+     <p className="text-[18px] text-text">{event.email}</p>
+    </div>
+    <div className="flex gap-2">
+     <LocalPhoneRoundedIcon className="w-6 h-6 text-main" />
+     <p className="text-[18px] text-text"> {event.phone}</p>
+    </div>
+    <div className="flex gap-2">
+     <LocationOnRoundedIcon className="w-6 h-6 text-main" />
+     <div className="flex flex-col">
+      <p className="text-[18px] text-text">{`${event.address.street}, ${event.address.city}, ${event.address.state}`}</p>
+      <p> Area:{event.area ? ` ${event.area}` : "Area: Not specified"}</p>
+     </div>
+    </div>
+    <p>
+     {event.bedroom} bedrooms, {event.bathroom} bathrooms
+    </p>
+    <p className="text-subtext">
+     <span className="text-text">Special instruction: </span>
+     {event.specialInstructions}
+    </p>
+    <div className="flex gap-2 justify-start align-center">
+     <EventRoundedIcon className="w-6 h-6 text-main" />
+     <p className="text-[18px] text-accent">{`${dayjs(event.selectedDate).format("MM/DD/YYYY")} - ${event.time}`}</p>
+    </div>
+    <p className="text-subtext">
+     <span className="text-text">Extras:</span>
+     {event.extras && event.extras.length > 0 ? ` ${event.extras.join(", ")}` : "Extras: Not specified"}
+    </p>
    </div>
-   <div>
+   <div className="flex flex-col gap-4 mb-4">
+    <p className="text-subtext">Please select the new start and end dates.</p>
     <StartBooking
      onDateChange={handleStartDateChange}
      onTimeChange={handleStartTimeChange}
@@ -105,6 +135,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
      Cancel
     </Button>
    </div>
+   {/* </div> */}
   </BasicModal>
  );
 };
