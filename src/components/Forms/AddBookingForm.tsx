@@ -1,4 +1,4 @@
-import { Box, SelectChangeEvent, TextField } from "@mui/material";
+import { SelectChangeEvent, TextField } from "@mui/material";
 
 import CloseButton from "../UI/CloseButton";
 import BasicSelect from "../UI/Select";
@@ -14,7 +14,6 @@ import DateTime from "../../components/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
 
 type Props = {
-  // onChange?: (event: SelectChangeEvent<string | number>) => void;
   onClose: () => void;
 };
 
@@ -29,6 +28,7 @@ export default function AddBookingForm({ onClose }: Props) {
   const [form, setForm] = useState<Form>(initialForm);
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
   const [endDate, setEndDate] = useState<Dayjs | null>(dayjs());
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -143,6 +143,7 @@ export default function AddBookingForm({ onClose }: Props) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     const bookingData = {
       ...form,
       startTime,
@@ -155,6 +156,9 @@ export default function AddBookingForm({ onClose }: Props) {
       console.log("Response:", response.data);
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+      onClose();
     }
   };
 
@@ -239,7 +243,7 @@ export default function AddBookingForm({ onClose }: Props) {
         </div>
         <DateTime onStartTime={handleStart} onEndTime={handleEnd} />
         <Button type="submit" style="confirm">
-          Submit
+          {isLoading ? "Submitting..." : "Submit"}
         </Button>
       </form>
       <CloseButton type="button" onClick={onClose} />

@@ -25,7 +25,7 @@ type InputValues = {
   phone: string;
   email: string;
   area: string;
-  avatar?: File | string;
+  avatar: File | string;
 };
 
 const inputFields: InputField[] = [
@@ -37,14 +37,16 @@ const inputFields: InputField[] = [
 
 const EditEmployeeForm = ({ onClose, employee }: Props) => {
   const [inputValues, setInputValues] = useState<InputValues>({
-    name: employee.username,
-    phone: employee.phone,
-    email: employee.email,
-    area: employee.area,
-    avatar: employee.avatar,
+    name: employee?.username,
+    phone: employee?.phone,
+    email: employee?.email,
+    area: employee?.area,
+    avatar: employee?.avatar,
   });
   const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    inputValues.avatar ? inputValues.avatar.toString() : null
+  );
 
   const handleFileChange = (file: File | null) => {
     setImage(file);
@@ -68,16 +70,23 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
       if (inputValues.email !== employee.email) formData.append("email", inputValues.email);
       if (inputValues.area !== employee.area) formData.append("area", inputValues.area);
       if (image) formData.append("avatar", image);
-      if (formData.has("username") || formData.has("phone") || formData.has("email") || formData.has("area") || formData.has("avatar")) {
+
+      if (
+        formData.has("username") ||
+        formData.has("phone") ||
+        formData.has("email") ||
+        formData.has("area") ||
+        formData.has("avatar")
+      ) {
         const updatedEmployee = await editEmployee(employee._id, formData);
         console.log("Updated Employee:", updatedEmployee);
-        onClose();
       } else {
         console.log("No changes detected.");
-        onClose();
       }
     } catch (error) {
       console.error("Error editing employee", error);
+    } finally {
+      onClose();
     }
   };
 

@@ -1,7 +1,6 @@
 "use client";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
-import { Box, CircularProgress } from "@mui/material";
 import Image from "next/image";
 import ImageModal from "@/components/UI/ImageModal";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -9,7 +8,8 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DialogAgree from "@/components/DialogAgree";
 import { deleteEmployee, getEmployees } from "@/helpers/api";
 import { Employee } from "@/types/interfaces";
-import EditEmployee from "@/components/Modals/EditEmployee";
+import Loading from "@/components/Loading";
+import DynamicModal from "@/components/Modals/DynamicModal";
 
 interface TableHeaders {
   [key: string]: string;
@@ -33,11 +33,11 @@ const Employees = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // ВСІ EMPLOYEES
     const fetchData = async () => {
+      setLoading(true);
       const data = await getEmployees();
       setEmployees(data);
       setLoading(false);
@@ -45,35 +45,33 @@ const Employees = () => {
     fetchData();
   }, [selectedEmployee]);
 
-  // ВІДКРИТТЯ МОДАЛКИ ВИДАЛЕННЯ
   const handleOpenDeleteModal = (id: string) => {
     setEmployeeId(id);
     setOpenDelete(true);
   };
-  // ВИДАЛЕННЯ EMPLOYEE
+
   const handleDelete = async () => {
     if (!employeeId) return;
+    setLoading(true);
     try {
       await deleteEmployee(employeeId);
       setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.error(error);
     } finally {
+      setLoading(false);
       setOpenDelete(false);
       setEmployeeId(null);
     }
   };
-  //ЗАКРИТТЯ МОДАЛКИ ВИДАЛЕННЯ
+
   const handleCloseDelete = () => {
     setOpenDelete(false);
     setEmployeeId(null);
   };
 
-  //ВІДКРИТТЯ МОДАЛКИ РЕДАГУВАННЯ
   const handleOpenEditModal = (id: string) => {
-    //  if (!employeeId) return;
     const empl = employees.find((employee) => employee._id === id);
     console.log(empl);
     setSelectedEmployee(empl as Employee);
@@ -81,32 +79,24 @@ const Employees = () => {
     setOpenEdit(true);
   };
 
-  //ЗАКРИТТЯ МОДАЛКИ РЕДАГУВАННЯ
   const handleCloseEdit = () => {
     setOpenEdit(false);
     setEmployeeId(null);
     setSelectedEmployee(null);
   };
-  // ВІДКРИТТЯ МОДАЛКИ ФОТО
+
   const handleImageClick = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setIsModalOpen(true);
   };
 
-  //ЗАКРИТТЯ МОДАЛКИ ФОТО
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: "flex", color: "#006778" }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className="py-5 md:p-7 lg:py-20 text-text">
       <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-6 xl:mb-8 text-center text-accent">
         Employees
@@ -122,7 +112,7 @@ const Employees = () => {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
+          {employees?.map((employee) => (
             <tr key={employee._id} className="text-center">
               <td className="border-2 border-secondary p-2">{employee.username}</td>
               <td className="border-2 border-secondary p-2">{employee.phone}</td>
@@ -165,9 +155,10 @@ const Employees = () => {
       </table>
       {selectedImage && <ImageModal isOpen={isModalOpen} onClose={handleCloseModal} imageUrl={selectedImage} />}
       {openEdit && selectedEmployee && (
-        <EditEmployee
+        <DynamicModal
           open={openEdit && employeeId === selectedEmployee._id}
           onClose={handleCloseEdit}
+          formType="EditEmployeeForm"
           employee={selectedEmployee}
         />
       )}

@@ -40,6 +40,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
   });
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false); 
 
   const handleFileChange = (file: File | null) => {
     setImage(file);
@@ -54,10 +55,10 @@ const AddEmployeeForm = ({ onClose }: Props) => {
     }));
   };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
-
       const formData = new FormData();
       formData.append("username", inputValues.name);
       formData.append("phone", inputValues.phone);
@@ -67,26 +68,26 @@ const AddEmployeeForm = ({ onClose }: Props) => {
         formData.append("avatar", image);
       }
 
-     addEmployee(formData)
+      addEmployee(formData);
       setInputValues({
         name: "",
         phone: "",
         email: "",
         area: "",
-      })
+      });
       setImagePreview(null);
-      onClose();
     } catch (error) {
       console.error("Error adding employee", error);
+    } finally {
+      setIsLoading(false);
+      onClose();
     }
   };
 
   return (
     <>
       <div className=" bg-white  flex flex-col gap-4 md:gap-6 overflow-y-auto">
-        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl ">
-          Add Employee
-        </h2>
+        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl ">Add Employee</h2>
         <Box
           component="form"
           noValidate
@@ -112,17 +113,12 @@ const AddEmployeeForm = ({ onClose }: Props) => {
           ))}
 
           <div className=" flex flex-row justify-between items-center gap-8">
-            {imagePreview && (
-              <Image src={imagePreview} alt="Uploaded" width={75} height={50} />
-            )}
-            <UploadButton
-              label="Upload Photo"
-              onFileChange={handleFileChange}
-            />
+            {imagePreview && <Image src={imagePreview} alt="Uploaded" width={75} height={50} />}
+            <UploadButton label="Upload Photo" onFileChange={handleFileChange} />
           </div>
 
           <Button style="confirm" type="submit">
-            Add Employee
+            {isLoading ? "Loading..." : "Add Employee"}
           </Button>
         </Box>
       </div>

@@ -7,16 +7,13 @@ type Props = {
   children: React.ReactNode;
   open: boolean;
   onClose: () => void;
-  isLoading?: boolean;
-  employee?: Employee;
+  employee?: Employee;  
 };
 
 export default function BasicModal({
   children,
   open,
   onClose,
-  isLoading = false,
-  employee,
 }: Props) {
   const style = {
     position: "absolute" as "absolute",
@@ -37,8 +34,8 @@ export default function BasicModal({
       <Modal
         open={open}
         onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
         className=" flex justify-center items-center  w-full h-full bg-backdrop bg-opacity-50"
       >
         <Box sx={style}>

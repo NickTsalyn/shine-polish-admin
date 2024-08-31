@@ -63,6 +63,7 @@ export default function PhotoForm({ onClose }: Props) {
     );
     setBeforeFile(null);
     setAfterFile(null);
+    onClose();
   };
 
   const handleDelete = async (id: string) => {

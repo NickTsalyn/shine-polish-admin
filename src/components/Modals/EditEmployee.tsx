@@ -18,7 +18,9 @@ const EditEmployee = ({ open, onClose, employee}: Props) => {
   };
 
   return (
-    <BasicModal open={open} onClose={handleClose} employee={employee} >
+    <BasicModal open={open} onClose={handleClose} 
+    // employee={employee} 
+    >
       <EditEmployeeForm onClose={handleClose} employee={employee}  />
     </BasicModal>
   );

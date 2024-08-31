@@ -45,7 +45,7 @@ export default function PriceForm({ onClose }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getPrice()
+        const data = await getPrice();
         setResult(data);
         setInputValues({
           base: data.base.toString(),
@@ -85,17 +85,16 @@ export default function PriceForm({ onClose }: Props) {
         updatedPricing
       );
       setResult(data);
-      onClose()
     } catch (error) {
       console.error(error);
+    } finally {
+      onClose(); 
     }
   };
 
   return (
     <>
-      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-6 xl:mb-8">
-        Change Price
-      </h2>
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-6 xl:mb-8">Change Price</h2>
       <Box
         component="form"
         noValidate
@@ -104,10 +103,7 @@ export default function PriceForm({ onClose }: Props) {
         onSubmit={handleSubmit}
       >
         {inputFields.map((field) => (
-          <div
-            key={field.id}
-            className="flex flex-row justify-between items-center w-full"
-          >
+          <div key={field.id} className="flex flex-row justify-between items-center w-full">
             <TextField
               label={field.label}
               variant="outlined"

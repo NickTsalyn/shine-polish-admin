@@ -23,7 +23,7 @@ const AreasModal = ({open, onClose}: Props) => {
 
     return (
             <BasicModal open={open} onClose={handleClose}>
-                <AreasForm onClose={handleClose}/>
+                {/* <AreasForm onClose={handleClose}/> */}
             </BasicModal>
     )
 }

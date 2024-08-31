@@ -23,12 +23,12 @@ export default function AreasForm({ onClose }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-   const fetchData = async () => {
-    const areas = await getAreas()
-    setResult(areas);
-    setLoading(false);
-   }
-   fetchData()
+    const fetchData = async () => {
+      const areas = await getAreas();
+      setResult(areas);
+      setLoading(false);
+    };
+    fetchData();
   }, [result]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,22 +37,19 @@ export default function AreasForm({ onClose }: Props) {
     const data = {
       name: place,
       value: Number(coff),
-    }
+    };
     await updateOptions(data);
 
-    setResult({areaOptions: [data]})
+    setResult({ areaOptions: [data] });
     setPlace("");
     setCoff(0);
   };
 
   const handleDelete = async (name: string) => {
-    await axios.delete(
-      `https://shine-polish-server.onrender.com/admin/bookings/areaOptions/${name}`
-    );
+    await axios.delete(`https://shine-polish-server.onrender.com/admin/bookings/areaOptions/${name}`);
     setResult((prevState) => ({
       ...prevState,
-      areaOptions:
-        prevState?.areaOptions.filter((item) => item.name !== name) || [],
+      areaOptions: prevState?.areaOptions.filter((item) => item.name !== name) || [],
     }));
   };
 
@@ -78,9 +75,7 @@ export default function AreasForm({ onClose }: Props) {
   return (
     <>
       <div className=" flex flex-col gap-4 md:gap-6  ">
-        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">
-          Add Areas
-        </h2>
+        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">Add Areas</h2>
         <Box
           component="form"
           noValidate

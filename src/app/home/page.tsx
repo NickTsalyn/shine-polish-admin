@@ -29,7 +29,6 @@ export default function Home() {
 		<div className="py-5 md:p-7 lg:py-20">
 			<h1 className="text-2xl font-medium text-center text-accent">Home</h1>
 			<div className="flex flex-col lg:flex-row">
-				{/* <ClientCard /> */}
 				<ClientCardList />
 				<CalendarComponent events={events} onUpdateEvent={updateEvent} onDeleteEvent={deleteEvent} />
 			</div>
