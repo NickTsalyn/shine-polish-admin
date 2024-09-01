@@ -1,87 +1,112 @@
 "use client";
 import React, {useState, useEffect} from "react";
-import axios from "axios";
 import {Calendar, dayjsLocalizer, View} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import dayjs, {Dayjs} from "dayjs";
+import dayjs from "dayjs";
 import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
-import {BookingEvent, CalendarComponentProps} from "@/interfaces";
-import {getBookings} from "@/helpers/api";
-
+import {Booking, CalendarEvent, CalendarComponentProps, UpdateEventPayload} from "@/interfaces";
+import {getBookings, updateEvent, deleteEvent} from "@/helpers/api";
+import {getBackgroundColor} from "../../helpers/colorUtils";
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
  defaultDate = dayjs().toDate(),
  minDate = dayjs("2024-08-01T08:00:00").toDate(),
  maxDate = dayjs("2024-08-31T16:00:00").toDate(),
- //  onUpdateEvent,
- //  onDeleteEvent,
+ onSave,
 }) => {
  const localizer = dayjsLocalizer(dayjs);
-
  const [view, setView] = useState<View>("month");
  const [date, setDate] = useState(dayjs().toDate());
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [selectedEvent, setSelectedEvent] = useState<any>(null);
- const [events, setEvents] = useState<BookingEvent[]>([]);
-
- useEffect(() => {
-  const fetchData = async () => {
+ const [events, setEvents] = useState<(Booking & CalendarEvent)[]>([]);
+ const fetchAndSetNewEvents = async () => {
+  try {
    const bookings = await getBookings();
-   console.log("Bookings:", bookings);
    if (Array.isArray(bookings)) {
-    const transformedEvents = bookings.map((booking) => {
+    const transformedEvents = bookings.map((booking: Booking) => {
      const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
      const start = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A").toDate();
-     //  console.log("Start:", start);
      const end = dayjs(start).add(3, "hour").toDate();
-     //  console.log("End:", end);
      const isRegistered = booking.email && booking.phone;
-     const backgroundColor = isRegistered ? "#c1f3d5" : "#FF99C8";
-
      return {
-      id: booking._id,
+      ...booking,
+      id: String(booking._id),
       title: `${booking.name} ${booking.surname}`,
       start,
       end,
-      email: booking.email,
-      phone: booking.phone,
-      address: booking.address,
-      areas: booking.area,
-      selectedDate: booking.selectedDate,
-      time: booking.time,
-      backgroundColor,
-      textColor: isRegistered ? "#000" : "#fff",
+      backgroundColor: getBackgroundColor(`${booking.name} ${booking.surname}`),
+      textColor: isRegistered ? "#fff" : "#000",
      };
     });
     setEvents(transformedEvents);
    } else {
     console.error("Bookings is not an array:", bookings);
    }
-  };
-  fetchData();
+  } catch (error) {
+   console.error("Error fetching bookings:", error);
+  }
+ };
+ useEffect(() => {
+  fetchAndSetNewEvents();
  }, []);
-
- const handleSelectEvent = (event: any) => {
+ const handleSelectEvent = (event: Booking & CalendarEvent) => {
   setSelectedEvent(event);
   setIsModalOpen(true);
-  console.log("Selected event:", event);
  };
-
- const handleSaveEvent = (updatedEvent: BookingEvent) => {
-  setEvents((prevEvents) => {
-   return prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event));
-  });
-  setIsModalOpen(false);
+ const handleSave = async (updatedEvent: Booking & CalendarEvent) => {
+  try {
+   const address = typeof updatedEvent.address === "string" ? JSON.parse(updatedEvent.address) : updatedEvent.address;
+   if (!updatedEvent._id) {
+    throw new Error("Event ID is undefined");
+   }
+   const eventPayload: UpdateEventPayload = {
+    _id: updatedEvent._id,
+    selectedDate: dayjs(updatedEvent.selectedDate).format("YYYY-MM-DD"),
+    time: dayjs(updatedEvent.time).format("HH:mm"),
+    endDate: dayjs(updatedEvent.endDate).format("YYYY-MM-DD"),
+    endTime: dayjs(updatedEvent.time).format("HH:mm"),
+    area: updatedEvent.area,
+    bedroom: updatedEvent.bedroom,
+    bathroom: updatedEvent.bathroom,
+    extras: updatedEvent.extras,
+    service: updatedEvent.service,
+    frequency: updatedEvent.frequency,
+    aboutUs: updatedEvent.aboutUs,
+    specialInstructions: updatedEvent.specialInstructions,
+    homeAccess: updatedEvent.homeAccess,
+    tips: updatedEvent.tips,
+    discountCode: updatedEvent.discountCode,
+    totalPrice: updatedEvent.totalPrice,
+    email: "",
+    name: "",
+    surname: "",
+    phone: "",
+    address: address,
+   };
+   if (!updatedEvent._id) {
+    throw new Error("Event ID is undefined");
+   }
+   await updateEvent(updatedEvent._id, eventPayload);
+   await fetchAndSetNewEvents();
+  } catch (error) {
+   console.error("Error updating event:", error);
+   await fetchAndSetNewEvents();
+  }
  };
-
- const handleDeleteEvent = (eventId: number) => {
-  console.log("Deleting event with id:", eventId);
-  setEvents((prevState) => prevState.filter((event) => event.id !== eventId));
+ const handleDeleteEvent = async (eventId: string) => {
+  try {
+   await deleteEvent(eventId);
+   setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
+   setIsModalOpen(false);
+  } catch (error) {
+   console.error("Error deleting event:", error);
+   await fetchAndSetNewEvents();
+  }
  };
-
  return (
-  <div className="p-4 h-[600px] w-[300px] md:h-[800px] md:min-w-[748px] lg:w-[980px] xl:w-[1400px] mx-auto">
+  <div className=" h-[600px] w-[300px] md:h-[800px] md:min-w-[748px] lg:w-[980px] xl:w-[1400px] mx-auto">
    <Calendar
     localizer={localizer}
     events={events}
@@ -107,12 +132,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      open={isModalOpen}
      onClose={() => setIsModalOpen(false)}
      event={selectedEvent}
-     onSave={handleSaveEvent}
-     onDelete={() => handleDeleteEvent(selectedEvent?.id)}
+     start={dayjs(selectedEvent.start).format("MM/DD/YYYY")}
+     end={dayjs(selectedEvent.end).format("MM/DD/YYYY")}
+     onSave={handleSave}
+     onDelete={() => handleDeleteEvent(selectedEvent.id)}
     />
    )}
   </div>
  );
 };
-
 export default CalendarComponent;

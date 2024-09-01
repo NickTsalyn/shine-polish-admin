@@ -12,16 +12,24 @@ const Event: React.FC<{event: any}> = ({event}) => {
     width: "100%",
     height: "100%",
     display: "flex",
+
     alignItems: "center",
     borderRadius: 12,
     padding: 4,
    }}
   >
    <CircleRoundedIcon style={{fontSize: "10px", marginRight: "4px"}} />
-   {event.title}
+   <span
+    style={{
+     whiteSpace: "nowrap",
+     overflow: "hidden",
+     textOverflow: "ellipsis",
+    }}
+   >
+    {event.title}
+   </span>
   </div>
  );
 };
 
 export default Event;
-

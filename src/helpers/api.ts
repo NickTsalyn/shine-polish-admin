@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Form } from "@/types/types";
+import { UpdateEventPayload } from "@/interfaces";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -21,6 +22,41 @@ export const signin = async (user: any) => {
     throw error;
   }
 };
+
+export const getExtras = async () => {
+	try {
+	 const response = await axios.get(`${BASE_URL}/admin/bookings`);
+	 return response.data;
+	} catch (error) {
+	 console.error("Error getting extras:", error);
+	 return [];
+	}
+}
+
+export const updateEvent = async (id: string | number, eventData: UpdateEventPayload): Promise<void> => {
+	try {
+	  await axios.put(`${BASE_URL}/admin/bookings/${id}`, eventData);
+	} catch (error: any) {
+	  console.error('Error updating event:', error.response?.data || error.message);
+	}
+  }
+
+  export const deleteEvent = async (id: string): Promise<void> => {
+	try {
+	  await axios.delete(`${BASE_URL}/admin/bookings/${id}`);
+	  console.log('Event deleted successfully');
+	} catch (error) {
+	  console.error('Error deleting event:', error);
+	}
+  }
+
+export const addEvent = async (event: any): Promise<void> => {
+	try {
+	  await axios.post(`${BASE_URL}/admin/bookings`, event);
+	} catch (error) {
+	  console.error('Error adding event:', error);
+	}
+}
 
 export const getPhotos = async () => {
   const res = await axios.get(`${BASE_URL}/files/images`);
