@@ -11,10 +11,10 @@ type PropsButtton = {
     return (
       <button
         type={props.type}   
-        className=' absolute top-8 right-7 text-main'
+        className=' absolute  top-3 right-3 md:top-6 md:right-6 text-main'
         onClick={props.onClick}
       >
-        <CloseRoundedIcon fontSize='large'/>
+        <CloseRoundedIcon className='size-6  md:size-9'/>
       </button>
     );
   }

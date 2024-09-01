@@ -3,8 +3,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import CloseButton from "../UI/CloseButton";
+import { styledTextField } from "../../styles/overrides";
+import { getPrice, updatePrice } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
@@ -30,16 +31,20 @@ const inputFields: InputField[] = [
 
 export default function PriceForm({ onClose }: Props) {
   const [inputValues, setInputValues] = useState<InputValues>({
-    base: '',
-    coff: '',
-    bathPrice: ''
+    base: "",
+    coff: "",
+    bathPrice: "",
   });
-  const [result, setResult] = useState<{ base: number; coff: number; bathPrice: number } | null>(null);
+  const [result, setResult] = useState<{
+    base: number;
+    coff: number;
+    bathPrice: number;
+  } | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
+        const data = await getPrice();
         setResult(data);
         setInputValues({
           base: data.base.toString(),
@@ -56,10 +61,10 @@ export default function PriceForm({ onClose }: Props) {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (/^\d*$/.test(value)) {
-      setInputValues(prev => ({
+    if (/^\d*\.?\d*$/.test(value)) {
+      setInputValues((prev) => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
   };
@@ -74,41 +79,46 @@ export default function PriceForm({ onClose }: Props) {
     };
 
     try {
-      const { data } = await axios.put("https://shine-polish-server.onrender.com/admin/bookings/pricing", updatedPricing);
+      const { data } = await updatePrice(updatedPricing);
       setResult(data);
     } catch (error) {
       console.error(error);
+    } finally {
+      onClose();
     }
   };
 
   return (
-    <div className="w-[400px] h-[427px] bg-white rounded-xl flex flex-col gap-8">
-      <h2 className="text-accent text-4xl">Change Price</h2>
+    <>
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl mb-4 md:mb-6 xl:mb-8">Change Price</h2>
       <Box
         component="form"
         noValidate
         autoComplete="off"
-        className="flex flex-col gap-8 items-center text-sand"
+        className="flex flex-col gap-4 md:gap-8 items-center text-secondary mb-4 md:mb-6 xl:md-8"
         onSubmit={handleSubmit}
       >
-        {inputFields.map(field => (
+        {inputFields.map((field) => (
           <div key={field.id} className="flex flex-row justify-between items-center w-full">
             <TextField
               label={field.label}
               variant="outlined"
               size="small"
-              className="border-2 border-solid border-sand rounded-xl text-sm w-3/4"
               value={inputValues[field.name]}
               name={field.name}
               onChange={handleChange}
+              sx={{
+                width: "75%",
+                ...styledTextField,
+              }}
             />
             <button className="w-1/4 text-main">
-              <EditRoundedIcon fontSize="large" />
+              <EditRoundedIcon className="size-6 lg:size-9" />
             </button>
           </div>
         ))}
         <CloseButton type="button" onClick={onClose} />
       </Box>
-    </div>
+    </>
   );
 }
