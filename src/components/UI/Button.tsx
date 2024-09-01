@@ -6,6 +6,7 @@ type PropsButtton = {
  style:
   | "confirm"
   | "sidebar"
+  | "mob-menu"
   | "close-button"
   | "auth-sign"
   | "auth-sign-up-border"
@@ -18,10 +19,12 @@ export default function Button(props: PropsButtton) {
 
  switch (props.style) {
   case "confirm":
-   styles =
-    "flex justify-center items-center w-full h-[40px] bg-lightSand rounded-[12px] border border-solid text-accent hover:bg-accent hover:text-white";
+   styles = "flex justify-center items-center w-full bg-sand hover:bg-secondary text-accent rounded-[12px] px-4 py-2 ";
    break;
   case "sidebar":
+   styles = "text-[18px] xl:text-[20px] font-normal leading-[1.2]";
+   break;
+  case "mob-menu":
    styles = "text-[18px] xl:text-[20px] font-normal leading-[1.2]";
    break;
   case "close-button":
@@ -39,10 +42,9 @@ export default function Button(props: PropsButtton) {
   case "transparent-button":
    styles = " w-[52px] h-[52px] ld:w-[64px] lg:h-[64px] rounded-full bg-transparent border-none ";
    break;
-
   case "delete-button":
-   styles = " w-full h-[40px]  rounded-xl bg-accent-light border-none hover:bg-accent text-white ";
-   break;
+   styles =
+    "flex justify-center items-center w-full bg-accent-light hover:bg-secondary text-accent rounded-[12px] px-4 py-2 ";
   default:
  }
  return (

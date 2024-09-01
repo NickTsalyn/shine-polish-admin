@@ -49,7 +49,7 @@ export default function BasicSelect(props: BasicSelectProps) {
           },
         }
       }} />
-    <Box className="min-w-[280px] lg:text-[24px] xl:text-[32px]">
+    <Box className="w-[260px] md:w-full lg:text-[24px] xl:text-[32px]">
       {props.label && (
         <label className="body lg:text-[24px] xl:text-[32px]">
           {props.label}
@@ -60,6 +60,9 @@ export default function BasicSelect(props: BasicSelectProps) {
         fullWidth
         sx={{
           // padding: "12",
+          display: "flex",
+          margin:"0 auto",
+          width: "100%",
           border: "2px solid #E6BA95",
           borderRadius: "12px",
           transition: "all 0.3s ease",
@@ -89,14 +92,14 @@ export default function BasicSelect(props: BasicSelectProps) {
             if (selected === "") {
               return props.placeholder ? (
                 <p
-                  className="lg:text-[24px] xl:text-[32px] text-secondary-placeholder/50 body"
+                  className="lg:text-[20px] xl:text-[28px] text-secondary-placeholder/50 body"
                   style={{ fontFamily: "Lato" }}
                 >
                   {props.placeholder}
                 </p>
               ) : (
                 <p
-                  className="lg:text-[24px] xl:text-[32px] text-secondary-placeholder/50 body"
+                  className="lg:text-[20px] xl:text-[28px] text-secondary-placeholder/50 body"
                   style={{ fontFamily: "Lato" }}
                 >
                   {props.items.length > 0 && props.items[0].label}

@@ -3,12 +3,10 @@ import React, {useState, useEffect} from "react";
 import {Calendar, dayjsLocalizer, View} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
-import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
 import {Booking, CalendarEvent, CalendarComponentProps, UpdateEventPayload} from "@/interfaces";
 import {getBookings, updateEvent, deleteEvent} from "@/helpers/api";
-import {setAuthHeader} from "../../helpers/auth";
 import {getBackgroundColor} from "../../helpers/colorUtils";
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
  defaultDate = dayjs().toDate(),
@@ -50,9 +48,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   }
  };
  useEffect(() => {
-  setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjUwMzQ3MTgsImV4cCI6MTcyNTEyMTExOH0.G0RtOzXdgnqpxYV31Rd8O6EM9MRNBjkKJXT-3iBqDkY"
-  );
   fetchAndSetNewEvents();
  }, []);
  const handleSelectEvent = (event: Booking & CalendarEvent) => {
@@ -70,6 +65,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     selectedDate: dayjs(updatedEvent.selectedDate).format("YYYY-MM-DD"),
     time: dayjs(updatedEvent.time).format("HH:mm"),
     endDate: dayjs(updatedEvent.endDate).format("YYYY-MM-DD"),
+    endTime: dayjs(updatedEvent.time).format("HH:mm"),
     area: updatedEvent.area,
     bedroom: updatedEvent.bedroom,
     bathroom: updatedEvent.bathroom,

@@ -1,5 +1,5 @@
 import dayjs, {Dayjs} from "dayjs";
-import { updateEvent } from '@/helpers/api';
+// import { updateEvent } from '@/helpers/api';
 export interface Booking {
     _id: string | number;
     name: string;
@@ -48,6 +48,7 @@ export interface CalendarEvent {
     selectedDate: string; 
     endDate: string; 
     time: string; 
+    endTime: string;
     bedroom: number;
     bathroom: number;
     extras: string[];

@@ -5,40 +5,36 @@ import Link from "next/link";
 
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-
 import Button from "../UI/Button";
-import { DrawerContent, StyledItem, StyledMenuIcon } from "../StyledComponents";
+import { DrawerContent, StyledMenuIcon } from "../StyledComponents";
 import { ShineLogo } from "../images";
 import { buttons } from "../Arrays";
-
-
-
+import DynamicModal from "../UI/DynamicModal";
 
 export default function MobileMenu() {
-  const [open, setOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
+  const [openModal, setOpenModal] = useState<string | null>(null);
 
-  const toggleDrawer = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleOpenModal = (modalType: string | null) => {
+    setOpenModal(modalType);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(null);
   };
 
   return (
     <div className="flex lg:hidden ">
-      <IconButton
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        onClick={toggleDrawer}
-      >
+      <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setOpenMenu(true)}>
         <StyledMenuIcon />
       </IconButton>
       <Drawer
         anchor="right"
-        open={open}
-        onClose={toggleDrawer}
+        open={openMenu}
+        onClose={() => setOpenMenu(false)}
         sx={{
           "& .MuiDrawer-paper": {
             borderRadius: "12px",
@@ -50,16 +46,10 @@ export default function MobileMenu() {
       >
         <DrawerContent>
           <div className="flex flex-row md:flex-row-reverse justify-center items-start mb-4 md:mb-8 relative">
-            <div
-              className="flex w-[108px] h-[97px] md:w-[136px] md:h-[122px] "
-              onClick={toggleDrawer}
-            >
-             <ShineLogo/>
+            <div className="flex w-[108px] h-[97px] md:w-[136px] md:h-[122px] " onClick={() => setOpenMenu(false)}>
+              <ShineLogo />
             </div>
-            <IconButton
-              onClick={toggleDrawer}
-              className="absolute top-0 right-0"
-            >
+            <IconButton onClick={() => setOpenMenu(false)} className="absolute top-0 right-0">
               <CloseIcon className="text-main size-6 md:size-9" />
             </IconButton>
           </div>
@@ -69,23 +59,41 @@ export default function MobileMenu() {
               href={"https://shine-polish.vercel.app"}
               className="text-[18px]  font-normal leading-[1.2] text-main "
             >
-              Router Togler
+              Client Side
             </Link>
           </div>
-
-          <List className="p-0 flex flex-col grow gap-4 md:gap-6">
-            <StyledItem>
-              <ul className="flex flex-col gap-3 md:gap-[18px] justify-start  ">
-                {buttons.map((button) => (
-                  <li key={button}>
-                    <Button type={"button"} style={"sidebar"}>
-                      {button}
+          <List className="p-0 flex flex-col grow gap-4 md:gap-6 text-main">
+            {buttons.map((button) => (
+              <li key={button.label}>
+                {button.link ? (
+                  <Link href={button.link}>
+                    <Button type={"button"} style={"mob-menu"} onClick={() => setOpenMenu(false)}>
+                      {button.label}
                     </Button>
-                  </li>
-                ))}
-              </ul>
-            </StyledItem>
+                  </Link>
+                ) : (
+                  <Button type={"button"} style={"sidebar"} onClick={() => handleOpenModal(button.modal)}>
+                    {button.label}
+                  </Button>
+                )}
+              </li>
+            ))}
           </List>
+          {openModal === "photo" && (
+            <DynamicModal open={openModal === "photo"} onClose={handleCloseModal} formType={"PhotoForm"} />
+          )}
+          {openModal === "price" && (
+            <DynamicModal open={openModal === "price"} onClose={handleCloseModal} formType={"PriceForm"} />
+          )}
+          {openModal === "areas" && (
+            <DynamicModal open={openModal === "areas"} onClose={handleCloseModal} formType="AreasForm" />
+          )}
+          {openModal === "booking" && (
+            <DynamicModal open={openModal === "booking"} onClose={handleCloseModal} formType={"AddBookingForm"} />
+          )}
+          {openModal === "employee" && (
+            <DynamicModal open={openModal === "employee"} onClose={handleCloseModal} formType={"AddEmployeeForm"} />
+          )}
         </DrawerContent>
       </Drawer>
     </div>

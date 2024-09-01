@@ -1,14 +1,17 @@
-import { Box, TextField } from "@mui/material";
-import CloseButton from "../UI/CloseButton";
-import { useState } from "react";
-import Button from "../UI/Button";
-import UploadButton from "../UI/UploadButton";
-import Image from "next/image";
+" use client";
 import { styledTextField } from "@/styles/overrides";
-import { addEmployee } from "@/helpers/api";
+import { Employee } from "@/types/interfaces";
+import { Box, TextField } from "@mui/material";
+import { useState } from "react";
+import UploadButton from "../UI/UploadButton";
+import Button from "../UI/Button";
+import CloseButton from "../UI/CloseButton";
+import Image from "next/image";
+import { editEmployee } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
+  employee: Employee;
 };
 
 type InputField = {
@@ -22,6 +25,7 @@ type InputValues = {
   phone: string;
   email: string;
   area: string;
+  avatar: File | string;
 };
 
 const inputFields: InputField[] = [
@@ -31,15 +35,18 @@ const inputFields: InputField[] = [
   { id: "4", label: "Area", name: "area" },
 ];
 
-const AddEmployeeForm = ({ onClose }: Props) => {
+const EditEmployeeForm = ({ onClose, employee }: Props) => {
   const [inputValues, setInputValues] = useState<InputValues>({
-    name: "",
-    phone: "",
-    email: "",
-    area: "",
+    name: employee?.username,
+    phone: employee?.phone,
+    email: employee?.email,
+    area: employee?.area,
+    avatar: employee?.avatar,
   });
   const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    inputValues.avatar ? inputValues.avatar.toString() : null
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (file: File | null) => {
@@ -57,29 +64,30 @@ const AddEmployeeForm = ({ onClose }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append("username", inputValues.name);
-      formData.append("phone", inputValues.phone);
-      formData.append("email", inputValues.email);
-      formData.append("area", inputValues.area);
-      if (image) {
-        formData.append("avatar", image);
-      }
+      if (inputValues.name !== employee.username) formData.append("username", inputValues.name);
+      if (inputValues.phone !== employee.phone) formData.append("phone", inputValues.phone);
+      if (inputValues.email !== employee.email) formData.append("email", inputValues.email);
+      if (inputValues.area !== employee.area) formData.append("area", inputValues.area);
+      if (image) formData.append("avatar", image);
 
-      addEmployee(formData);
-      setInputValues({
-        name: "",
-        phone: "",
-        email: "",
-        area: "",
-      });
-      setImagePreview(null);
+      if (
+        formData.has("username") ||
+        formData.has("phone") ||
+        formData.has("email") ||
+        formData.has("area") ||
+        formData.has("avatar")
+      ) {
+        setIsLoading(true);
+        const updatedEmployee = await editEmployee(employee._id, formData);
+        setIsLoading(false);
+      } else {
+        console.log("No changes detected.");
+      }
     } catch (error) {
-      console.error("Error adding employee", error);
+      console.error("Error editing employee", error);
     } finally {
-      setIsLoading(false);
       onClose();
     }
   };
@@ -87,7 +95,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
   return (
     <>
       <div className=" bg-white  flex flex-col gap-4 md:gap-6 overflow-y-auto">
-        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl ">Add Employee</h2>
+        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl ">Edit Employee</h2>
         <Box
           component="form"
           noValidate
@@ -118,7 +126,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
           </div>
 
           <Button style="confirm" type="submit">
-            {isLoading ? "Adding..." : "Add Employee"}
+            {isLoading ? "Saving..." : "Adit"}
           </Button>
         </Box>
       </div>
@@ -127,4 +135,4 @@ const AddEmployeeForm = ({ onClose }: Props) => {
   );
 };
 
-export default AddEmployeeForm;
+export default EditEmployeeForm;

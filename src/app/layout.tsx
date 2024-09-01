@@ -3,6 +3,7 @@ import { Lato } from "next/font/google";
 import "../styles/globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import Header from "@/components/Header/Header";
+import { AuthProvider } from "@/components/AuthContext";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <AuthProvider>
     <html lang="en">
       <body className={lato.className}>
         <Header/>
@@ -27,5 +29,6 @@ export default function RootLayout({
         <main className="lg:ml-[200px] xl:ml-[244px]">{children}</main>
       </body>
     </html>
+    </AuthProvider>
   );
 }

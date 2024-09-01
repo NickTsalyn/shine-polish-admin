@@ -1,30 +1,23 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import ClientCard from "./ClientCard";
 import {Booking} from "@/interfaces";
 import {getBookings} from "@/helpers/api";
-import {setAuthHeader} from "@/helpers/auth";
 
 const ClientCardList: React.FC = () => {
  const [bookings, setBookings] = useState<Booking[]>([]);
 
  useEffect(() => {
-  setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ5NDk3MTgsImV4cCI6MTcyNTAzNjExOH0.oruSDsjVzmqSzimdr8Cx6Y5ZKek2FxhISgQ59Yy3WRk"
-  );
-
   const fetchData = async () => {
    const bookings = await getBookings();
-   console.log("Original Bookings:", bookings); // all bookings
-
+   console.log("Original Bookings:", bookings);
    if (Array.isArray(bookings)) {
     const uniqueClients = bookings.filter(
      (booking, index, self) => index === self.findIndex((b) => b.email === booking.email)
     );
     setBookings(uniqueClients);
-    console.log("Filtered Unique Clients:", uniqueClients); // clients без дублікатів
+    console.log("Filtered Unique Clients:", uniqueClients);
    } else {
     console.error("Bookings is not an array:", bookings);
    }

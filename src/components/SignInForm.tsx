@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Button from "./UI/Button";
@@ -15,6 +16,7 @@ import {
 } from "./UI/SignInDesign"
 import Link from "next/link";
 import { signin } from "@/helpers/api";
+import { AuthContext } from "@/components/AuthContext";
 
 interface SignInInput {
   email: string;
@@ -22,6 +24,7 @@ interface SignInInput {
 }
 
 export default function SignInForm() {
+  const {login} = useContext(AuthContext);
   const router = useRouter();
   const {
     register,
@@ -30,9 +33,14 @@ export default function SignInForm() {
     formState: { errors },
   } = useForm<SignInInput>();
 
-  const onSubmit = async (data: any) => {
-    signin(data);
+  const onSubmit = async (data: SignInInput) => {
+   try {
+    const token = await signin(data);
+    login(token);
     router.push("/home");
+   } catch (error) {
+    alert("Invalid email or password")
+   }
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {

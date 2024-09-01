@@ -1,28 +1,13 @@
 "use client";
-import React, {useEffect} from "react";
+import React from "react";
 import dayjs from "dayjs";
 import Button from "../UI/Button";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import {ClientCardProps, Booking} from "@/interfaces";
-import {getBookings} from "@/helpers/api";
-import {setAuthHeader} from "@/helpers/auth";
 import {stringToColor, stringAvatar} from "@/helpers/colorUtils";
 
 const ClientCard: React.FC<ClientCardProps> = ({booking}) => {
- const [bookings, setBookings] = React.useState<Booking | null>(null);
- useEffect(() => {
-  setAuthHeader(
-   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YmQwNjRjYzk2YWFhMWVkNjQyN2NiNyIsImVtYWlsIjoiVG9tQ3J1aXNlNjlAbWFpbC5jb20iLCJ1c2VybmFtZSI6IlRvbSBDcnVpc2UiLCJyb2xlcyI6WyJBRE1JTiJdLCJpYXQiOjE3MjQ5NDk3MTgsImV4cCI6MTcyNTAzNjExOH0.oruSDsjVzmqSzimdr8Cx6Y5ZKek2FxhISgQ59Yy3WRk"
-  );
-
-  const fetchData = async () => {
-   const bookings = await getBookings();
-   setBookings(booking);
-  };
-  fetchData();
- }, [booking]);
-
  return (
   <div className="flex flex-col">
    <div className="w-[320px] h-[180px] shadow-2xl rounded-xl flex">

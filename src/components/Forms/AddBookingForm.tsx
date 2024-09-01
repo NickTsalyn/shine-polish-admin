@@ -1,155 +1,269 @@
-import { Box, SelectChangeEvent } from "@mui/material";
+"use client";
+import { Box, CircularProgress, SelectChangeEvent, TextField } from "@mui/material";
+
 import CloseButton from "../UI/CloseButton";
 import BasicSelect from "../UI/Select";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { bathroomOptions, bedroomOptions } from "@/data/bookingOptions";
+import { bathroomOptions, bedroomOptions, inputAddressFields, inputFields } from "@/data/bookingOptions";
 import MultipleSelectCheckmarks from "../UI/CheckedSelect";
 import Button from "../UI/Button";
+import { styledTextField } from "@/styles/overrides";
+import { Address, Form } from "@/types/types";
+import { initialForm } from "@/data/initialForm";
+import DateTime from "../../components/DateTimePicker";
+import dayjs, { Dayjs } from "dayjs";
+import { addBooking, getOptions } from "@/helpers/api";
 
 type Props = {
-	onChange?: (event: SelectChangeEvent<string | number>) => void;
-	onClose: () => void;
+  onClose: () => void;
 };
 
-type Form = {
-	area: string;
-	bedroom: string;
-	bathroom: string;
-	frequency: string;
-	service: string;
-	extra: string[];
-  };
-
 export default function AddBookingForm({ onClose }: Props) {
-	const [data, setData] = useState<{
-		areaOptions: { name: string; value: number | string }[];
-		discountOptions: { name: string; value: number }[];
-		serviceOptions: { name: string; value: number }[];
-		extrasOptions: { name: string; value: number }[];
-	} | null>(null);
-	const [form, setForm] = useState<Form>({
-		area: "",
-		bedroom: "",
-		bathroom: "",
-		frequency: "",
-		service: "",
-		extra: []
-	  });
-    const [result, setResult] = useState<{area: string; bedroom: string; bathroom: string; frequency: string; service: string; extra?: string[]} | null>(null);
+  const [data, setData] = useState<{
+    areaOptions: { name: string; value: number | string }[];
+    discountOptions: { name: string; value: number }[];
+    serviceOptions: { name: string; value: number }[];
+    extrasOptions: { name: string; value: number }[];
+  } | null>(null);
 
+  const [form, setForm] = useState<Form>(initialForm);
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
+  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs());
+  const [isLoading, setIsLoading] = useState(false);
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
-				setData(response.data);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		fetchData();
-	}, []);
-
-	const areas =
-		data?.areaOptions.map((area) => {
-			return {
-				value: area.name,
-				label: area.name,
-			};
-		}) || [];
-
-	const frequencyOptions =
-		data?.discountOptions.map((item) => {
-			return {
-				value: item.name,
-				label: item.name,
-			};
-		}) || [];
-
-	const services =
-		data?.serviceOptions.map((service) => {
-			return {
-				value: service.name,
-				label: service.name,
-			};
-		}) || [];
-
-	const extras =
-		data?.extrasOptions.map((extra) => {
-			return {
-				value: extra.name,
-				name: extra.name,
-			};
-		}) || [];
-
-        useEffect(() => {
-            if (result) {
-                console.log(result);
-            }
-        }, [result]);
-
-	const handleChange = (event: SelectChangeEvent<string | number>) => {
-        const value = event.target.value as string;
-		switch (event.target.name) {
-			case "areas":
-				setForm({ ...form, area: value });
-				break;
-			case "bedroom":
-				setForm({ ...form, bedroom: value });
-				break;
-			case "bathroom":
-				setForm({ ...form, bathroom: value });
-				break;
-			case "frequency":
-				setForm({ ...form, frequency: value });
-				break;
-			case "service":
-				setForm({ ...form, service: value });
-				break;
-			default:
-				break;
-		}
-	};
-
-	const handleCheckChange = (event: SelectChangeEvent<string[]>) => {
-		const value = event.target.value as string[];
-		setForm({ ...form, extra: value });
-	};
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        setResult(form)
-        alert("Booking submitted successfully");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const options = await getOptions();
+        console.log(options);
+        setData(options.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
+    fetchData();
+  }, []);
 
+  const areas =
+    data?.areaOptions.map((area) => {
+      return {
+        value: area.name,
+        label: area.name,
+      };
+    }) || [];
 
-	return (
-		<div className="w-[400px] h-[600px] bg-white rounded-xl flex flex-col gap-8">
-			<h2 className="text-accent text-4xl">Add Booking</h2>
-			<form
-				className="flex flex-col gap-8 items-center text-sand"
-				onSubmit={handleSubmit}
-			>
-				<div className='flex flex-col gap-3'>
-					<BasicSelect name="areas" placeholder="Select an area*" value={form.area} items={areas} onChange={handleChange} />
-					<BasicSelect name="bedroom" placeholder="Select number of bedrooms*" value={form.bedroom} items={bedroomOptions} onChange={handleChange} />
-					<BasicSelect name="bathroom" placeholder="Select number of bathrooms*" value={form.bathroom} items={bathroomOptions} onChange={handleChange} />
-					<BasicSelect name="frequency" placeholder="Select booking frequency*" value={form.frequency} items={frequencyOptions} onChange={handleChange} />
-					<BasicSelect name="service" placeholder="Select booking service*" value={form.service} items={services} onChange={handleChange} />
-					<MultipleSelectCheckmarks
-						name="extras"
-						placeholder="Select extras*"
-						value={form.extra || []}
-						items={extras}
-						onChange={handleCheckChange}
-					/>
-				</div>
-                <Button type="submit" style="confirm">Submit</Button>
-			</form>
-				<CloseButton type="button" onClick={onClose} />
-		</div>
-	);
+  const frequencyOptions =
+    data?.discountOptions.map((item) => {
+      return {
+        value: item.name,
+        label: item.name,
+      };
+    }) || [];
+
+  const services =
+    data?.serviceOptions.map((service) => {
+      return {
+        value: service.name,
+        label: service.name,
+      };
+    }) || [];
+
+  const extras =
+    data?.extrasOptions.map((extra) => {
+      return {
+        value: extra.name,
+        name: extra.name,
+      };
+    }) || [];
+
+  const handleStart = (date: Dayjs | null) => {
+    setStartTime(date);
+    if (date) {
+      setForm({
+        ...form,
+        selectedDate: date.format("YYYY-MM-DD"),
+        time: date.format("HH:mm"),
+      });
+    }
+  };
+
+  const handleEnd = (date: Dayjs | null) => {
+    setEndDate(date);
+    if (date) {
+      setForm({
+        ...form,
+        endDate: date.format("YYYY-MM-DD"),
+      });
+    }
+  };
+
+  const handleChange = (event: SelectChangeEvent<string | number>) => {
+    const value = event.target.value as string;
+
+    switch (event.target.name) {
+      case "areas":
+        setForm({ ...form, area: value });
+        break;
+      case "bedroom":
+        setForm({ ...form, bedroom: value });
+        break;
+      case "bathroom":
+        setForm({ ...form, bathroom: value });
+        break;
+      case "frequency":
+        setForm({ ...form, frequency: value });
+        break;
+      case "service":
+        setForm({ ...form, service: value });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name in form.address) {
+      setForm({
+        ...form,
+        address: {
+          ...form.address,
+          [name]: value,
+        },
+      });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+  };
+
+  const handleCheckChange = (event: SelectChangeEvent<string[]>) => {
+    const value = event.target.value as string[];
+    console.log("Value:", value);
+    setForm({ ...form, extras: value });
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const bookingData = {
+      ...form,
+      startTime,
+      endDate,
+    };
+    console.log(bookingData);
+    try {
+      const response = await addBooking(form as Form);
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+      onClose();
+    }
+  };
+
+  return (
+    <div className=" flex flex-col gap-4 md:gap-6 ">
+      <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">Add Booking</h2>
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#006778",
+            height: "300px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <form
+          className="p-3 flex flex-col gap-4 text-sand max-h-[300px] md:max-h-[500px] overflow-y-auto "
+          onSubmit={handleSubmit}
+        >
+          <BasicSelect name="areas" placeholder="Area*" value={form.area} items={areas} onChange={handleChange} />
+          <BasicSelect
+            name="bedroom"
+            placeholder="Bedrooms*"
+            value={form.bedroom}
+            items={bedroomOptions}
+            onChange={handleChange}
+          />
+          <BasicSelect
+            name="bathroom"
+            placeholder="Bathrooms*"
+            value={form.bathroom}
+            items={bathroomOptions}
+            onChange={handleChange}
+          />
+          <BasicSelect
+            name="frequency"
+            placeholder="Booking frequency*"
+            value={form.frequency}
+            items={frequencyOptions}
+            onChange={handleChange}
+          />
+          <BasicSelect
+            name="service"
+            placeholder="Booking service*"
+            value={form.service}
+            items={services}
+            onChange={handleChange}
+          />
+          <MultipleSelectCheckmarks
+            name="extras"
+            placeholder="Extras*"
+            value={form.extras || []}
+            items={extras}
+            onChange={handleCheckChange}
+          />
+
+          {inputFields.map((field) => (
+            <TextField
+              key={field.id}
+              id="outlined-basic"
+              label={field.label}
+              variant="outlined"
+              size="small"
+              value={form[field.name as keyof Form] || ""}
+              name={field.name}
+              onChange={handleInputChange}
+              sx={{
+                width: field.width,
+                ...styledTextField,
+              }}
+            />
+          ))}
+
+          <div className="inline-flex gap-2 flex-wrap">
+            {inputAddressFields.map((field) => (
+              <TextField
+                key={field.id}
+                id="outlined-basic"
+                label={field.label}
+                variant="outlined"
+                size="small"
+                value={form.address[field.name as keyof Address] || ""}
+                name={field.name}
+                onChange={handleInputChange}
+                sx={{
+                  width: field.width,
+                  ...styledTextField,
+                }}
+              />
+            ))}
+          </div>
+          <DateTime onStartTime={handleStart} onEndTime={handleEnd} />
+          <Button type="submit" style="confirm">
+            Submit
+          </Button>
+        </form>
+      )}
+      <CloseButton type="button" onClick={onClose} />
+    </div>
+  );
 }
