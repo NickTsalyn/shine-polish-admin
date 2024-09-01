@@ -126,7 +126,7 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
           </div>
 
           <Button style="confirm" type="submit">
-            {isLoading ? "Saving..." : "Adit"}
+            {isLoading ? "Saving..." : "Edit"}
           </Button>
         </Box>
       </div>
