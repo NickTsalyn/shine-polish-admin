@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 import {Calendar, dayjsLocalizer, View} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
+import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
 import {Booking, CalendarEvent, CalendarComponentProps, UpdateEventPayload} from "@/interfaces";
