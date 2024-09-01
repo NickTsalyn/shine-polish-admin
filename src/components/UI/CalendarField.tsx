@@ -1,18 +1,14 @@
 "use client";
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {DigitalClock} from "@mui/x-date-pickers/DigitalClock";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-import axios from "axios";
-
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import Button from "../UI/Button";
-import {getBookings, updateEvent} from "../../helpers/api";
-import {CalendarFieldProps, Booking, UpdateEventPayload, CalendarEvent, Address} from "../../interfaces";
-// import {getBackgroundColor} from "@/helpers/colorUtils";
-// import {setAuthHeader} from "../../helpers/auth";
+import {updateEvent} from "../../helpers/api";
+import {CalendarFieldProps, Booking, UpdateEventPayload, Address} from "../../interfaces";
 
 const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(event.start));
@@ -72,10 +68,10 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
  };
 
  const handleSave = async () => {
-  // Перевірка та форматування дат перед збереженням
   const selectedDateISO = startDate ? dayjs(startDate).toISOString() : "";
   const endDateISO = endDate ? dayjs(endDate).toISOString() : "";
   const timeISO = time ? dayjs(time).toISOString() : "";
+  const endTimeISO = endTime ? dayjs(endTime).toISOString() : "";
 
   const updatedEvent = {
    ...event,
@@ -91,9 +87,10 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
    phone: updatedEvent.phone,
    address: updatedEvent.address,
    area: updatedEvent.area,
-   selectedDate: selectedDateISO, // Переконайтеся, що це рядок
-   endDate: endDateISO, // Переконайтеся, що це рядок
-   time: timeISO, // Переконайтеся, що це рядок
+   selectedDate: selectedDateISO,
+   endDate: endDateISO,
+   time: timeISO,
+   endTime: endTimeISO,
    bedroom: updatedEvent.bedroom,
    bathroom: updatedEvent.bathroom,
    extras: updatedEvent.extras,
@@ -107,11 +104,9 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
   };
 
   try {
-   // Надсилаємо оновлений об'єкт події на бекенд
    await updateEvent(updatedEvent.id, updatePayload);
    console.log("Updated bookings:", updatedEvent);
 
-   // Якщо є функція onSave, викликаємо її
    if (onSave) {
     onSave(updatedEvent);
    }
