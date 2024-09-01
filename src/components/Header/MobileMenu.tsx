@@ -5,19 +5,14 @@ import Link from "next/link";
 
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import PhotoModal from "../Modals/PhotoModal";
-import PriceModal from "../Modals/PriceModal";
-import AreasModal from "../Modals/AreasModal";
-import AddBookingModal from "../Modals/AddBookingModal";
-import AddEmployee from "../Modals/AddEmployee";
 
 import Button from "../UI/Button";
-import { DrawerContent, StyledItem, StyledMenuIcon } from "../StyledComponents";
+import { DrawerContent, StyledMenuIcon } from "../StyledComponents";
 import { ShineLogo } from "../images";
 import { buttons } from "../Arrays";
+import DynamicModal from "../UI/DynamicModal";
 
 export default function MobileMenu() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -84,11 +79,21 @@ export default function MobileMenu() {
               </li>
             ))}
           </List>
-          {openModal === "photo" && <PhotoModal open={openModal === "photo"} onClose={handleCloseModal} />}
-          {openModal === "price" && <PriceModal open={openModal === "price"} onClose={handleCloseModal} />}
-          {openModal === "areas" && <AreasModal open={openModal === "areas"} onClose={handleCloseModal} />}
-          {openModal === "booking" && <AddBookingModal open={openModal === "booking"} onClose={handleCloseModal} />}
-          {openModal === "employee" && <AddEmployee open={openModal === "employee"} onClose={handleCloseModal} />}
+          {openModal === "photo" && (
+            <DynamicModal open={openModal === "photo"} onClose={handleCloseModal} formType={"PhotoForm"} />
+          )}
+          {openModal === "price" && (
+            <DynamicModal open={openModal === "price"} onClose={handleCloseModal} formType={"PriceForm"} />
+          )}
+          {openModal === "areas" && (
+            <DynamicModal open={openModal === "areas"} onClose={handleCloseModal} formType="AreasForm" />
+          )}
+          {openModal === "booking" && (
+            <DynamicModal open={openModal === "booking"} onClose={handleCloseModal} formType={"AddBookingForm"} />
+          )}
+          {openModal === "employee" && (
+            <DynamicModal open={openModal === "employee"} onClose={handleCloseModal} formType={"AddEmployeeForm"} />
+          )}
         </DrawerContent>
       </Drawer>
     </div>

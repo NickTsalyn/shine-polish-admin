@@ -5,7 +5,7 @@ import Button from "./UI/Button";
 import { DarkLogo } from "./images";
 import { useState } from "react";
 import { buttons } from "./Arrays";
-import DynamicModal from "./Modals/DynamicModal";
+import DynamicModal from "./UI/DynamicModal";
 
 export const Sidebar = () => {
   const [openModal, setOpenModal] = useState<string | null>(null);

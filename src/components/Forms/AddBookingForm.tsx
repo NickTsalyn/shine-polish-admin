@@ -1,9 +1,9 @@
-import { SelectChangeEvent, TextField } from "@mui/material";
+"use client";
+import { Box, CircularProgress, SelectChangeEvent, TextField } from "@mui/material";
 
 import CloseButton from "../UI/CloseButton";
 import BasicSelect from "../UI/Select";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { bathroomOptions, bedroomOptions, inputAddressFields, inputFields } from "@/data/bookingOptions";
 import MultipleSelectCheckmarks from "../UI/CheckedSelect";
 import Button from "../UI/Button";
@@ -12,6 +12,7 @@ import { Address, Form } from "@/types/types";
 import { initialForm } from "@/data/initialForm";
 import DateTime from "../../components/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
+import { addBooking, getOptions } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
@@ -33,8 +34,11 @@ export default function AddBookingForm({ onClose }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://shine-polish-server.onrender.com/bookings/options");
-        setData(response.data);
+        setIsLoading(true);
+        const options = await getOptions();
+        console.log(options);
+        setData(options.data);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -150,9 +154,8 @@ export default function AddBookingForm({ onClose }: Props) {
       endDate,
     };
     console.log(bookingData);
-    // setResult(form);
     try {
-      const response = await axios.post("https://shine-polish-server.onrender.com/bookings", form);
+      const response = await addBooking(form as Form);
       console.log("Response:", response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -165,73 +168,68 @@ export default function AddBookingForm({ onClose }: Props) {
   return (
     <div className=" flex flex-col gap-4 md:gap-6 ">
       <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl">Add Booking</h2>
-      <form
-        className="p-3 flex flex-col gap-4 text-sand max-h-[300px] md:max-h-[500px] overflow-y-auto "
-        onSubmit={handleSubmit}
-      >
-        <BasicSelect name="areas" placeholder="Area*" value={form.area} items={areas} onChange={handleChange} />
-        <BasicSelect
-          name="bedroom"
-          placeholder="Bedrooms*"
-          value={form.bedroom}
-          items={bedroomOptions}
-          onChange={handleChange}
-        />
-        <BasicSelect
-          name="bathroom"
-          placeholder="Bathrooms*"
-          value={form.bathroom}
-          items={bathroomOptions}
-          onChange={handleChange}
-        />
-        <BasicSelect
-          name="frequency"
-          placeholder="Booking frequency*"
-          value={form.frequency}
-          items={frequencyOptions}
-          onChange={handleChange}
-        />
-        <BasicSelect
-          name="service"
-          placeholder="Booking service*"
-          value={form.service}
-          items={services}
-          onChange={handleChange}
-        />
-        <MultipleSelectCheckmarks
-          name="extras"
-          placeholder="Extras*"
-          value={form.extras || []}
-          items={extras}
-          onChange={handleCheckChange}
-        />
-
-        {inputFields.map((field) => (
-          <TextField
-            key={field.id}
-            id="outlined-basic"
-            label={field.label}
-            variant="outlined"
-            size="small"
-            value={form[field.name as keyof Form] || ""}
-            name={field.name}
-            onChange={handleInputChange}
-            sx={{
-              width: field.width,
-              ...styledTextField,
-            }}
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#006778",
+            height: "300px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <form
+          className="p-3 flex flex-col gap-4 text-sand max-h-[300px] md:max-h-[500px] overflow-y-auto "
+          onSubmit={handleSubmit}
+        >
+          <BasicSelect name="areas" placeholder="Area*" value={form.area} items={areas} onChange={handleChange} />
+          <BasicSelect
+            name="bedroom"
+            placeholder="Bedrooms*"
+            value={form.bedroom}
+            items={bedroomOptions}
+            onChange={handleChange}
           />
-        ))}
+          <BasicSelect
+            name="bathroom"
+            placeholder="Bathrooms*"
+            value={form.bathroom}
+            items={bathroomOptions}
+            onChange={handleChange}
+          />
+          <BasicSelect
+            name="frequency"
+            placeholder="Booking frequency*"
+            value={form.frequency}
+            items={frequencyOptions}
+            onChange={handleChange}
+          />
+          <BasicSelect
+            name="service"
+            placeholder="Booking service*"
+            value={form.service}
+            items={services}
+            onChange={handleChange}
+          />
+          <MultipleSelectCheckmarks
+            name="extras"
+            placeholder="Extras*"
+            value={form.extras || []}
+            items={extras}
+            onChange={handleCheckChange}
+          />
 
-        <div className="inline-flex gap-2 flex-wrap">
-          {inputAddressFields.map((field) => (
+          {inputFields.map((field) => (
             <TextField
               key={field.id}
               id="outlined-basic"
               label={field.label}
               variant="outlined"
               size="small"
-              value={form.address[field.name as keyof Address] || ""}
+              value={form[field.name as keyof Form] || ""}
               name={field.name}
               onChange={handleInputChange}
               sx={{
@@ -240,12 +238,31 @@ export default function AddBookingForm({ onClose }: Props) {
               }}
             />
           ))}
-        </div>
-        <DateTime onStartTime={handleStart} onEndTime={handleEnd} />
-        <Button type="submit" style="confirm">
-          {isLoading ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
+
+          <div className="inline-flex gap-2 flex-wrap">
+            {inputAddressFields.map((field) => (
+              <TextField
+                key={field.id}
+                id="outlined-basic"
+                label={field.label}
+                variant="outlined"
+                size="small"
+                value={form.address[field.name as keyof Address] || ""}
+                name={field.name}
+                onChange={handleInputChange}
+                sx={{
+                  width: field.width,
+                  ...styledTextField,
+                }}
+              />
+            ))}
+          </div>
+          <DateTime onStartTime={handleStart} onEndTime={handleEnd} />
+          <Button type="submit" style="confirm">
+            Submit
+          </Button>
+        </form>
+      )}
       <CloseButton type="button" onClick={onClose} />
     </div>
   );

@@ -3,10 +3,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import CloseButton from "../UI/CloseButton";
 import { styledTextField } from "../../styles/overrides";
-import { getPrice } from "@/helpers/api";
+import { getPrice, updatePrice } from "@/helpers/api";
 
 type Props = {
   onClose: () => void;
@@ -80,15 +79,12 @@ export default function PriceForm({ onClose }: Props) {
     };
 
     try {
-      const { data } = await axios.put(
-        "https://shine-polish-server.onrender.com/admin/bookings/pricing/edit",
-        updatedPricing
-      );
+      const { data } = await updatePrice(updatedPricing);
       setResult(data);
     } catch (error) {
       console.error(error);
     } finally {
-      onClose(); 
+      onClose();
     }
   };
 

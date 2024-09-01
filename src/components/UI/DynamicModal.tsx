@@ -1,11 +1,11 @@
 import { Employee } from "@/types/interfaces";
 import AddBookingForm from "../Forms/AddBookingForm";
 import AddEmployeeForm from "../Forms/AddEmployeeForm";
-import AreasForm from "../Forms/AreasForm";
 import EditEmployeeForm from "../Forms/EditEmployeeForm";
 import PhotoForm from "../Forms/PhotoForm";
 import PriceForm from "../Forms/PriceForm";
 import BasicModal from "../UI/Modal";
+import AreasForm from "../Forms/AreasForm";
 
 type Props = {
   open: boolean;

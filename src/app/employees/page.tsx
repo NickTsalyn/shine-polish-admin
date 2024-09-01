@@ -9,7 +9,7 @@ import DialogAgree from "@/components/DialogAgree";
 import { deleteEmployee, getEmployees } from "@/helpers/api";
 import { Employee } from "@/types/interfaces";
 import Loading from "@/components/Loading";
-import DynamicModal from "@/components/Modals/DynamicModal";
+import DynamicModal from "@/components/UI/DynamicModal";
 
 interface TableHeaders {
   [key: string]: string;
@@ -33,14 +33,18 @@ const Employees = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      const data = await getEmployees();
-      setEmployees(data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const data = await getEmployees();
+        setEmployees(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, [selectedEmployee]);
@@ -52,8 +56,9 @@ const Employees = () => {
 
   const handleDelete = async () => {
     if (!employeeId) return;
-    setLoading(true);
+
     try {
+      setLoading(true);
       await deleteEmployee(employeeId);
       setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
     } catch (error) {
@@ -73,7 +78,6 @@ const Employees = () => {
 
   const handleOpenEditModal = (id: string) => {
     const empl = employees.find((employee) => employee._id === id);
-    console.log(empl);
     setSelectedEmployee(empl as Employee);
     setEmployeeId(id);
     setOpenEdit(true);
@@ -94,7 +98,7 @@ const Employees = () => {
     setIsModalOpen(false);
   };
 
-  return loading ? (
+  return isLoading ? (
     <Loading />
   ) : (
     <div className="py-5 md:p-7 lg:py-20 text-text">

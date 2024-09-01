@@ -47,6 +47,7 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
   const [imagePreview, setImagePreview] = useState<string | null>(
     inputValues.avatar ? inputValues.avatar.toString() : null
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (file: File | null) => {
     setImage(file);
@@ -78,8 +79,9 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
         formData.has("area") ||
         formData.has("avatar")
       ) {
+        setIsLoading(true);
         const updatedEmployee = await editEmployee(employee._id, formData);
-        console.log("Updated Employee:", updatedEmployee);
+        setIsLoading(false);
       } else {
         console.log("No changes detected.");
       }
@@ -124,7 +126,7 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
           </div>
 
           <Button style="confirm" type="submit">
-            Adit
+            {isLoading ? "Saving..." : "Adit"}
           </Button>
         </Box>
       </div>

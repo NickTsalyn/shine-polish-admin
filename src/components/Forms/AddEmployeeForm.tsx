@@ -40,7 +40,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
   });
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (file: File | null) => {
     setImage(file);
@@ -118,7 +118,7 @@ const AddEmployeeForm = ({ onClose }: Props) => {
           </div>
 
           <Button style="confirm" type="submit">
-            {isLoading ? "Loading..." : "Add Employee"}
+            {isLoading ? "Adding..." : "Add Employee"}
           </Button>
         </Box>
       </div>

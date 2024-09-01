@@ -1,13 +1,13 @@
 "use client";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import CloseButton from "@/components/UI/CloseButton";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
-import { getAreas, updateOptions } from "@/helpers/api";
 import { CircularProgress } from "@mui/material";
+import { deleteOption, getOptions, updateOptions } from "@/helpers/api";
 import { styledTextField } from "../../styles/overrides";
 
 type Props = {
@@ -20,16 +20,21 @@ export default function AreasForm({ onClose }: Props) {
   } | null>(null);
   const [place, setPlace] = useState("");
   const [coff, setCoff] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      const areas = await getAreas();
-      setResult(areas);
-      setLoading(false);
+      try {
+        setIsLoading(true);
+        const areas = await getOptions();
+        setResult(areas.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
-  }, [result]);
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,19 +43,29 @@ export default function AreasForm({ onClose }: Props) {
       name: place,
       value: Number(coff),
     };
-    await updateOptions(data);
-
-    setResult({ areaOptions: [data] });
-    setPlace("");
-    setCoff(0);
+    try {
+      await updateOptions(data);
+      setResult((prevState) => ({
+        ...prevState,
+        areaOptions: [...(prevState?.areaOptions || []), data],
+      }));
+      setPlace("");
+      setCoff(0);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleDelete = async (name: string) => {
-    await axios.delete(`https://shine-polish-server.onrender.com/admin/bookings/areaOptions/${name}`);
-    setResult((prevState) => ({
-      ...prevState,
-      areaOptions: prevState?.areaOptions.filter((item) => item.name !== name) || [],
-    }));
+  const handleDelete = async (optionType: string, name: string) => {
+    try {
+      await deleteOption(optionType, name);
+      setResult((prevState) => ({
+        ...prevState,
+        areaOptions: prevState?.areaOptions.filter((item) => item.name !== name) || [],
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,14 +78,6 @@ export default function AreasForm({ onClose }: Props) {
       }
     }
   };
-
-  if (loading) {
-    return (
-      <Box sx={{ display: "flex", color: "#006778" }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
 
   return (
     <>
@@ -113,18 +120,32 @@ export default function AreasForm({ onClose }: Props) {
             <AddCircleOutlineRoundedIcon fontSize="large" />
           </button>
         </Box>
-        <ul className="flex flex-col gap-3 max-h-[300px] custom-scrollbar mb-4 md:mb-6 xl:mb-8 ">
-          {result &&
-            result.areaOptions.map((item) => (
-              <li key={item.name} className="flex gap-1 flex-col relative">
-                <p className="text-secondary">{item.name}</p>
-                <span className="h-0.5 border border-sand/25"></span>
-                <button onClick={() => handleDelete(item.name)}>
-                  <RemoveCircleOutlineRoundedIcon className="absolute top-0 right-0 text-[#de005d]" />
-                </button>
-              </li>
-            ))}
-        </ul>
+        {isLoading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#006778",
+              height: "300px",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <ul className="flex flex-col gap-3 max-h-[300px] custom-scrollbar mb-4 md:mb-6 xl:mb-8 ">
+            {result &&
+              result.areaOptions.map((item) => (
+                <li key={item.name} className="flex gap-1 flex-col relative">
+                  <p className="text-secondary">{item.name}</p>
+                  <span className="h-0.5 border border-sand/25"></span>
+                  <button onClick={() => handleDelete("areaOptions", item.name)}>
+                    <RemoveCircleOutlineRoundedIcon className="absolute top-0 right-0 text-[#de005d]" />
+                  </button>
+                </li>
+              ))}
+          </ul>
+        )}
       </div>
       <CloseButton type="button" onClick={onClose} />
     </>
