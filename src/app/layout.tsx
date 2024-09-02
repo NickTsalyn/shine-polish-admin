@@ -4,31 +4,34 @@ import "../styles/globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import Header from "@/components/Header/Header";
 import { AuthProvider } from "@/components/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const lato = Lato({
-  subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
+	subsets: ["latin"],
+	weight: ["300", "400", "700", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "Shine&Polish",
-  description: "Cleaning service Atlanta",
+	title: "Shine&Polish",
+	description: "Cleaning service Atlanta",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <AuthProvider>
-    <html lang="en">
-      <body className={lato.className}>
-        <Header/>
-        <Sidebar />
-        <main className="lg:ml-[200px] xl:ml-[244px]">{children}</main>
-      </body>
-    </html>
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider>
+			<html lang="en">
+				<body className={lato.className}>
+					<Header />
+					<Sidebar />
+					<ProtectedRoute>
+						<main className="lg:ml-[200px] xl:ml-[244px]">{children}</main>
+					</ProtectedRoute>
+				</body>
+			</html>
+		</AuthProvider>
+	);
 }

@@ -3,15 +3,31 @@ import Link from "next/link";
 
 import Button from "./UI/Button";
 import { DarkLogo } from "./images";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { buttons } from "./Arrays";
 import DynamicModal from "./UI/DynamicModal";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "./AuthContext";
 
 export const Sidebar = () => {
   const [openModal, setOpenModal] = useState<string | null>(null);
+  const { isLoggedIn } = useContext(AuthContext);
+  const router = useRouter();
 
   const handleOpenModal = (modalType: string | null) => {
-    setOpenModal(modalType);
+    if (isLoggedIn) {
+      setOpenModal(modalType);
+    } else {
+      alert("Please log in to access this feature.");
+      router.push('/')
+    }
+  };
+
+  const handleNavigation = (e: React.MouseEvent, link: string | null) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      alert("Please log in to navigate.");
+    }
   };
 
   const handleCloseModal = () => {
@@ -38,7 +54,7 @@ export const Sidebar = () => {
             <li key={button.label}>
               {button.link ? (
                 <Link href={button.link}>
-                  <Button type={"button"} style={"sidebar"}>
+                  <Button type={"button"} style={"sidebar"} onClick={(e) => handleNavigation(e, button.link)}>
                     {button.label}
                   </Button>
                 </Link>
