@@ -13,14 +13,10 @@ export const clearAuthHeader = () => {
 };
 
 export const signin = async (user: any) => {
-  try {
     const res = await axios.post(`${BASE_URL}/auth/signin`, user);
     const token = res.data.accessToken;
     setAuthHeader(token);
     return token;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const getExtras = async () => {

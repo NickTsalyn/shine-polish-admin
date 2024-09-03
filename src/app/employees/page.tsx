@@ -10,6 +10,7 @@ import { deleteEmployee, getEmployees } from "@/helpers/api";
 import { Employee } from "@/types/interfaces";
 import Loading from "@/components/Loading";
 import DynamicModal from "@/components/UI/DynamicModal";
+import { useSnackbar } from "notistack";
 
 interface TableHeaders {
   [key: string]: string;
@@ -26,6 +27,7 @@ const tableHeaders: TableHeaders = {
 };
 
 const Employees = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [employeeId, setEmployeeId] = useState<string | null>(null);
@@ -61,9 +63,10 @@ const Employees = () => {
       setLoading(true);
       await deleteEmployee(employeeId);
       setEmployees((prevState) => prevState.filter((employee) => employee._id !== employeeId));
+      enqueueSnackbar("Employee deleted successfully", { variant: "success" });
     } catch (error) {
       setLoading(false);
-      console.error(error);
+      enqueueSnackbar("Error deleting employee", { variant: "error" });
     } finally {
       setLoading(false);
       setOpenDelete(false);

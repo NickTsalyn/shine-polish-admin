@@ -6,11 +6,13 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
+import { useSnackbar } from "notistack";
 import Button from "../UI/Button";
 import {updateEvent} from "../../helpers/api";
 import {CalendarFieldProps, Booking, UpdateEventPayload, Address} from "../../interfaces";
 
 const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
+    const {enqueueSnackbar} = useSnackbar();
  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs(event.start));
  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(event.end));
  const [time, setTime] = useState<Dayjs | null>(dayjs(event.time));
@@ -105,13 +107,14 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave}) => {
 
   try {
    await updateEvent(updatedEvent.id, updatePayload);
-   console.log("Updated bookings:", updatedEvent);
+   enqueueSnackbar("Event updated successfully", { variant: "success" });
 
    if (onSave) {
     onSave(updatedEvent);
+    enqueueSnackbar("Event updated successfully", { variant: "success" });
    }
   } catch (error) {
-   console.error("Error updating event:", error);
+   enqueueSnackbar("Error updating event", { variant: "error" });
   }
  };
 
