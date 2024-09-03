@@ -9,12 +9,14 @@ import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutl
 import { CircularProgress } from "@mui/material";
 import { deleteOption, getOptions, updateOptions } from "@/helpers/api";
 import { styledTextField } from "../../styles/overrides";
+import { useSnackbar } from "notistack";
 
 type Props = {
   onClose: () => void;
 };
 
 export default function AreasForm({ onClose }: Props) {
+  const {enqueueSnackbar} = useSnackbar();
   const [result, setResult] = useState<{
     areaOptions: { name: string; value: number }[];
   } | null>(null);
@@ -51,8 +53,9 @@ export default function AreasForm({ onClose }: Props) {
       }));
       setPlace("");
       setCoff(0);
+      enqueueSnackbar(`${data.name} added successfully`, { variant: "success" });
     } catch (error) {
-      console.log(error);
+      enqueueSnackbar("Error adding area", { variant: "error" });
     }
   };
 
@@ -63,8 +66,9 @@ export default function AreasForm({ onClose }: Props) {
         ...prevState,
         areaOptions: prevState?.areaOptions.filter((item) => item.name !== name) || [],
       }));
+      enqueueSnackbar(`${name} deleted successfully`, { variant: "success" });
     } catch (error) {
-      console.log(error);
+     enqueueSnackbar("Error deleting area", { variant: "error" });
     }
   };
 

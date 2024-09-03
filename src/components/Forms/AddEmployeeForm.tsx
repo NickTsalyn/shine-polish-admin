@@ -6,6 +6,7 @@ import UploadButton from "../UI/UploadButton";
 import Image from "next/image";
 import { styledTextField } from "@/styles/overrides";
 import { addEmployee } from "@/helpers/api";
+import { useSnackbar } from "notistack";
 
 type Props = {
   onClose: () => void;
@@ -32,6 +33,7 @@ const inputFields: InputField[] = [
 ];
 
 const AddEmployeeForm = ({ onClose }: Props) => {
+  const {enqueueSnackbar} = useSnackbar();
   const [inputValues, setInputValues] = useState<InputValues>({
     name: "",
     phone: "",
@@ -76,8 +78,9 @@ const AddEmployeeForm = ({ onClose }: Props) => {
         area: "",
       });
       setImagePreview(null);
+      enqueueSnackbar("Employee added successfully", { variant: "success" });
     } catch (error) {
-      console.error("Error adding employee", error);
+      enqueueSnackbar("Error adding employee", { variant: "error" });
     } finally {
       setIsLoading(false);
       onClose();

@@ -19,13 +19,19 @@ export const AuthContext = createContext<AuthContextProps>({
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
-      setAuthHeader(savedToken);
-    }
+    const checkToken = () => {
+      const savedToken = localStorage.getItem("token");
+      if (savedToken) {
+        setToken(savedToken);
+        setAuthHeader(savedToken);
+      }
+      setIsLoading(false);
+    };
+
+    checkToken();
   }, []);
 
   const login = (token: string) => {

@@ -16,7 +16,7 @@ export default function Home() {
   if (!isLoggedIn) {
    router.push("/");
   }
- }, [isLoggedIn, router]);
+ }, [isLoggedIn]);
 
  return (
   <div className="py-5 md:p-7 lg:py-20">

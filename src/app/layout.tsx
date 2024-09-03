@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/Sidebar";
 import Header from "@/components/Header/Header";
 import { AuthProvider } from "@/components/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import NotificationsProvider from "@/components/NotificationsProvider";
 
 const lato = Lato({
 	subsets: ["latin"],
@@ -25,11 +26,13 @@ export default function RootLayout({
 		<AuthProvider>
 			<html lang="en">
 				<body className={lato.className}>
-					<Header />
-					<Sidebar />
-					<ProtectedRoute>
-						<main className="lg:ml-[200px] xl:ml-[244px]">{children}</main>
-					</ProtectedRoute>
+					<NotificationsProvider>
+						<Header />
+						<Sidebar />
+						<ProtectedRoute>
+							<main className="lg:ml-[200px] xl:ml-[244px]">{children}</main>
+						</ProtectedRoute>
+					</NotificationsProvider>
 				</body>
 			</html>
 		</AuthProvider>

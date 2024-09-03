@@ -8,6 +8,7 @@ import Button from "../UI/Button";
 import CloseButton from "../UI/CloseButton";
 import Image from "next/image";
 import { editEmployee } from "@/helpers/api";
+import { useSnackbar } from "notistack";
 
 type Props = {
   onClose: () => void;
@@ -36,6 +37,7 @@ const inputFields: InputField[] = [
 ];
 
 const EditEmployeeForm = ({ onClose, employee }: Props) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [inputValues, setInputValues] = useState<InputValues>({
     name: employee?.username,
     phone: employee?.phone,
@@ -82,11 +84,13 @@ const EditEmployeeForm = ({ onClose, employee }: Props) => {
         setIsLoading(true);
         const updatedEmployee = await editEmployee(employee._id, formData);
         setIsLoading(false);
+        enqueueSnackbar("Employee updated successfully", { variant: "success" });
+        onClose();
       } else {
-        console.log("No changes detected.");
+        enqueueSnackbar("No changes made", { variant: "info" });
       }
     } catch (error) {
-      console.error("Error editing employee", error);
+      enqueueSnackbar("Error updating employee", { variant: "error" });
     } finally {
       onClose();
     }

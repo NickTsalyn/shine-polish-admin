@@ -1,6 +1,5 @@
 "use client";
 import { Box, CircularProgress, SelectChangeEvent, TextField } from "@mui/material";
-
 import CloseButton from "../UI/CloseButton";
 import BasicSelect from "../UI/Select";
 import React, { useEffect, useState } from "react";
@@ -13,12 +12,14 @@ import { initialForm } from "@/data/initialForm";
 import DateTime from "../../components/DateTimePicker";
 import dayjs, { Dayjs } from "dayjs";
 import { addBooking, getOptions } from "@/helpers/api";
+import { useSnackbar } from "notistack";
 
 type Props = {
   onClose: () => void;
 };
 
 export default function AddBookingForm({ onClose }: Props) {
+  const { enqueueSnackbar } = useSnackbar();
   const [data, setData] = useState<{
     areaOptions: { name: string; value: number | string }[];
     discountOptions: { name: string; value: number }[];
@@ -36,7 +37,6 @@ export default function AddBookingForm({ onClose }: Props) {
       try {
         setIsLoading(true);
         const options = await getOptions();
-        console.log(options);
         setData(options.data);
         setIsLoading(false);
       } catch (error) {
@@ -141,7 +141,6 @@ export default function AddBookingForm({ onClose }: Props) {
 
   const handleCheckChange = (event: SelectChangeEvent<string[]>) => {
     const value = event.target.value as string[];
-    console.log("Value:", value);
     setForm({ ...form, extras: value });
   };
 
@@ -153,12 +152,11 @@ export default function AddBookingForm({ onClose }: Props) {
       startTime,
       endDate,
     };
-    console.log(bookingData);
     try {
       const response = await addBooking(form as Form);
-      console.log("Response:", response.data);
+      enqueueSnackbar("Booking added successfully", { variant: "success" });
     } catch (error) {
-      console.error("Error:", error);
+     enqueueSnackbar("Error adding booking", { variant: "error" });
     } finally {
       setIsLoading(false);
       onClose();

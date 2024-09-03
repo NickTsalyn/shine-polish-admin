@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CloseButton from "../UI/CloseButton";
 import { styledTextField } from "../../styles/overrides";
 import { getPrice, updatePrice } from "@/helpers/api";
+import { useSnackbar } from "notistack";
 
 type Props = {
   onClose: () => void;
@@ -30,6 +31,7 @@ const inputFields: InputField[] = [
 ];
 
 export default function PriceForm({ onClose }: Props) {
+  const {enqueueSnackbar} = useSnackbar()
   const [inputValues, setInputValues] = useState<InputValues>({
     base: "",
     coff: "",
@@ -81,8 +83,9 @@ export default function PriceForm({ onClose }: Props) {
     try {
       const { data } = await updatePrice(updatedPricing);
       setResult(data);
+      enqueueSnackbar("Data updated successfully", { variant: "success" });
     } catch (error) {
-      console.error(error);
+      enqueueSnackbar("Error updating Data", { variant: "error" });
     } finally {
       onClose();
     }
