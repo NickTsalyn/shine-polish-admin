@@ -6,36 +6,27 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, DigitalClock} from "@mui/x-date-pickers";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
-
-const StartBooking: React.FC<{
- onDateChange: (selectedDate: Dayjs | null) => void;
+// import {events} from "../../helpers/api";
+import {Booking} from "@/types/interfaces";
+interface StartBookingProps {
+ onDateChange: (date: Dayjs | null) => void;
  onTimeChange: (time: Dayjs | null) => void;
-}> = ({onDateChange, onTimeChange}) => {
+ events: Booking[];
+}
+
+const StartBooking: React.FC<StartBookingProps> = ({onDateChange, onTimeChange, events}) => {
  const [selectedDate, setSelectedDate] = React.useState<Dayjs | null>(dayjs());
  const [time, setTime] = React.useState<Dayjs | null>(dayjs());
  const [isTimeOpen, setIsTimeOpen] = useState(false);
 
  const handleDateChange = (date: Dayjs | null) => {
   setSelectedDate(date);
-  console.log("New date", date);
   onDateChange(date);
-  console.log("New date2", date);
  };
 
- const shouldDisableDate = (date: Dayjs) => {
-  return date.isSame(dayjs(), "day");
- };
-
- //  shouldDisableDate={(date) => {
- //     return events.some(event =>
- //       dayjs(date).isSame(dayjs(event.start), 'day')
- //     );
- //   }}
  const handleTimeChange = (newTime: Dayjs | null) => {
   setTime(newTime);
-  console.log("New time", newTime);
   onTimeChange(newTime);
-  console.log("New time2", newTime);
   setIsTimeOpen(false);
  };
  const openTimePicker = () => {
@@ -44,17 +35,13 @@ const StartBooking: React.FC<{
 
  return (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
-   {/* <div className="flex flex-col gap-2 "> */}
    <div className="flex flex-col gap-2 justify-center md:flex-row md:justify-between">
     <div className="md:w-[200px]">
      <DatePicker
       label="Start Date"
       onChange={handleDateChange}
       value={dayjs(selectedDate, "MM/DD/YYYY")}
-      shouldDisableDate={shouldDisableDate}
       disablePast
-      //   views={views}
-      //   orientation="portrait"
       openTo="day"
       autoFocus
      />
@@ -76,16 +63,16 @@ const StartBooking: React.FC<{
         value={dayjs(time, "h:mm A")}
         onChange={handleTimeChange}
         skipDisabled
-        minTime={dayjs("2022-04-17T08:00")}
-        maxTime={dayjs("2022-04-17T16:30")}
+        // minTime={dayjs("2022-04-17T08:00")}
+        // maxTime={dayjs("2022-04-17T16:30")}
+        minTime={dayjs().hour(8).minute(0)}
+        maxTime={dayjs().hour(16).minute(30)}
         timeStep={30}
-        // shouldDisableTime={shouldDisableTime}
        />
       </div>
      )}
     </div>
    </div>
-   {/* </div> */}
   </LocalizationProvider>
  );
 };

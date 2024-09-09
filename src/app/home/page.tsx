@@ -20,12 +20,13 @@ export default function Home() {
 
  return (
   <div className="py-5 md:p-7 lg:py-20">
-   <h1 className="text-2xl font-medium text-center text-accent">Home</h1>
+   {/* <h1 className="text-2xl font-medium text-center text-accent">Home</h1> */}
    <div className="flex flex-col lg:flex-row">
     <ClientCardList />
-    <CalendarComponent
-     events={events}
-    />
+    <div className="flex flex-col">
+     <h2 className="mb-10">Our workers</h2>
+     <CalendarComponent events={events} />
+    </div>
    </div>
   </div>
  );

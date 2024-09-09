@@ -134,3 +134,8 @@ select:-webkit-autofill:focus {
 .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover{
   border-color: #E6BA95;
 }
+
+.rbc-off {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

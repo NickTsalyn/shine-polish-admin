@@ -6,31 +6,36 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, DigitalClock} from "@mui/x-date-pickers";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import {Booking} from "@/types/interfaces";
 
-const EndBooking: React.FC<{
- onDateChange: (selectedDate: Dayjs | null) => void;
+interface EndBookingProps {
+ onDateChange: (date: Dayjs | null) => void;
  onTimeChange: (time: Dayjs | null) => void;
-}> = ({onDateChange, onTimeChange}) => {
+ events: Booking[];
+ minDate?: Dayjs;
+}
+
+const EndBooking: React.FC<EndBookingProps> = ({onDateChange, onTimeChange, events}) => {
  const [endDate, setEndDate] = useState<Dayjs | null>(null);
  const [endTime, setEndTime] = useState<Dayjs | null>(null);
  const [isTimeOpen, setIsTimeOpen] = useState(false);
  const [time, setTime] = React.useState<Dayjs | null>(dayjs());
 
  const handleDateChange = (newDate: Dayjs | null) => {
+  const updatedDate = newDate || undefined;
   setEndDate(newDate);
   onDateChange(newDate);
  };
 
  const handleTimeChange = (newTime: Dayjs | null) => {
+  const updatedTime = newTime || undefined; // Set undefined if newTime is null
   setEndTime(newTime);
   onTimeChange(newTime);
   setIsTimeOpen(false);
  };
- const shouldDisableDate = (date: Dayjs) => {
-  return date.isSame(dayjs(), "day");
- };
- const openTimePicker = () => setIsTimeOpen(!isTimeOpen);
 
+ const openTimePicker = () => setIsTimeOpen(!isTimeOpen);
+ const minDate = events[0]?.startDate ? dayjs(events[0]?.startDate) : dayjs();
  return (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
    {/* <div className="flex flex-col gap-2"> */}
@@ -41,7 +46,7 @@ const EndBooking: React.FC<{
       value={endDate}
       onChange={handleDateChange}
       disablePast
-      shouldDisableDate={shouldDisableDate}
+      minDate={minDate || dayjs()}
       openTo="day"
       autoFocus
      />
@@ -54,7 +59,7 @@ const EndBooking: React.FC<{
       <span className="text-secondary">Choose Time </span>
       <div className="flex flex-row gap-2">
        <AccessTimeRoundedIcon className="text-main text-[28px]" />
-       <span className="text-accent">{time ? time.format("h:mm A") : "Select Time"}</span>
+       <span className="text-accent">{endTime ? endTime.format("h:mm A") : "End Time"}</span>
       </div>
      </button>
      {isTimeOpen && (
@@ -64,8 +69,10 @@ const EndBooking: React.FC<{
         onChange={handleTimeChange}
         timeStep={30}
         skipDisabled
-        minTime={dayjs("08:00", "HH:mm")}
-        maxTime={dayjs("16:30", "HH:mm")}
+        minTime={dayjs().hour(8).minute(0)}
+        maxTime={dayjs().hour(16).minute(30)}
+        // minTime={dayjs("2022-04-17T08:00")}
+        // maxTime={dayjs("2022-04-17T16:30")}
        />
       </div>
      )}

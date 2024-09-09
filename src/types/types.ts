@@ -1,3 +1,5 @@
+import {Dayjs} from "dayjs";
+
 export type Address = {
     street: string;
     city: string;
@@ -21,6 +23,7 @@ export type Form = {
     selectedDate: string;
     endDate: string;
     time: string;
+    endTime: string;
     aboutUs: string;
     specialInstructions: string;
     homeAccess: string;
@@ -44,3 +47,13 @@ export  type InputValues = {
     state: string;
     zip: string;
   };
+
+  export type EditEventModalProps = {
+    end: string | number | Date | Dayjs | null | undefined;
+    start: string | number | Date | Dayjs | null | undefined;
+    open: boolean;
+    onClose: () => void;
+    event: any;
+    onSave: (updateEvent: any) => void;
+    onDelete: (eventId: string) => void;
+   }

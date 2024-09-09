@@ -11,6 +11,7 @@ type DialogAgreeProps = {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
+ 
 };
 
 export default function DialogAgree({ open, onClose, onConfirm }: DialogAgreeProps) {

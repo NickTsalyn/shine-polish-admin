@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
-import {Booking, CalendarEvent, CalendarComponentProps, UpdateEventPayload} from "@/interfaces";
+import {Booking, CalendarEvent, CalendarComponentProps, UpdateEventPayload} from "../../types/interfaces";
 import {getBookings, updateEvent, deleteEvent} from "@/helpers/api";
 import {getBackgroundColor} from "../../helpers/colorUtils";
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
@@ -27,15 +27,15 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
    if (Array.isArray(bookings)) {
     const transformedEvents = bookings.map((booking: Booking) => {
      const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
-     const start = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A").toDate();
-     const end = dayjs(start).add(3, "hour").toDate();
+     const startTime = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A");
+     const endTime = dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A");
      const isRegistered = booking.email && booking.phone;
      return {
       ...booking,
       id: String(booking._id),
       title: `${booking.name} ${booking.surname}`,
-      start,
-      end,
+      start: startTime.toDate(),
+      end: endTime.toDate(),
       backgroundColor: getBackgroundColor(`${booking.name} ${booking.surname}`),
       textColor: isRegistered ? "#fff" : "#000",
      };
@@ -48,6 +48,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
    console.error("Error fetching bookings:", error);
   }
  };
+
  useEffect(() => {
   fetchAndSetNewEvents();
  }, []);
@@ -55,46 +56,92 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   setSelectedEvent(event);
   setIsModalOpen(true);
  };
- const handleSave = async (updatedEvent: Booking & CalendarEvent) => {
+
+ //  const handleSelectEvent = (event: Booking & CalendarEvent) => {
+ //     const existingEvent = events.find((e) => {
+ //       return (
+ //         dayjs(e.start).format("YYYY-MM-DD HH:mm") ===
+ //         dayjs(event.start).format("YYYY-MM-DD HH:mm")
+ //       );
+ //     });
+ //     if (existingEvent) {
+ //       console.log("Подія вже існує на цій даті і часі");
+ //       // Ви можете показати повідомлення користувачеві про те, що подія вже існує
+ //       enqueueSnackbar("Подія вже існує на цій даті і часі", { variant: "error" });
+ //     } else {
+ //       setSelectedEvent(event);
+ //       setIsModalOpen(true);
+ //     }
+ //   };
+
+ const handleSaveEvent = async (eventData: UpdateEventPayload) => {
   try {
-   const address = typeof updatedEvent.address === "string" ? JSON.parse(updatedEvent.address) : updatedEvent.address;
-   if (!updatedEvent._id) {
-    throw new Error("Event ID is undefined");
-   }
-   const eventPayload: UpdateEventPayload = {
-    _id: updatedEvent._id,
-    selectedDate: dayjs(updatedEvent.selectedDate).format("YYYY-MM-DD"),
-    time: dayjs(updatedEvent.time).format("HH:mm"),
-    endDate: dayjs(updatedEvent.endDate).format("YYYY-MM-DD"),
-    endTime: dayjs(updatedEvent.time).format("HH:mm"),
-    area: updatedEvent.area,
-    bedroom: updatedEvent.bedroom,
-    bathroom: updatedEvent.bathroom,
-    extras: updatedEvent.extras,
-    service: updatedEvent.service,
-    frequency: updatedEvent.frequency,
-    aboutUs: updatedEvent.aboutUs,
-    specialInstructions: updatedEvent.specialInstructions,
-    homeAccess: updatedEvent.homeAccess,
-    tips: updatedEvent.tips,
-    discountCode: updatedEvent.discountCode,
-    totalPrice: updatedEvent.totalPrice,
-    email: "",
-    name: "",
-    surname: "",
-    phone: "",
-    address: address,
+   const updatedEvent = {
+    ...eventData,
+    selectedDate: dayjs(eventData.selectedDate).format("MM/DD/YYYY"),
+    endDate: dayjs(eventData.endDate).format("MM/DD/YYYY"),
+    time: dayjs(eventData.time).format("h:mm A"),
+    endTime: dayjs(eventData.endTime).format("h:mm A"),
    };
-   if (!updatedEvent._id) {
-    throw new Error("Event ID is undefined");
-   }
-   await updateEvent(updatedEvent._id, eventPayload);
+
+   await updateEvent(updatedEvent._id, updatedEvent);
+
    await fetchAndSetNewEvents();
+   setIsModalOpen(false);
   } catch (error) {
    console.error("Error updating event:", error);
-   await fetchAndSetNewEvents();
   }
  };
+
+ //  const handleDayPropGetter = (date: any) => {
+ //   const existingEvent = events.find((e) => {
+ //    return dayjs(e.start).format("MM/DD/YYYY") === dayjs(date).format("MM/DD/YYYY");
+ //   });
+ //   if (existingEvent) {
+ //    return {className: "rbc-off"};
+ //   }
+ //   return {};
+ //  };
+ //  const handleSave = async (updatedEvent: Booking & CalendarEvent) => {
+ //   try {
+ //    const address = typeof updatedEvent.address === "string" ? JSON.parse(updatedEvent.address) : updatedEvent.address;
+ //    if (!updatedEvent._id) {
+ //     throw new Error("Event ID is undefined");
+ //    }
+ //    const eventPayload: UpdateEventPayload = {
+ //     _id: updatedEvent._id,
+ //     selectedDate: dayjs(updatedEvent.selectedDate).format("YYYY-MM-DD"),
+ //     time: dayjs(updatedEvent.time).format("HH:mm"),
+ //     endDate: dayjs(updatedEvent.endDate).format("YYYY-MM-DD"),
+ //     endTime: dayjs(updatedEvent.time).format("HH:mm"),
+ //     area: updatedEvent.area,
+ //     bedroom: updatedEvent.bedroom,
+ //     bathroom: updatedEvent.bathroom,
+ //     extras: updatedEvent.extras,
+ //     service: updatedEvent.service,
+ //     frequency: updatedEvent.frequency,
+ //     aboutUs: updatedEvent.aboutUs,
+ //     specialInstructions: updatedEvent.specialInstructions,
+ //     homeAccess: updatedEvent.homeAccess,
+ //     tips: updatedEvent.tips,
+ //     discountCode: updatedEvent.discountCode,
+ //     totalPrice: updatedEvent.totalPrice,
+ //     email: "",
+ //     name: "",
+ //     surname: "",
+ //     phone: "",
+ //     address: address,
+ //    };
+ //    if (!updatedEvent._id) {
+ //     throw new Error("Event ID is undefined");
+ //    }
+ //    await updateEvent(updatedEvent._id, eventPayload);
+ //    await fetchAndSetNewEvents();
+ //   } catch (error) {
+ //    console.error("Error updating event:", error);
+ //    await fetchAndSetNewEvents();
+ //   }
+ //  };
  const handleDeleteEvent = async (eventId: string) => {
   try {
    await deleteEvent(eventId);
@@ -120,12 +167,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     min={minDate}
     max={maxDate}
     formats={{
-     dayHeaderFormat: (date) => dayjs(date).format("dd-MMMM-yyyy"),
+     dayHeaderFormat: (date) => dayjs(date).format("MM/DD/YYYY"),
     }}
     components={{
      event: Event,
     }}
     onSelectEvent={handleSelectEvent}
+    // dayPropGetter={handleDayPropGetter}
    />
    {selectedEvent && (
     <EditEventModal
@@ -134,7 +182,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      event={selectedEvent}
      start={dayjs(selectedEvent.start).format("MM/DD/YYYY")}
      end={dayjs(selectedEvent.end).format("MM/DD/YYYY")}
-     onSave={handleSave}
+     onSave={handleSaveEvent}
      onDelete={() => handleDeleteEvent(selectedEvent.id)}
     />
    )}
