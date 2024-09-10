@@ -5,12 +5,15 @@ export type Address = {
     city: string;
     state: string;
     zip: string;
+    aptSuite?: string;
   };
 
 export type Form = {
+    _id?: string | number;
+   
     area: string;
-    bedroom: string;
-    bathroom: string;
+    bedroom: string | number;
+    bathroom: string | number;
     frequency: string;
     service: string;
     extras: string[];
@@ -28,6 +31,9 @@ export type Form = {
     specialInstructions: string;
     homeAccess: string;
     totalPrice: number;
+    tips?: string;
+    discountCode?: string;
+  
   };
 
  export type InputField = {

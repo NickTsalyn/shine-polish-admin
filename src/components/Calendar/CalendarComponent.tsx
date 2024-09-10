@@ -6,9 +6,12 @@ import dayjs from "dayjs";
 import "./Calendar.css";
 import Event from "./EventComponents";
 import EditEventModal from "./EditEventModal";
-import {Booking, CalendarEvent, CalendarComponentProps, UpdateEventPayload} from "../../types/interfaces";
+import {Booking, CalendarEvent, CalendarComponentProps} from "../../types/interfaces";
 import {getBookings, updateEvent, deleteEvent} from "@/helpers/api";
 import {getBackgroundColor} from "../../helpers/colorUtils";
+import {Form} from "@/types/types";
+import {useSnackbar} from "notistack";
+
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
  defaultDate = dayjs().toDate(),
  minDate = dayjs("2024-08-01T08:00:00").toDate(),
@@ -21,25 +24,34 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  const [isModalOpen, setIsModalOpen] = useState(false);
  const [selectedEvent, setSelectedEvent] = useState<any>(null);
  const [events, setEvents] = useState<(Booking & CalendarEvent)[]>([]);
+ const {enqueueSnackbar} = useSnackbar();
+
+ const transformBookingToEvent = (booking: Booking): Booking & CalendarEvent => {
+  const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
+  const startTime = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A");
+  //   const endTime = booking.endDate
+  //    ? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A")
+  //    : startTime.add(3, "hour");
+  const endTime =
+   dayjs(startTime).add(3, "hour") ?? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A");
+  const isRegistered = booking.email && booking.phone;
+
+  return {
+   ...booking,
+   id: String(booking._id),
+   title: `${booking.name} ${booking.surname}`,
+   start: startTime.toDate(),
+   end: endTime.toDate(),
+   backgroundColor: getBackgroundColor(`${booking.name} ${booking.surname}`),
+   textColor: isRegistered ? "#fff" : "#000",
+  };
+ };
+
  const fetchAndSetNewEvents = async () => {
   try {
    const bookings = await getBookings();
    if (Array.isArray(bookings)) {
-    const transformedEvents = bookings.map((booking: Booking) => {
-     const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
-     const startTime = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A");
-     const endTime = dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A");
-     const isRegistered = booking.email && booking.phone;
-     return {
-      ...booking,
-      id: String(booking._id),
-      title: `${booking.name} ${booking.surname}`,
-      start: startTime.toDate(),
-      end: endTime.toDate(),
-      backgroundColor: getBackgroundColor(`${booking.name} ${booking.surname}`),
-      textColor: isRegistered ? "#fff" : "#000",
-     };
-    });
+    const transformedEvents = bookings.map(transformBookingToEvent);
     setEvents(transformedEvents);
    } else {
     console.error("Bookings is not an array:", bookings);
@@ -57,92 +69,59 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   setIsModalOpen(true);
  };
 
- //  const handleSelectEvent = (event: Booking & CalendarEvent) => {
- //     const existingEvent = events.find((e) => {
- //       return (
- //         dayjs(e.start).format("YYYY-MM-DD HH:mm") ===
- //         dayjs(event.start).format("YYYY-MM-DD HH:mm")
- //       );
- //     });
- //     if (existingEvent) {
- //       console.log("Подія вже існує на цій даті і часі");
- //       // Ви можете показати повідомлення користувачеві про те, що подія вже існує
- //       enqueueSnackbar("Подія вже існує на цій даті і часі", { variant: "error" });
- //     } else {
- //       setSelectedEvent(event);
- //       setIsModalOpen(true);
- //     }
- //   };
+ const handleSaveEvent = async (eventData: Form) => {
+  if (!eventData._id) {
+   console.error("Event ID is missing. Cannot update event.");
+   enqueueSnackbar("Error updating event: Event ID is missing.", {variant: "error"});
+   return;
+  }
+  const updatedEventData = {
+   email: eventData.email,
+   name: eventData.name,
+   surname: eventData.surname,
+   phone: eventData.phone,
+   address: {
+    city: eventData.address?.city || "",
+    street: eventData.address?.street || "",
+    aptSuite: eventData.address?.aptSuite || "",
+    zip: eventData.address?.zip || "",
+    state: eventData.address?.state || "",
+   },
+   area: eventData.area || "",
+   selectedDate: dayjs(eventData.selectedDate).format("MM/DD/YYYY"),
+   endDate: dayjs(eventData.endDate).format("MM/DD/YYYY"),
+   time: dayjs(eventData.time).format("h:mm A"),
+   endTime: dayjs(eventData.endTime).format("h:mm A"),
+   bedroom: eventData.bedroom || 0,
+   bathroom: eventData.bathroom || 0,
+   extras: eventData.extras || [],
+   service: eventData.service || "",
+   frequency: eventData.frequency || "",
+   aboutUs: eventData.aboutUs || "",
+   specialInstructions: eventData.specialInstructions || "",
+   homeAccess: eventData.homeAccess || "",
+   tips: eventData.tips || "",
+   totalPrice: eventData.totalPrice || 0,
+  };
 
- const handleSaveEvent = async (eventData: UpdateEventPayload) => {
   try {
-   const updatedEvent = {
-    ...eventData,
-    selectedDate: dayjs(eventData.selectedDate).format("MM/DD/YYYY"),
-    endDate: dayjs(eventData.endDate).format("MM/DD/YYYY"),
-    time: dayjs(eventData.time).format("h:mm A"),
-    endTime: dayjs(eventData.endTime).format("h:mm A"),
-   };
+   await updateEvent(eventData._id, updatedEventData);
+   console.log("Event updated successfully!");
+   enqueueSnackbar("Event updated successfully", {variant: "success"});
 
-   await updateEvent(updatedEvent._id, updatedEvent);
+   // Re-fetch events to reflect changes
+   fetchAndSetNewEvents();
 
-   await fetchAndSetNewEvents();
-   setIsModalOpen(false);
+   if (onSave) {
+    onSave(updatedEventData);
+   }
   } catch (error) {
    console.error("Error updating event:", error);
+   enqueueSnackbar("Error updating event", {variant: "error"});
   }
  };
-
- //  const handleDayPropGetter = (date: any) => {
- //   const existingEvent = events.find((e) => {
- //    return dayjs(e.start).format("MM/DD/YYYY") === dayjs(date).format("MM/DD/YYYY");
- //   });
- //   if (existingEvent) {
- //    return {className: "rbc-off"};
- //   }
- //   return {};
- //  };
- //  const handleSave = async (updatedEvent: Booking & CalendarEvent) => {
- //   try {
- //    const address = typeof updatedEvent.address === "string" ? JSON.parse(updatedEvent.address) : updatedEvent.address;
- //    if (!updatedEvent._id) {
- //     throw new Error("Event ID is undefined");
- //    }
- //    const eventPayload: UpdateEventPayload = {
- //     _id: updatedEvent._id,
- //     selectedDate: dayjs(updatedEvent.selectedDate).format("YYYY-MM-DD"),
- //     time: dayjs(updatedEvent.time).format("HH:mm"),
- //     endDate: dayjs(updatedEvent.endDate).format("YYYY-MM-DD"),
- //     endTime: dayjs(updatedEvent.time).format("HH:mm"),
- //     area: updatedEvent.area,
- //     bedroom: updatedEvent.bedroom,
- //     bathroom: updatedEvent.bathroom,
- //     extras: updatedEvent.extras,
- //     service: updatedEvent.service,
- //     frequency: updatedEvent.frequency,
- //     aboutUs: updatedEvent.aboutUs,
- //     specialInstructions: updatedEvent.specialInstructions,
- //     homeAccess: updatedEvent.homeAccess,
- //     tips: updatedEvent.tips,
- //     discountCode: updatedEvent.discountCode,
- //     totalPrice: updatedEvent.totalPrice,
- //     email: "",
- //     name: "",
- //     surname: "",
- //     phone: "",
- //     address: address,
- //    };
- //    if (!updatedEvent._id) {
- //     throw new Error("Event ID is undefined");
- //    }
- //    await updateEvent(updatedEvent._id, eventPayload);
- //    await fetchAndSetNewEvents();
- //   } catch (error) {
- //    console.error("Error updating event:", error);
- //    await fetchAndSetNewEvents();
- //   }
- //  };
  const handleDeleteEvent = async (eventId: string) => {
+  if (!eventId) return;
   try {
    await deleteEvent(eventId);
    setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
@@ -152,6 +131,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
    await fetchAndSetNewEvents();
   }
  };
+
  return (
   <div className=" h-[600px] w-[300px] md:h-[800px] md:min-w-[748px] lg:w-[980px] xl:w-[1400px] mx-auto">
    <Calendar
@@ -173,7 +153,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
      event: Event,
     }}
     onSelectEvent={handleSelectEvent}
-    // dayPropGetter={handleDayPropGetter}
    />
    {selectedEvent && (
     <EditEventModal

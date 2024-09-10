@@ -13,6 +13,7 @@ import EventRoundedIcon from "@mui/icons-material/EventRounded";
 import LocalPhoneRoundedIcon from "@mui/icons-material/LocalPhoneRounded";
 import {useSnackbar} from "notistack";
 import DialogAgree from "../DialogAgree";
+import {Form} from "@/types/types";
 
 const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, onDelete, start, end, open}) => {
  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(event.selectedDate));
@@ -36,43 +37,55 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
  const handleEndTimeChange = (time: Dayjs | null) => {
   setEndTime(time);
  };
- const handleSave = async () => {
-  const updatedEventData: UpdateEventPayload = {
-   email: event.email,
-   name: event.name,
-   surname: event.surname,
-   phone: event.phone,
-   address: event.address,
-   area: event.area,
-   selectedDate: dayjs(selectedDate).format("MM/DD/YYYY"),
-   endDate: dayjs(endDate).format("MM/DD/YYYY"),
-   time: dayjs(time).format("h:mm A"),
-   endTime: dayjs(endTime).format("h:mm A"),
-   bedroom: event.bedroom,
-   bathroom: event.bathroom,
-   extras: event.extras,
-   service: event.service,
-   frequency: event.frequency,
-   aboutUs: event.aboutUs,
-   specialInstructions: event.specialInstructions,
-   homeAccess: event.homeAccess,
-   tips: event.tips,
-   totalPrice: event.totalPrice,
+
+ const handleSave = () => {
+  const updatedEvent: Form = {
+   ...event,
+   selectedDate,
+   time,
+   endDate,
+   endTime,
   };
-  try {
-   await updateEvent(event.id, updatedEventData);
-   console.log("Event updated successfully!");
-   onSave(updatedEventData);
-   onClose();
-   enqueueSnackbar("Event updated successfully", {variant: "success"});
-   if (onSave) {
-    onSave(updatedEventData);
-    enqueueSnackbar("Event updated successfully", {variant: "success"});
-   }
-  } catch (error) {
-   enqueueSnackbar("Error updating event", {variant: "error"});
-  }
+  onSave(updatedEvent);
+  onClose(); // Виклик функції збереження
  };
+ //  const handleSave = async () => {
+ //   const updatedEventData: Form = {
+ //    email: event.email,
+ //    name: event.name,
+ //    surname: event.surname,
+ //    phone: event.phone,
+ //    address: event.address,
+ //    area: event.area,
+ //    selectedDate: dayjs(selectedDate).format("MM/DD/YYYY"),
+ //    endDate: dayjs(endDate).format("MM/DD/YYYY"),
+ //    time: dayjs(time).format("h:mm A"),
+ //    endTime: dayjs(endTime).format("h:mm A"),
+ //    bedroom: event.bedroom,
+ //    bathroom: event.bathroom,
+ //    extras: event.extras,
+ //    service: event.service,
+ //    frequency: event.frequency,
+ //    aboutUs: event.aboutUs,
+ //    specialInstructions: event.specialInstructions,
+ //    homeAccess: event.homeAccess,
+ //    //    tips: event.tips,
+ //    totalPrice: event.totalPrice,
+ //   };
+ //   try {
+ //    await updateEvent(event.id, updatedEventData);
+ //    console.log("Event updated successfully!");
+ //    onSave(updatedEventData);
+ //    onClose();
+ //    enqueueSnackbar("Event updated successfully", {variant: "success"});
+ //    if (onSave) {
+ //     onSave(updatedEventData);
+ //     enqueueSnackbar("Event updated successfully", {variant: "success"});
+ //    }
+ //   } catch (error) {
+ //    enqueueSnackbar("Error updating event", {variant: "error"});
+ //   }
+ //  };
 
  const handleOpenDialog = () => {
   setIsDialogOpen(true); // Відкриваємо діалог при натисканні "Delete"
@@ -173,7 +186,6 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
     open={isDialogOpen}
     onClose={handleCloseDialog}
     onConfirm={() => onDelete(event._id)}
-    // message="Are you sure you want to delete this event?"
    />
   </>
  );

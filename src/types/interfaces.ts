@@ -1,5 +1,6 @@
 
 import dayjs, {Dayjs} from "dayjs";
+import { Form } from "./types";
 // import { updateEvent } from '@/helpers/api';
 export interface Employee {
   _id: string;
@@ -31,7 +32,7 @@ export interface Booking {
 }
 
 export interface CalendarEvent {
-    id: string ;
+    id: string;
     title: string;
     start: Date;
     end: Date;
@@ -71,30 +72,7 @@ export interface CalendarEvent {
     totalPrice: number; 
     discountCode?: string;
   }
-  // export interface EventData {
-  //   _id?: string | number;
-  //   email: string;
-  //   name: string;
-  //   surname: string;
-  //   phone: string;
-  //   address: Address;
-  //   area: string;
-  //   selectedDate: string; 
-  //   endDate: string; 
-  //   time: string; 
-  //   endTime: string;
-  //   bedroom: number;
-  //   bathroom: number;
-  //   extras: string[];
-  //   service: string;
-  //   frequency: string;
-  //   aboutUs: string;
-  //   specialInstructions: string;
-  //   homeAccess: string;
-  //   tips: string; 
-  //   totalPrice: number; 
-  //   discountCode?: string;
-  // }
+  
   export interface Address {
     city: string;
     street: string;
@@ -104,15 +82,15 @@ export interface CalendarEvent {
   }
 
 export interface CalendarComponentProps {
-    events: Array<any>;
-    event: any;
+  events: (Booking & CalendarEvent)[];
+    // event: any;
     defaultDate?: Date;
-    defaultView?: string;
+    // defaultView?: string;
     minDate?: Date;
     maxDate?: Date;
-    onUpdateEvent?: (eventId: string) => void;
-    onDeleteEvent?: (eventId: string) => void;
-    onSave?: (updatedEvent: Booking & CalendarEvent ) => void;
+    // onUpdateEvent?: (eventId: string) => void;
+    // onDeleteEvent?: (eventId: string) => void;
+    onSave?: (eventData: Form) => void;
    }
    export interface CalendarFieldProps {
     event: any;

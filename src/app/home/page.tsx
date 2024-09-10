@@ -16,17 +16,15 @@ export default function Home() {
   if (!isLoggedIn) {
    router.push("/");
   }
- }, [isLoggedIn]);
+ }, [isLoggedIn, router]);
 
  return (
   <div className="py-5 md:p-7 lg:py-20">
    {/* <h1 className="text-2xl font-medium text-center text-accent">Home</h1> */}
    <div className="flex flex-col lg:flex-row">
     <ClientCardList />
-    <div className="flex flex-col">
-     <h2 className="mb-10">Our workers</h2>
-     <CalendarComponent events={events} />
-    </div>
+
+    <CalendarComponent events={events} />
    </div>
   </div>
  );

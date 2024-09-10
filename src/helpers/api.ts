@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Form } from "@/types/types";
-import { UpdateEventPayload } from "@/interfaces";
-import dayjs from "dayjs";
+// import { UpdateEventPayload } from "@/interfaces";
+// import dayjs from "dayjs";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -30,7 +30,7 @@ export const signin = async (user: any) => {
 // 	}
 // }
 
-export const updateEvent = async (id: string | number, eventData: UpdateEventPayload): Promise<void> => {
+export const updateEvent = async (id: string | number, eventData: Form): Promise<void> => {
 	try {
 	  await axios.put(`${BASE_URL}/admin/bookings/${id}`, eventData);
 	} catch (error: any) {
@@ -42,20 +42,7 @@ export const updateEvent = async (id: string | number, eventData: UpdateEventPay
   //   const res = await axios.put(`${BASE_URL}/admin/bookings/${id}`, eventData);
   //   return res.data;
   //   }
-// export const updateEvent = async (id: string | number, eventData: UpdateEventPayload): Promise<void> => {
-//   try {
-//     const updatedEventData = {
-//       ...eventData,
-//       selectedDate: dayjs(eventData.selectedDate).format("MM/DD/YYYY"),
-//       endDate: dayjs(eventData.endDate).format("MM/DD/YYYY"),
-//       time: dayjs(eventData.time).format("h:mm A"),
-//       endTime: dayjs(eventData.endTime).format("h:mm A"),
-//     };
-//     await axios.put(`${BASE_URL}/admin/bookings/${id}`, updatedEventData);
-//   } catch (error: any) {
-//     console.error('Error updating event:', error.response?.data || error.message);
-//   }
-// }
+
   // export const deleteEvent = async (id: string): Promise<void> => {
 	// try {
 	//   await axios.delete(`${BASE_URL}/admin/bookings/${id}`);
@@ -70,13 +57,7 @@ export const updateEvent = async (id: string | number, eventData: UpdateEventPay
   }
     
 
-// export const addEvent = async (event: any): Promise<void> => {
-// 	try {
-// 	  await axios.post(`${BASE_URL}/admin/bookings`, event);
-// 	} catch (error) {
-// 	  console.error('Error adding event:', error);
-// 	}
-// }
+
 export const addEvent = async (event: any) => {
 	const res =  await axios.post(`${BASE_URL}/admin/bookings`, event);
 	return res
