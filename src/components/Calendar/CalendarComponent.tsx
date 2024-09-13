@@ -109,7 +109,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
    console.log("Event updated successfully!");
    enqueueSnackbar("Event updated successfully", {variant: "success"});
 
-   // Re-fetch events to reflect changes
    fetchAndSetNewEvents();
 
    if (onSave) {

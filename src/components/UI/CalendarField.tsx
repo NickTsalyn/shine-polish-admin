@@ -7,9 +7,7 @@ import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, {Dayjs} from "dayjs";
 import {useSnackbar} from "notistack";
-import Button from "../UI/Button";
-import {updateEvent} from "../../helpers/api";
-import {CalendarFieldProps, Booking, UpdateEventPayload, Address} from "@/types/interfaces";
+import {CalendarFieldProps, Booking} from "@/types/interfaces";
 
 const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave, events}) => {
  const {enqueueSnackbar} = useSnackbar();
@@ -44,12 +42,14 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave, events}) =>
  const toggleTimeCalendar = () => {
   setIsTimeCalendarOpen(!isTimeCalendarOpen);
  };
- const isDateDisabled = (date: Dayjs) => {
-  return events.some((event: any) => dayjs(date).isSame(dayjs(event.start), "day"));
- };
 
- const isTimeDisabled = (time: Dayjs) => {
-  return events.some((event: any) => dayjs(time).isSame(dayjs(event.start), "minute"));
+ const shouldDisableDate = (date: Dayjs, events: Booking[]) => {
+  return events.some((event) => dayjs(event.selectedDate).isSame(date, "day"));
+ };
+ const shouldDisableTime = (time: Dayjs, selectedDate: Dayjs, events: Booking[]) => {
+  return events.some(
+   (event) => dayjs(event.selectedDate).isSame(selectedDate, "day") && dayjs(event.time).isSame(time, "minute")
+  );
  };
 
  return (
@@ -58,9 +58,9 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave, events}) =>
     <div className="flex gap-4">
      <DatePicker
       label="Start Date"
-      value={startDate}
+      value={startDate ? dayjs(startDate, "YYYY-MM-DD") : null}
       onChange={handleStartDateChange}
-      shouldDisableDate={isDateDisabled}
+      shouldDisableDate={(date) => shouldDisableDate(date, events)}
      />
      <div className="w-[100px] relative">
       <button
@@ -74,13 +74,13 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave, events}) =>
       {isTimeCalendarOpen && (
        <div className="absolute right-0 bottom-[22px] ">
         <DigitalClock
-         value={dayjs(time, "h:mm A")}
+         value={time ? dayjs(time, "h:mm A") : null}
          onChange={handleTimeChange}
          skipDisabled
          minTime={dayjs("08:00", "h:mm A")}
          maxTime={dayjs("16:30", "h:mm A")}
          timeStep={30}
-         shouldDisableTime={isTimeDisabled}
+         shouldDisableTime={(time) => (startDate ? shouldDisableTime(time, startDate, events) : false)}
         />
        </div>
       )}
@@ -92,7 +92,7 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave, events}) =>
        label="End Date"
        value={endDate}
        onChange={handleEndDateChange}
-       shouldDisableDate={isDateDisabled}
+       //    shouldDisableDate={(date) => shouldDisable(date, events)}
       />
       <div className="w-[100px] relative">
        <button
@@ -106,13 +106,13 @@ const CalendarField: React.FC<CalendarFieldProps> = ({event, onSave, events}) =>
        {isTimeCalendarOpen && (
         <div className="absolute right-0 bottom-[22px] ">
          <DigitalClock
-          value={dayjs(time, "h:mm A")}
+          value={time ? dayjs(time, "h:mm A") : null}
           onChange={handleEndTimeChange}
           skipDisabled
           minTime={dayjs("08:00", "h:mm A")}
           maxTime={dayjs("16:30", "h:mm A")}
           timeStep={30}
-          shouldDisableTime={isTimeDisabled}
+          shouldDisableTime={(time) => (endDate ? shouldDisableTime(time, endDate, events) : false)}
          />
         </div>
        )}

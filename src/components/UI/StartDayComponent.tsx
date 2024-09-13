@@ -33,6 +33,26 @@ const StartBooking: React.FC<StartBookingProps> = ({onDateChange, onTimeChange, 
   setIsTimeOpen(!isTimeOpen);
  };
 
+//  const shouldDisableDate = (date: Dayjs, events: Booking[]) => {
+//   return events.some((event) => {
+//    const eventStart = dayjs(event.selectedDate);
+//    const eventEnd = dayjs(event.endDate);
+//    return date.isSame(eventStart, "day") || date.isBetween(eventStart, eventEnd, "day", "[]");
+//   });
+//  };
+//  const shouldDisableTime = (time: Dayjs, selectedDate: Dayjs | null, events: Booking[]) => {
+//   if (!selectedDate) return false;
+
+//   return events.some((event) => {
+//    const eventDate = dayjs(event.selectedDate);
+//    if (!selectedDate.isSame(eventDate, "day")) return false;
+
+//    const eventStartTime = dayjs(event.time, "HH:mm");
+//    const eventEndTime = dayjs(event.endTime, "HH:mm");
+//    return time.isSame(eventStartTime, "minute") || time.isBetween(eventStartTime, eventEndTime, "minute", "[]");
+//   });
+//  };
+
  return (
   <LocalizationProvider dateAdapter={AdapterDayjs}>
    <div className="flex flex-col gap-2 justify-center md:flex-row md:justify-between">
@@ -44,6 +64,7 @@ const StartBooking: React.FC<StartBookingProps> = ({onDateChange, onTimeChange, 
       disablePast
       openTo="day"
       autoFocus
+    //   shouldDisableDate={(date) => shouldDisableDate(date, events)}
      />
     </div>
     <div className="flex flex-col gap-2">
@@ -68,6 +89,7 @@ const StartBooking: React.FC<StartBookingProps> = ({onDateChange, onTimeChange, 
         minTime={dayjs().hour(8).minute(0)}
         maxTime={dayjs().hour(16).minute(30)}
         timeStep={30}
+        // shouldDisableTime={(time) => shouldDisableTime(time, selectedDate, events)}
        />
       </div>
      )}

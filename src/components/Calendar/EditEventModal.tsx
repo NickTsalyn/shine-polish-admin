@@ -3,8 +3,8 @@ import React, {useState} from "react";
 import BasicModal from "../UI/Modal";
 import Button from "../UI/Button";
 import dayjs, {Dayjs} from "dayjs";
-import {EditEventModalProps, Booking, CalendarEvent, UpdateEventPayload} from "@/types/interfaces";
-import {deleteEvent, updateEvent} from "@/helpers/api";
+import {EditEventModalProps} from "@/types/interfaces";
+// import {deleteEvent, updateEvent} from "@/helpers/api";
 import StartBooking from "../UI/StartDayComponent";
 import EndBooking from "../UI/EndDateComponent";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
@@ -22,8 +22,6 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(event.endTime));
  const {enqueueSnackbar} = useSnackbar();
  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
- //  const [scroll, setScroll] = React.useState("paper");
 
  const handleStartDateChange = (date: Dayjs | null) => {
   setSelectedDate(date);
@@ -47,65 +45,22 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
    endTime,
   };
   onSave(updatedEvent);
-  onClose(); // Виклик функції збереження
+  onClose();
  };
- //  const handleSave = async () => {
- //   const updatedEventData: Form = {
- //    email: event.email,
- //    name: event.name,
- //    surname: event.surname,
- //    phone: event.phone,
- //    address: event.address,
- //    area: event.area,
- //    selectedDate: dayjs(selectedDate).format("MM/DD/YYYY"),
- //    endDate: dayjs(endDate).format("MM/DD/YYYY"),
- //    time: dayjs(time).format("h:mm A"),
- //    endTime: dayjs(endTime).format("h:mm A"),
- //    bedroom: event.bedroom,
- //    bathroom: event.bathroom,
- //    extras: event.extras,
- //    service: event.service,
- //    frequency: event.frequency,
- //    aboutUs: event.aboutUs,
- //    specialInstructions: event.specialInstructions,
- //    homeAccess: event.homeAccess,
- //    //    tips: event.tips,
- //    totalPrice: event.totalPrice,
- //   };
- //   try {
- //    await updateEvent(event.id, updatedEventData);
- //    console.log("Event updated successfully!");
- //    onSave(updatedEventData);
- //    onClose();
- //    enqueueSnackbar("Event updated successfully", {variant: "success"});
- //    if (onSave) {
- //     onSave(updatedEventData);
- //     enqueueSnackbar("Event updated successfully", {variant: "success"});
- //    }
- //   } catch (error) {
- //    enqueueSnackbar("Error updating event", {variant: "error"});
- //   }
- //  };
 
  const handleOpenDialog = () => {
-  setIsDialogOpen(true); // Відкриваємо діалог при натисканні "Delete"
+  setIsDialogOpen(true);
  };
 
  const handleCloseDialog = () => {
-  setIsDialogOpen(false); // Закриваємо діалог
+  setIsDialogOpen(false);
  };
-
- //   const handleConfirmDelete = () => {
- //     onDelete(event._id);  // Викликаємо функцію видалення
- //     handleCloseDialog();  // Закриваємо діалог після підтвердження
- //   };
 
  return (
   <>
    <BasicModal
     open={open}
     onClose={onClose}
-    //    scroll={scroll}
    >
     <div className="flex flex-col gap-2 mb-4 lg:mb-6 h-[80%]">
      <h2 className="text-[24px] md:text-[32px] text-accent text-center">Edit booking</h2>
