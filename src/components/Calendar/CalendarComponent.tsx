@@ -29,9 +29,10 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
  const transformBookingToEvent = (booking: Booking): Booking & CalendarEvent => {
   const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
   const startTime = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A");
+
   //   const endTime = booking.endDate
   //    ? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A")
-  //    : startTime.add(3, "hour");
+  //    : dayjs(startTime).add(3, "hour");
   const endTime =
    dayjs(startTime).add(3, "hour") ?? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A");
   const isRegistered = booking.email && booking.phone;
@@ -63,6 +64,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 
  useEffect(() => {
   fetchAndSetNewEvents();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
  const handleSelectEvent = (event: Booking & CalendarEvent) => {
   setSelectedEvent(event);
