@@ -122,7 +122,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({event, onSave, onClose, 
      </Button>
 
      <Button
-      onClick={() => handleOpenDialog}
+      onClick={handleOpenDialog}
       type={"button"}
       style={"delete-button"}
      >
