@@ -27,3 +27,27 @@ export const ShineLogo = () => {
     </Link>
   );
 };
+export const AddressIcon = () => {
+  return (
+   <>
+    <Image
+     src="/icons/client-bookings/address-icon.svg"
+     alt="Address icon"
+     width={100}
+     height={100}
+    />
+   </>
+  );
+ };
+export const EmailIcon = () => {
+  return (
+   <>
+    <Image
+     src="/icons/client-bookings/email-icon.svg"
+     alt="Email icon"
+     width={100}
+     height={100}
+    />
+   </>
+  );
+ };

@@ -6,17 +6,20 @@ import ClientCardList from "@/components/ClientCard/ClientCardList";
 import CalendarComponent from "@/components/Calendar/CalendarComponent";
 import {useRouter} from "next/navigation";
 import {AuthContext} from "@/components/AuthContext";
+import { error } from "console";
 
 export default function Home() {
  const [events, setEvents] = React.useState([]);
  const {isLoggedIn} = useContext(AuthContext);
  const router = useRouter();
 
+
  useEffect(() => {
+ console.log("object");
   if (!isLoggedIn) {
-   router.push("/");
+//    router.push("/");
   }
- }, [isLoggedIn]);
+ }, []);
 
  return (
   <div className="py-5 md:p-7 lg:py-20">
