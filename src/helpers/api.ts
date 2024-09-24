@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Form } from "@/types/types";
-import { UpdateEventPayload } from "@/interfaces";
+// import { UpdateEventPayload } from "@/interfaces";
+// import dayjs from "dayjs";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -19,17 +20,17 @@ export const signin = async (user: any) => {
     return token;
 };
 
-export const getExtras = async () => {
-	try {
-	 const response = await axios.get(`${BASE_URL}/admin/bookings`);
-	 return response.data;
-	} catch (error) {
-	 console.error("Error getting extras:", error);
-	 return [];
-	}
-}
+// export const getExtras = async () => {
+// 	try {
+// 	 const response = await axios.get(`${BASE_URL}/admin/bookings`);
+// 	 return response.data;
+// 	} catch (error) {
+// 	 console.error("Error getting extras:", error);
+// 	 return [];
+// 	}
+// }
 
-export const updateEvent = async (id: string | number, eventData: UpdateEventPayload): Promise<void> => {
+export const updateEvent = async (id: string | number, eventData: Form): Promise<void> => {
 	try {
 	  await axios.put(`${BASE_URL}/admin/bookings/${id}`, eventData);
 	} catch (error: any) {
@@ -37,23 +38,30 @@ export const updateEvent = async (id: string | number, eventData: UpdateEventPay
 	}
   }
 
-  export const deleteEvent = async (id: string): Promise<void> => {
-	try {
-	  await axios.delete(`${BASE_URL}/admin/bookings/${id}`);
-	  console.log('Event deleted successfully');
-	} catch (error) {
-	  console.error('Error deleting event:', error);
-	}
+  // export const updateEvent = async (id: string | number, eventData: UpdateEventPayload): Promise<void>  => {
+  //   const res = await axios.put(`${BASE_URL}/admin/bookings/${id}`, eventData);
+  //   return res.data;
+  //   }
+
+  // export const deleteEvent = async (id: string): Promise<void> => {
+	// try {
+	//   await axios.delete(`${BASE_URL}/admin/bookings/${id}`);
+	//   console.log('Event deleted successfully');
+	// } catch (error) {
+	//   console.error('Error deleting event:', error);
+	// }
+  // }
+  export const deleteEvent = async (id: string) => {
+     const res = await axios.delete(`${BASE_URL}/admin/bookings/${id}`);
+    return res;
   }
+    
 
-export const addEvent = async (event: any): Promise<void> => {
-	try {
-	  await axios.post(`${BASE_URL}/admin/bookings`, event);
-	} catch (error) {
-	  console.error('Error adding event:', error);
-	}
+
+export const addEvent = async (event: any) => {
+	const res =  await axios.post(`${BASE_URL}/admin/bookings`, event);
+	return res
 }
-
 export const getPhotos = async () => {
   const res = await axios.get(`${BASE_URL}/files/images`);
   return res.data;

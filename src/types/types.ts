@@ -1,14 +1,19 @@
+import {Dayjs} from "dayjs";
+
 export type Address = {
     street: string;
     city: string;
     state: string;
     zip: string;
+    aptSuite?: string;
   };
 
 export type Form = {
+    _id?: string | number;
+   
     area: string;
-    bedroom: string;
-    bathroom: string;
+    bedroom: string | number;
+    bathroom: string | number;
     frequency: string;
     service: string;
     extras: string[];
@@ -21,10 +26,14 @@ export type Form = {
     selectedDate: string;
     endDate: string;
     time: string;
+    endTime: string;
     aboutUs: string;
     specialInstructions: string;
     homeAccess: string;
     totalPrice: number;
+    tips?: string;
+    discountCode?: string;
+  
   };
 
  export type InputField = {
@@ -44,3 +53,13 @@ export  type InputValues = {
     state: string;
     zip: string;
   };
+
+  export type EditEventModalProps = {
+    end: string | number | Date | Dayjs | null | undefined;
+    start: string | number | Date | Dayjs | null | undefined;
+    open: boolean;
+    onClose: () => void;
+    event: any;
+    onSave: (updateEvent: any) => void;
+    onDelete: (eventId: string) => void;
+   }

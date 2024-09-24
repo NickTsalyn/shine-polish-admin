@@ -1,142 +1,159 @@
 " use client";
-import { styledTextField } from "@/styles/overrides";
-import { Employee } from "@/types/interfaces";
-import { Box, TextField } from "@mui/material";
-import { useState } from "react";
+import {styledTextField} from "@/styles/overrides";
+import {Employee} from "@/types/interfaces";
+import {Box, TextField} from "@mui/material";
+import {useState} from "react";
 import UploadButton from "../UI/UploadButton";
 import Button from "../UI/Button";
 import CloseButton from "../UI/CloseButton";
 import Image from "next/image";
-import { editEmployee } from "@/helpers/api";
-import { useSnackbar } from "notistack";
+import {editEmployee} from "@/helpers/api";
+import {useSnackbar} from "notistack";
 
 type Props = {
-  onClose: () => void;
-  employee: Employee;
+ onClose: () => void;
+ employee: Employee;
 };
 
 type InputField = {
-  id: string;
-  label: string;
-  name: keyof InputValues;
+ id: string;
+ label: string;
+ name: keyof InputValues;
 };
 
 type InputValues = {
-  name: string;
-  phone: string;
-  email: string;
-  area: string;
-  avatar: File | string;
+ name: string;
+ phone: string;
+ email: string;
+ area: string;
+ avatar: File | string;
 };
 
 const inputFields: InputField[] = [
-  { id: "1", label: "Name", name: "name" },
-  { id: "2", label: "Phone", name: "phone" },
-  { id: "3", label: "Email", name: "email" },
-  { id: "4", label: "Area", name: "area" },
+ {id: "1", label: "Name", name: "name"},
+ {id: "2", label: "Phone", name: "phone"},
+ {id: "3", label: "Email", name: "email"},
+ {id: "4", label: "Area", name: "area"},
 ];
 
-const EditEmployeeForm = ({ onClose, employee }: Props) => {
-  const { enqueueSnackbar } = useSnackbar();
-  const [inputValues, setInputValues] = useState<InputValues>({
-    name: employee?.username,
-    phone: employee?.phone,
-    email: employee?.email,
-    area: employee?.area,
-    avatar: employee?.avatar,
-  });
-  const [image, setImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(
-    inputValues.avatar ? inputValues.avatar.toString() : null
-  );
-  const [isLoading, setIsLoading] = useState(false);
+const EditEmployeeForm = ({onClose, employee}: Props) => {
+ const {enqueueSnackbar} = useSnackbar();
+ const [inputValues, setInputValues] = useState<InputValues>({
+  name: employee?.username,
+  phone: employee?.phone,
+  email: employee?.email,
+  area: employee?.area,
+  avatar: employee?.avatar,
+ });
+ const [image, setImage] = useState<File | null>(null);
+ const [imagePreview, setImagePreview] = useState<string | null>(
+  inputValues.avatar ? inputValues.avatar.toString() : null
+ );
+ const [isLoading, setIsLoading] = useState(false);
 
-  const handleFileChange = (file: File | null) => {
-    setImage(file);
-    setImagePreview(file ? URL.createObjectURL(file) : null);
-  };
+ const handleFileChange = (file: File | null) => {
+  setImage(file);
+  setImagePreview(file ? URL.createObjectURL(file) : null);
+ };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const {name, value} = e.target;
+  setInputValues((prevValues) => ({
+   ...prevValues,
+   [name]: value,
+  }));
+ };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      if (inputValues.name !== employee.username) formData.append("username", inputValues.name);
-      if (inputValues.phone !== employee.phone) formData.append("phone", inputValues.phone);
-      if (inputValues.email !== employee.email) formData.append("email", inputValues.email);
-      if (inputValues.area !== employee.area) formData.append("area", inputValues.area);
-      if (image) formData.append("avatar", image);
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  try {
+   const formData = new FormData();
+   if (inputValues.name !== employee.username) formData.append("username", inputValues.name);
+   if (inputValues.phone !== employee.phone) formData.append("phone", inputValues.phone);
+   if (inputValues.email !== employee.email) formData.append("email", inputValues.email);
+   if (inputValues.area !== employee.area) formData.append("area", inputValues.area);
+   if (image) formData.append("avatar", image);
 
-      if (
-        formData.has("username") ||
-        formData.has("phone") ||
-        formData.has("email") ||
-        formData.has("area") ||
-        formData.has("avatar")
-      ) {
-        setIsLoading(true);
-        const updatedEmployee = await editEmployee(employee._id, formData);
-        setIsLoading(false);
-        enqueueSnackbar("Employee updated successfully", { variant: "success" });
-        onClose();
-      } else {
-        enqueueSnackbar("No changes made", { variant: "info" });
-      }
-    } catch (error) {
-      enqueueSnackbar("Error updating employee", { variant: "error" });
-    } finally {
-      onClose();
-    }
-  };
+   if (
+    formData.has("username") ||
+    formData.has("phone") ||
+    formData.has("email") ||
+    formData.has("area") ||
+    formData.has("avatar")
+   ) {
+    setIsLoading(true);
+    const updatedEmployee = await editEmployee(employee._id, formData);
+    setIsLoading(false);
+    enqueueSnackbar("Employee updated successfully", {variant: "success"});
+    onClose();
+   } else {
+    enqueueSnackbar("No changes made", {variant: "info"});
+   }
+  } catch (error) {
+   enqueueSnackbar("Error updating employee", {variant: "error"});
+  } finally {
+   onClose();
+  }
+ };
 
-  return (
-    <>
-      <div className=" bg-white  flex flex-col gap-4 md:gap-6 overflow-y-auto">
-        <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl ">Edit Employee</h2>
-        <Box
-          component="form"
-          noValidate
-          autoComplete="off"
-          className="flex flex-col gap-4 md:gap-8 items-center text-secondary mb-4 md:mb-6 xl:md-8 "
-          onSubmit={handleSubmit}
-        >
-          {inputFields.map((field) => (
-            <TextField
-              key={field.id}
-              id={field.id}
-              label={field.label}
-              variant="outlined"
-              size="small"
-              value={inputValues[field.name]}
-              name={field.name}
-              onChange={handleChange}
-              sx={{
-                width: "100%",
-                ...styledTextField,
-              }}
-            />
-          ))}
+ return (
+  <>
+   <div className=" bg-white  flex flex-col gap-4 md:gap-6 overflow-y-auto">
+    <h2 className="text-accent text-2xl md:text-4xl lg:text-5xl text-center ">Edit Employee</h2>
+    <Box
+     component="form"
+     noValidate
+     autoComplete="off"
+     className="flex flex-col gap-4 md:gap-8 items-center text-secondary mb-4 md:mb-6 xl:md-8 "
+     onSubmit={handleSubmit}
+    >
+     {inputFields.map((field) => (
+      <TextField
+       key={field.id}
+       id={field.id}
+       label={field.label}
+       variant="outlined"
+       // size="small"
+       value={inputValues[field.name]}
+       name={field.name}
+       onChange={handleChange}
+       sx={{
+        width: "100%",
+        height: "56px",
+        ...styledTextField,
+       }}
+      />
+     ))}
 
-          <div className=" flex flex-row justify-between items-center gap-8">
-            {imagePreview && <Image src={imagePreview} alt="Uploaded" width={75} height={50} />}
-            <UploadButton label="Upload Photo" onFileChange={handleFileChange} />
-          </div>
+     <div className=" flex flex-row justify-between items-center gap-8">
+      {imagePreview && (
+       <Image
+        src={imagePreview}
+        alt="Uploaded"
+        width={75}
+        height={50}
+       />
+      )}
+      <UploadButton
+       label="Upload Photo"
+       onFileChange={handleFileChange}
+      />
+     </div>
 
-          <Button style="confirm" type="submit">
-            {isLoading ? "Saving..." : "Edit"}
-          </Button>
-        </Box>
-      </div>
-      <CloseButton type="button" onClick={onClose} />
-    </>
-  );
+     <Button
+      style="confirm"
+      type="submit"
+     >
+      {isLoading ? "Saving..." : "Edit"}
+     </Button>
+    </Box>
+   </div>
+   <CloseButton
+    type="button"
+    onClick={onClose}
+   />
+  </>
+ );
 };
 
 export default EditEmployeeForm;

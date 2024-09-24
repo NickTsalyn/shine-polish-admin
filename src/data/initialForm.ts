@@ -19,6 +19,7 @@ export const initialForm = {
     selectedDate: "",
     endDate: "",
     time: "",
+    endTime: "",
     aboutUs: "",
     specialInstructions: "",
     homeAccess: "",

@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import ClientCard from "./ClientCard";
-import {Booking} from "@/interfaces";
+import {Booking} from "@/types/interfaces";
 import {getBookings} from "@/helpers/api";
 
 const ClientCardList: React.FC = () => {
@@ -26,9 +26,9 @@ const ClientCardList: React.FC = () => {
  }, []);
 
  return (
-  <div className="flex flex-col w-[320px] mr-10 lg:h-[830px] md:w-[768px] m-auto  lg:w-[320px]">
+  <div className="flex flex-col  w-[320px] mr-4 lg:h-[830px] md:w-[768px] m-auto  lg:w-[380px] mb-10">
    <h2 className="text-3xl mb-5 text-main text-center">Our Clients</h2>
-   <div className="flex lg:flex-col gap-4 max-h-[900px] overflow-y-auto box-border">
+   <div className="flex h-[240px] lg:h-[800px] rounded-xl justify-center lg:flex-col gap-4 xl:max-h-[900px] overflow-y-auto box-border">
     {bookings.map((booking) => (
      <ClientCard
       key={booking._id}
