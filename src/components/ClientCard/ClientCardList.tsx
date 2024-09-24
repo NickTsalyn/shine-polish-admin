@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import ClientCard from "./ClientCard";
-import {Booking} from "@/interfaces";
+import {Booking} from "@/types/interfaces";
 import {getBookings} from "@/helpers/api";
 
 const ClientCardList: React.FC = () => {

@@ -108,3 +108,7 @@ export interface CalendarComponentProps {
     onSave: (updateEvent: any) => void;
     onDelete: (eventId: string) => void;
    }
+
+   export interface ClientCardProps {
+    booking: Booking; // Booking object passed as a prop
+  }

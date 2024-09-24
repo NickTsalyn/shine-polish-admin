@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import Button from "../UI/Button";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-import {ClientCardProps, Booking} from "@/interfaces";
+import {ClientCardProps} from "@/types/interfaces";
 import {stringToColor, stringAvatar} from "@/helpers/colorUtils";
 
 const ClientCard: React.FC<ClientCardProps> = ({booking}) => {
