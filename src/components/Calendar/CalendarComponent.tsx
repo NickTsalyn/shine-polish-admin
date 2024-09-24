@@ -30,11 +30,11 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   const selectedDate = dayjs(booking.selectedDate).format("MM/DD/YYYY");
   const startTime = dayjs(`${selectedDate} ${booking.time}`, "MM/DD/YYYY h:mm A");
 
-  //   const endTime = booking.endDate
-  //    ? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A")
-  //    : dayjs(startTime).add(3, "hour");
   const endTime =
-   dayjs(startTime).add(3, "hour") ?? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A");
+   dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A") || dayjs(startTime).add(3, "hour");
+  //   const endTime =
+  //    dayjs(startTime).add(3, "hour") ?? dayjs(`${booking.endDate} ${booking.endTime}`, "MM/DD/YYYY h:mm A");
+
   const isRegistered = booking.email && booking.phone;
 
   return {

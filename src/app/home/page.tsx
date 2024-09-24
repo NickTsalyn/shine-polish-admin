@@ -6,6 +6,7 @@ import ClientCardList from "@/components/ClientCard/ClientCardList";
 import CalendarComponent from "@/components/Calendar/CalendarComponent";
 import {useRouter} from "next/navigation";
 import {AuthContext} from "@/components/AuthContext";
+// import LetterSuccess from "@/components/LetterTemplate";
 
 export default function Home() {
  const [events, setEvents] = React.useState([]);
@@ -25,6 +26,7 @@ export default function Home() {
     <ClientCardList />
 
     <CalendarComponent events={events} />
+    {/* <LetterSuccess booking={events[0]} /> */}
    </div>
   </div>
  );

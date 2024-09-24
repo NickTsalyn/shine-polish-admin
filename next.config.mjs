@@ -3,9 +3,9 @@ const nextConfig = {
     images: {
         domains: ['res.cloudinary.com'],
       },
-      compiler: {
-        removeConsole: true,
-      },
+      // compiler: {
+      //   removeConsole: true,
+      // },
 };
 
 

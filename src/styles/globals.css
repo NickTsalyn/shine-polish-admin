@@ -38,6 +38,7 @@ select:-webkit-autofill:focus {
   background-color: #e6ba95 !important;
   color: white !important;
   border: #e6ba95 !important;
+  transition: "all 0.3s ease";
 }
 
 .MuiPickersDay-root:hover {
@@ -68,6 +69,7 @@ select:-webkit-autofill:focus {
 
 .MuiMenuItem-root {
   border-radius: 12px;
+  transition: "all 0.3s ease";
 }
 
 .MuiMenuItem-root:hover {
@@ -111,6 +113,7 @@ select:-webkit-autofill:focus {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #e6ba95;
   border-radius: 32px;
+  transition: "all 0.3s ease";
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
@@ -129,6 +132,7 @@ select:-webkit-autofill:focus {
  .MuiOutlinedInput-notchedOutline {
   border-color: #E6BA95;
   border-radius: 12px;
+  transition: "all 0.3s ease";
 }
 
 .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover{
@@ -139,3 +143,69 @@ select:-webkit-autofill:focus {
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* 
+ .MuiOutlinedInput-root fieldset  {
+   border-radius: 12px;
+   & :hover {
+    border-width: 3px;
+    border-color: #E6BA95; 
+    box-shadow: "0px 30px 60px -12px rgba(50, 50, 93, 0.25), 0px 18px 36px -18px rgba(0, 0, 0, 0.30)"; 
+   }
+
+  .Mui-focused fieldset {
+    border-width: 3px;
+    border-color: #E6BA95; 
+    box-shadow: "0px 30px 60px -12px rgba(50, 50, 93, 0.25), 0px 18px 36px -18px rgba(0, 0, 0, 0.30)";
+   }
+  }
+
+ .MuiInputLabel-root {
+   color: #9E9E9E;
+  }
+  .MuiInputLabel-root.Mui-focused {
+   color: #E6BA95
+  } */
+ 
+  /* Targeting the root element of the outlined input */
+.MuiOutlinedInput-root fieldset{
+  border-radius: 12px;
+  transition: "all 0.3s ease" !important;
+}
+
+.MuiOutlinedInput-root:hover fieldset {
+  border-width: 3px;
+  border-color: #E6BA95 !important;
+  box-shadow: 0px 30px 60px -12px rgba(50, 50, 93, 0.25), 0px 18px 36px -18px rgba(0, 0, 0, 0.30);
+}
+
+.MuiOutlinedInput-root.Mui-focused fieldset {
+  border-width: 3px !important;
+  border-color: #E6BA95 !important;
+  box-shadow: 0px 30px 60px -12px rgba(50, 50, 93, 0.25), 0px 18px 36px -18px rgba(0, 0, 0, 0.30);
+}
+
+
+/* Label styles */
+.MuiInputLabel-root {
+  color: #9E9E9E;
+  transition: "all 0.3s ease";
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: #E6BA95;
+}
+.MuiInputBase-root::placeholder {
+color:#006778;
+font-size: 16px;
+}
+.custom-placeholder input::placeholder {
+  color: red; /* Колір плейсхолдера */
+  opacity: 1; /* Змінює прозорість (необов'язково) */
+}
+/* .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  border-radius: 12px;
+  border-color: #E6BA95 !important;
+  height: 56px;
+  padding: 0 16px;
+} */
