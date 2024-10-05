@@ -31,5 +31,5 @@ function stringAvatar(name: string) {
 }
 
 export default function LetterAvatar({ fullName }: any) {
-  return <Avatar className="text-[10px] size-5" {...stringAvatar(fullName)} />;
+  return <Avatar className="text-[10px] size-5 md:text-[20px] md:size-10" {...stringAvatar(fullName)} />;
 }

@@ -148,12 +148,12 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
             <CustomTimePicker />
           </div>
         </div>
-        <div className="flex h-44 min-h-44 gap-6 col-span-2 lg:col-span-2 max-w-[280px] md:max-w-[810px] lg:w-full mb-10">
+        <div className="flex h-44 min-h-44 md:h-56 gap-6 col-span-2  lg:col-span-2 max-w-[280px] md:max-w-[810px] lg:w-full mb-10">
           {/* <div className="flex space-x-6 lg:space-x-0 lg:space-y-10 mb-7 md:mb-0 md:self-center lg:grid lg:justify-self-start lg:col-start-4 lg:col-end-5 lg:row-start-3 lg:row-end-5 xl:flex xl:space-x-6 xl:space-y-0">
             
           </div> */}
 
-          <div className="self-start w-40 flex flex-col gap-y-4 md:gap-y-5  shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 xl:pl-20  pr-3 body  mx-auto">
+          <div className="self-start w-40 md:min-w-[520px] flex flex-col gap-y-4 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20  pr-3 body mx-auto">
             <div className="md:block text-[12px] md:text-[28px] xl:text-[32px] relative ">
               {name} {surname}
               <div className="absolute top-0 -left-6 md:-top-0 md:-left-12 text-[12px]">
@@ -180,18 +180,18 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           </div>
 
           {/*list last bookings */}
-          <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4 xl:w-full xl:p-5 h-full ">
-            <div className="w-[100px] lg:w-[180px] xl:w-full shadow-card-shadow rounded-xl p-3 px-2 mx-auto h-full">
-              <h3 className="text-[12px] mb-5 text-accent text-center">
-                Your bookings
-              </h3>
-              <ul className="flex flex-col gap-y-1 max-h-[110px] md:max-h-[160px] overflow-y-auto overflow-x-hidden ">
+          <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4 md:col-span-3 xl:w-full xl:p-5 h-full ">
+            <div className="w-[100px] md:w-[160px] lg:w-[180px] xl:w-full shadow-card-shadow rounded-xl p-3 px-2 mx-auto h-full">
+              {/* <h3 className="text-[12px] md:text-lg mb-5 text-accent text-center">
+                Last bookings
+              </h3> */}
+              <ul className="flex flex-col gap-y-1 max-h-[110px] md:max-h-[198px] overflow-y-auto overflow-x-hidden ">
                 {bookings.map((booking: any, index: number) => (
                   <li
                     className={
                       booking.selectedDate === clientBooking.selectedDate
-                        ? "flex flex-col items-center text-[10px] text-accent"
-                        : "flex flex-col items-center text-[10px]  opacity-20"
+                        ? "flex flex-col items-center text-[10px] md:text-sm text-accent"
+                        : "flex flex-col items-center text-[10px] md:text-sm opacity-20"
                     }
                     key={index}
                   >
@@ -229,8 +229,8 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
 
         {/* Your last bookings*/}
         <div className="w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-1 lg:col-end-5 lg:row-end-3">
-          <div className="text-[12px] lg:text-[20px] leading-6 text-main grid grid-cols-3 gap-x-2 gap-y-1 md:gap-y-12 ">
-            <div className="flex flex-col gap-1">
+          <div className="text-[12px] leading-6 md:text-[24px] md:leading-normal text-main grid grid-cols-3 gap-x-2 gap-y-1 md:gap-y-3 ">
+            <div className="flex flex-col gap-1 md:gap-3">
               <p className="text-inherit">Bedrooms: {clientBooking.bedroom}</p>
               <p className="text-inherit ">
                 Bathrooms: {clientBooking.bathroom}
@@ -248,53 +248,53 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
               </div>
             </div>
 
-            <ul className="col-span-2 grid row-span-2 grow md:col-span-3 lg:grid grid-cols-2 gap-1 justify-items-start items-start xl:grid-cols-3">
+            <ul className="col-span-2 grid row-span-1 grow  lg:grid grid-cols-2 gap-1 justify-items-start items-start xl:grid-cols-3 pt-[6px] md:pt-0">
               {options.data.data.extrasOptions.map((item: any, index: number) =>
                 item.name === clientBooking.extras[index] ? (
                   <li
                     key={index}
-                    className="text-text text-[10px] leading-none lg:text-[20px] text-center lg:text-start"
+                    className="text-text text-[10px] leading-tight md:text-[20px] md:leading-normal text-center lg:text-start"
                   >
                     {item.name}
                   </li>
                 ) : (
                   <li
                     key={index}
-                    className="text-text text-[10px] leading-none lg:text-[20px] opacity-40 text-center lg:text-start"
+                    className="text-text text-[10px] leading-tight md:text-[20px] md:leading-normal opacity-40 text-center lg:text-start"
                   >
                     {item.name}
                   </li>
                 )
               )}
             </ul>
-            <p className="text-inherit text-main text-center col-span-2 md:col-span-1">
+            <p className="text-inherit text-main text-start col-span-2 md:col-span-3">
               You haven’t cleaning supplies <br />
               (we cab bring it with us)
             </p>
           </div>
         </div>
         {/* Your question*/}
-        <div className="w-[320px] md:w-full p-2 md:px-0 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
-          <h3 className="text-[12px] text-accent mb-3">Your questions:</h3>
-          <p className="text-[10px]  text-text overflow-y-hidden max-h-[76px] ">
+        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
+          <h3 className="text-[12px] md:text-2xl text-accent mb-3 md:mb-4">Your questions:</h3>
+          <p className="text-[10px] md:text-[20px] md:leading-6 text-text overflow-y-hidden max-h-[76px] ">
             {clientBooking.specialInstructions}
           </p>
         </div>
         {/* Additional information*/}
-        <div className="w-[320px] md:w-full p-2 md:px-0 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
-          <h3 className="text-[12px] text-accent mb-3">
+        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
+          <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Additional information:
           </h3>
-          <p className="text-[10px] text-text overflow-y-hidden max-h-[76px] ">
+          <p className="text-[10px] md:text-[20px] md:leading-6 text-text overflow-y-hidden max-h-[76px] ">
             {clientBooking.homeAccess}
           </p>
         </div>
         {/* Special Instructions:*/}
-        <div className="w-[320px] md:w-full p-2 md:px-0 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
-          <h3 className="text-[12px] text-accent mb-3">
+        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
+          <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Special Instructions:
           </h3>
-          <p className="text-[10px] text-text overflow-y-hidden max-h-[76px] ">
+          <p className="text-[10px] md:text-[20px] md:leading-6 text-text overflow-y-hidden max-h-[76px] text-ellipsis hover:text-clip">
             {clientBooking.specialInstructions}
           </p>
         </div>
