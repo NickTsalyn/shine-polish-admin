@@ -71,7 +71,7 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
           onClick={handleDateButtonClick}
           className="flex flex-col items-center"
         >
-          <EditCalendarIcon className="text-main size-6" />
+          <EditCalendarIcon className="text-main size-6 md:size-8" />
           {/* <span className="text-secondary">Choose Date</span> */}
         </button>
         {isDateCalendarOpen && (

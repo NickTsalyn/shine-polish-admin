@@ -49,7 +49,7 @@ export default function CustomTimePicker({onChange, value}: CustomTimePickerProp
      onClick={handleTimeButtonClick}
      className="flex flex-col items-center"
     >
-     <AccessTimeRoundedIcon className="text-main size-6" />
+     <AccessTimeRoundedIcon className="text-main size-6 md:size-8" />
      {/* <span className="text-secondary">Choose Time</span> */}
     </button>
     {isTimeCalendarOpen && (

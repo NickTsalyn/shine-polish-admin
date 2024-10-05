@@ -134,26 +134,26 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
   return (
     isSuccess &&
     clientBooking && (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[minmax(200px,_1fr)_minmax(200px,_1fr)_minmax(200px,_1fr)_minmax(478px,_1fr)] xl:grid-cols-[minmax(270px,_1fr)_minmax(270px,_1fr)_minmax(270px,_1fr)_minmax(684px,_1fr)]  gap-x-4 items-center justify-items-center md:justify-items-start mb-10">
-        <div className="flex col-span-2 gap-2 ">
-          <p className="flex items-center text-[10px] md:text-[24px] lg:text-[28px] xl:text-[40px]  mb-8 text-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[minmax(180px,_1fr)_minmax(180px,_1fr)_minmax(180px,_1fr)_minmax(520px,_1fr)] xl:grid-cols-[minmax(270px,_1fr)_minmax(270px,_1fr)_minmax(270px,_1fr)_minmax(684px,_1fr)] gap-x-4 lg:gap-x-8 items-center justify-items-center md:justify-items-start mb-10">
+        <div className="col-span-2 md:col-span-3 lg:col-span-4 flex lg:flex-row-reverse gap-2 md:justify-between md:w-full">
+          <p className="flex  items-center text-[10px] md:text-[24px] lg:text-[28px] xl:text-[40px]  mb-8 text-center">
             today:{" "}
-            <span className="text-main text-[16px] indent-1.5">
+            <span className="text-main text-[16px] md:text-[24px] indent-1.5">
               {dayjs().format("MM/DD/YYYY")}
             </span>
             <span className="indent-5">{`${dayjs().format("dddd")}`}</span>
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-3 md:gap-6 ">
             <CustomDatePicker />
             <CustomTimePicker />
           </div>
         </div>
-        <div className="flex h-44 min-h-44 md:h-56 gap-6 col-span-2  lg:col-span-2 max-w-[280px] md:max-w-[810px] lg:w-full mb-10">
+        <div className="flex h-44 min-h-44 md:h-56 gap-6 col-span-2 lg:col-span-3 lg:self-start max-w-[280px] md:max-w-[810px] lg:w-full mb-10 md:mb-16">
           {/* <div className="flex space-x-6 lg:space-x-0 lg:space-y-10 mb-7 md:mb-0 md:self-center lg:grid lg:justify-self-start lg:col-start-4 lg:col-end-5 lg:row-start-3 lg:row-end-5 xl:flex xl:space-x-6 xl:space-y-0">
             
           </div> */}
 
-          <div className="self-start w-40 md:min-w-[520px] flex flex-col gap-y-4 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20  pr-3 body mx-auto">
+          <div className="self-start w-40 md:min-w-[520px] lg:min-w-[350px] flex flex-col gap-y-4 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20 pr-3 body ">
             <div className="md:block text-[12px] md:text-[28px] xl:text-[32px] relative ">
               {name} {surname}
               <div className="absolute top-0 -left-6 md:-top-0 md:-left-12 text-[12px]">
@@ -180,18 +180,18 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           </div>
 
           {/*list last bookings */}
-          <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4 md:col-span-3 xl:w-full xl:p-5 h-full ">
+          <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4  xl:w-full xl:p-5 h-full ">
             <div className="w-[100px] md:w-[160px] lg:w-[180px] xl:w-full shadow-card-shadow rounded-xl p-3 px-2 mx-auto h-full">
               {/* <h3 className="text-[12px] md:text-lg mb-5 text-accent text-center">
                 Last bookings
               </h3> */}
-              <ul className="flex flex-col gap-y-1 max-h-[110px] md:max-h-[198px] overflow-y-auto overflow-x-hidden ">
+              <ul className="flex flex-col gap-y-1 max-h-[150px] md:max-h-[198px] overflow-y-auto">
                 {bookings.map((booking: any, index: number) => (
                   <li
                     className={
                       booking.selectedDate === clientBooking.selectedDate
-                        ? "flex flex-col items-center text-[10px] md:text-sm text-accent"
-                        : "flex flex-col items-center text-[10px] md:text-sm opacity-20"
+                        ? "flex flex-col items-center text-[10px] md:text-sm lg:text-lg text-accent"
+                        : "flex flex-col items-center text-[10px] md:text-sm lg:text-lg opacity-20"
                     }
                     key={index}
                   >
@@ -228,45 +228,49 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
         {/* bokings detail*/}
 
         {/* Your last bookings*/}
-        <div className="w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-1 lg:col-end-5 lg:row-end-3">
-          <div className="text-[12px] leading-6 md:text-[24px] md:leading-normal text-main grid grid-cols-3 gap-x-2 gap-y-1 md:gap-y-3 ">
-            <div className="flex flex-col gap-1 md:gap-3">
-              <p className="text-inherit">Bedrooms: {clientBooking.bedroom}</p>
-              <p className="text-inherit ">
-                Bathrooms: {clientBooking.bathroom}
-              </p>
+        <div className="w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-2 lg:col-end-5 lg:row-end-4">
+          <div className="grid grid-cols-3 gap-x-2 gap-y-1 md:gap-y-3 lg:gap-y-8 text-[12px] leading-6 md:text-[24px] md:leading-normal text-main ">
+            <div className="flex flex-col gap-1 md:gap-3 lg:gap-8 lg:flex-row lg:col-span-3 ">
+              <div className="flex flex-col gap-1 ">
+                <p className="text-inherit">
+                  Bedrooms: {clientBooking.bedroom}
+                </p>
+                <p className="text-inherit ">
+                  Bathrooms: {clientBooking.bathroom}
+                </p>
+              </div>
               {/* <p className="text-main opacity-20">
                 Extra Living Room/ <br /> Bonus Room
               </p> */}
 
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 ">
                 <p className="text-main">{clientBooking.service}</p>
                 <p className="text-main">{clientBooking.frequency}</p>
-                {/* <p className="text-accent opacity-20">
-                Visit to the facility for work evaluation
-              </p> */}
               </div>
             </div>
 
-            <ul className="col-span-2 grid row-span-1 grow  lg:grid grid-cols-2 gap-1 justify-items-start items-start xl:grid-cols-3 pt-[6px] md:pt-0">
+            <ul className="col-span-2 lg:col-span-3 grid row-span-1 grow  lg:grid grid-cols-3 gap-1 lg:gap-y-3 justify-items-start items-start xl:grid-cols-3 pt-[6px] md:pt-0">
               {options.data.data.extrasOptions.map((item: any, index: number) =>
                 item.name === clientBooking.extras[index] ? (
                   <li
                     key={index}
-                    className="text-text text-[10px] leading-tight md:text-[20px] md:leading-normal text-center lg:text-start"
+                    className="text-main text-[10px] leading-tight md:text-[20px] md:leading-normal text-start lg:text-start "
                   >
                     {item.name}
                   </li>
                 ) : (
                   <li
                     key={index}
-                    className="text-text text-[10px] leading-tight md:text-[20px] md:leading-normal opacity-40 text-center lg:text-start"
+                    className="text-main text-[10px] leading-tight md:text-[20px] md:leading-normal opacity-40 text-start lg:text-start"
                   >
                     {item.name}
                   </li>
                 )
               )}
             </ul>
+            <p className="text-accent opacity-20 lg:col-span-3">
+              Visit to the facility for work evaluation
+            </p>
             <p className="text-inherit text-main text-start col-span-2 md:col-span-3">
               You haven’t cleaning supplies <br />
               (we cab bring it with us)
@@ -275,8 +279,10 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
         </div>
         {/* Your question*/}
         <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
-          <h3 className="text-[12px] md:text-2xl text-accent mb-3 md:mb-4">Your questions:</h3>
-          <p className="text-[10px] md:text-[20px] md:leading-6 text-text overflow-y-hidden max-h-[76px] ">
+          <h3 className="text-[12px] md:text-2xl text-accent mb-3 md:mb-4">
+            Your questions:
+          </h3>
+          <p className="text-[10px] md:text-[20px] md:leading-6 text-text line-clamp-3 hover:line-clamp-none">
             {clientBooking.specialInstructions}
           </p>
         </div>
@@ -285,16 +291,16 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Additional information:
           </h3>
-          <p className="text-[10px] md:text-[20px] md:leading-6 text-text overflow-y-hidden max-h-[76px] ">
+          <p className="text-[10px] md:text-[20px] md:leading-6 text-text line-clamp-3 hover:line-clamp-none">
             {clientBooking.homeAccess}
           </p>
         </div>
         {/* Special Instructions:*/}
-        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow">
+        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 rounded-md shadow-card-shadow h-auto">
           <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Special Instructions:
           </h3>
-          <p className="text-[10px] md:text-[20px] md:leading-6 text-text overflow-y-hidden max-h-[76px] text-ellipsis hover:text-clip">
+          <p className="text-[10px] md:text-[20px] md:leading-6 text-text line-clamp-3 hover:line-clamp-none">
             {clientBooking.specialInstructions}
           </p>
         </div>
