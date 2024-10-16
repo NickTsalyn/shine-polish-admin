@@ -6,6 +6,14 @@ export interface Employee {
   email: string;
   avatar: File | string;
 }
+export interface GetEmployee {
+  _id: string;
+  username: string;
+  phone: string;
+  area: string;
+  email: string;
+  avatar: string;
+}
 export interface FormValues {
   area: string;
   bedroom: number;
