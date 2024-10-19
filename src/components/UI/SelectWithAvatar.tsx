@@ -34,7 +34,7 @@ export default function SelectWithAvatar({ employees }: SelectWithAvatarProps) {
   console.log(employees);
 
   const [value, setValue] = React.useState(employees[0]);
-  
+
   const handleChange = (event: SelectChangeEvent<typeof value>) => {
     setValue(event.target.value as unknown as GetEmployee);
   };

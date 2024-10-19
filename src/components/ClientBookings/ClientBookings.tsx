@@ -9,8 +9,6 @@ import { FormValues } from "@/types/interfaces";
 import axios from "axios";
 
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
-import { styled } from "@mui/material/styles";
 import SelectWithAvatar from "@/components/UI/SelectWithAvatar";
 import Loading from "@/components/Loading";
 
@@ -183,9 +181,9 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
               </div>
             </div>
             <div className="hidden lg:block lg:col-start-1 lg:row-start-1 xl:col-start-1 xl:row-start-1 xl:self-center">
-              {/* {employees.isSuccess && (
+              {employees.isSuccess && (
                 <SelectWithAvatar employees={employees.data} />
-              )} */}
+              )}
             </div>
 
             <ul className="col-span-2 lg:col-span-3 xl:col-span-4 grid row-span-1 grow lg:grid grid-cols-3 xl:col-start-1 xl:grid-cols-4 gap-1 lg:gap-y-3 justify-items-start items-start  pt-[6px] md:pt-0">
