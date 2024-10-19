@@ -17,9 +17,9 @@ export default function Home() {
  useEffect(() => {
  console.log("object");
   if (!isLoggedIn) {
-//    router.push("/");
+   router.push("/");
   }
- }, []);
+ }, [isLoggedIn]);
 
  return (
   <div className="py-5 md:p-7 lg:py-20">
