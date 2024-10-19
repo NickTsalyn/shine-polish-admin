@@ -6,21 +6,13 @@ import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import LetterAvatar from "@/components/UI/LetterAvatar";
 import { AddressIcon, EmailIcon } from "@/components/images";
 import { FormValues } from "@/types/interfaces";
-import Link from "next/link";
 import axios from "axios";
 
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-// import CustomDatePicker from "@/components/DatePicker";
-// import CustomTimePicker from "@/components/TimePicker";
 import SelectWithAvatar from "@/components/UI/SelectWithAvatar";
 import Loading from "@/components/Loading";
-
-const StyledButton = styled(IconButton)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius,
-}));
 
 interface ClientBookingsProps {
   bookingId: string;
@@ -28,9 +20,6 @@ interface ClientBookingsProps {
 
 export default function ClientBookings({ bookingId }: ClientBookingsProps) {
   const [clientBooking, setClientBooking] = useState<FormValues | null>(null);
-  const [isTimeOpen, setIsTimeOpen] = useState(false);
-  const [isDateOpen, setIsDateOpen] = useState(false);
-  const router = useRouter();
 
   const { data, isError, isPending, isSuccess, error } = useQuery({
     queryKey: ["client-booking", bookingId],
@@ -194,9 +183,9 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
               </div>
             </div>
             <div className="hidden lg:block lg:col-start-1 lg:row-start-1 xl:col-start-1 xl:row-start-1 xl:self-center">
-              {employees.isSuccess && (
+              {/* {employees.isSuccess && (
                 <SelectWithAvatar employees={employees.data} />
-              )}
+              )} */}
             </div>
 
             <ul className="col-span-2 lg:col-span-3 xl:col-span-4 grid row-span-1 grow lg:grid grid-cols-3 xl:col-start-1 xl:grid-cols-4 gap-1 lg:gap-y-3 justify-items-start items-start  pt-[6px] md:pt-0">
