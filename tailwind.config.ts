@@ -41,10 +41,10 @@ const config: Config = {
         "error-input-bgn": "#FFF2F2",
         light: "rgba(255, 247, 239, 0.68)",
         sand: "rgba(230, 186, 149, 0.68)",
-        backdrop: 'rgba(51, 77, 81, 0.50)',
+        backdrop: "rgba(51, 77, 81, 0.50)",
         bookingSubText: "rgba(0, 0, 0, 0.50)",
         customRed: "#FF4E56",
-        lightSand: 'rgba(230, 186, 149, 0.25)'
+        lightSand: "rgba(230, 186, 149, 0.25)",
       },
 
       boxShadow: {
@@ -64,7 +64,7 @@ const config: Config = {
           " -5px 57px 16px 0px rgba(15, 191, 215, 0.00), -3px 37px 15px 0px rgba(15, 191, 215, 0.01), -2px 21px 12px 0px rgba(15, 191, 215, 0.05), -1px 9px 9px 0px rgba(15, 191, 215, 0.09), 0px 2px 5px 0px rgba(15, 191, 215, 0.10)",
         "input-shadow":
           "0px 30px 60px -12px rgba(50, 50, 93, 0.25), 0px 18px 36px -18px rgba(0, 0, 0, 0.30)",
-          
+        "card-shadow": "0.876px 0.876px 1.752px 0.876px rgba(0, 0, 0, 0.25);",
       },
       backgroundImage: {
         "main-gradient": "linear-gradient(180deg, #006778 0%, #00BFDE 100%)",

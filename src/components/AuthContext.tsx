@@ -21,8 +21,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
     const checkToken = () => {
+      console.log(token);
       const savedToken = localStorage.getItem("token");
       if (savedToken) {
         setToken(savedToken);
