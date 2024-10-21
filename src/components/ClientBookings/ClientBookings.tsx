@@ -85,7 +85,7 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
   return (
     isSuccess &&
     clientBooking && (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[minmax(180px,_1fr)_minmax(180px,_1fr)_minmax(180px,_1fr)_minmax(520px,_1fr)] xl:grid-cols-[minmax(285px,_1fr)_minmax(285px,_1fr)_minmax(135px,_1fr)_minmax(135px,_1fr)_minmax(135px,_1fr)_minmax(380px,_1fr)] gap-x-4 lg:gap-x-8 items-center justify-items-center md:justify-items-start mb-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[200px_200px_200px_minmax(470px,_1fr)] xl:grid-cols-6 gap-x-4 lg:gap-x-8 items-center justify-items-center md:justify-items-start mb-10">
         <div className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-6 flex lg:flex-row-reverse gap-2 md:justify-between md:w-full">
           <p className="flex lg:w-[520px] lg:justify-between items-center text-[10px] md:text-[24px] lg:text-[32px] xl:text-[40px]  mb-8 text-center">
             today:{" "}
@@ -99,8 +99,8 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
             <CustomTimePicker /> */}
           </div>
         </div>
-        <div className="flex h-44 min-h-44 md:h-56 lg:min-h-[245px] gap-6 col-span-2 lg:col-span-2 lg:self-start max-w-[280px] md:max-w-[810px] lg:w-full mb-10 md:mb-16">
-          <div className="self-start w-40 md:min-w-[520px] lg:min-w-[405px] flex flex-col gap-y-4 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20 pr-3 body h-full">
+        <div className="flex h-44 min-h-44 md:h-56 lg:min-h-[245px] gap-6 xl:gap-8 col-span-2 lg:col-span-2 xl:col-span-3 lg:self-start max-w-[280px] md:max-w-[810px] lg:w-full mb-10 md:mb-16">
+          <div className="self-start w-40 md:min-w-[520px] lg:min-w-[460px] xl:min-w-[540px] flex flex-col gap-y-4 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20 pr-3 body h-full">
             <div className="md:block text-[12px] md:text-[28px] xl:text-[32px] relative ">
               {name} {surname}
               <div className="absolute top-0 -left-6 md:-top-0 md:-left-12 text-[12px]">
@@ -128,8 +128,8 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
 
           {/*list last bookings */}
           <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4 h-full ">
-            <div className="w-[100px] md:w-[160px] lg:w-[180px]  shadow-card-shadow rounded-xl p-3 px-2 mx-auto h-full">
-              <ul className="flex flex-col gap-y-1 max-h-[150px] md:max-h-[198px] overflow-y-auto">
+            <div className="w-[100px] md:w-[160px] lg:w-[180px]  shadow-card-shadow rounded-xl p-3 px-2 lg:p-5 mx-auto h-full">
+              <ul className="flex flex-col gap-y-1 max-h-[150px] md:max-h-[198px] lg:max-h-[205px] overflow-y-auto">
                 {bookings.map((booking: any, index: number) => (
                   <li
                     className={
@@ -153,7 +153,7 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
                         .split("-")
                         .reverse()
                         .join("/")}
-                      <div className="w-[80px] h-0.5 bg-gray-300"></div>
+                      <div className="w-[80px] lg:w-32 h-0.5 bg-gray-300"></div>
                     </button>
                   </li>
                 ))}
@@ -164,7 +164,7 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
         {/* bokings detail*/}
 
         {/* Your last bookings*/}
-        <div className="w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-2 lg:col-end-5 lg:row-end-4 xl:col-start-3 xl:col-end-7">
+        <div className="w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-2 lg:col-end-5 lg:row-end-4 xl:row-end-3 xl:col-start-4 xl:col-end-7">
           <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-2 gap-y-1 md:gap-y-3 lg:gap-y-8 text-[12px] leading-6 md:text-[24px] md:leading-normal text-main ">
             <div className="flex flex-col gap-1 md:gap-3 lg:gap-8 xl:gap-10 lg:flex-row lg:col-span-3 xl:col-start-3">
               <div className="flex flex-col gap-1 ">
