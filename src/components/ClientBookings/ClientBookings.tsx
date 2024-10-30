@@ -85,9 +85,9 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
   return (
     isSuccess &&
     clientBooking && (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[200px_200px_200px_minmax(470px,_1fr)] xl:grid-cols-6 gap-x-4 lg:gap-x-8 items-center justify-items-center md:justify-items-start mb-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-[200px_200px_200px_minmax(470px,_1fr)] xl:grid-cols-6 gap-x-4 lg:gap-x-8 items-center justify-items-center md:justify-items-start mb-10  px-2">
         <div className="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-6 flex lg:flex-row-reverse gap-2 md:justify-between md:w-full">
-          <p className="flex lg:w-[520px] lg:justify-between items-center text-[10px] md:text-[24px] lg:text-[32px] xl:text-[40px]  mb-8 text-center">
+          <p className="flex lg:w-[520px] xl:w-[580px] lg:justify-between items-center text-[10px] md:text-[24px] lg:text-[32px] xl:text-[40px]  mb-8 text-center">
             today:{" "}
             <span className="text-main text-[16px] md:text-[24px] lg:text-[32px] indent-1.5">
               {dayjs().format("MM/DD/YYYY")}
@@ -99,8 +99,8 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
             <CustomTimePicker /> */}
           </div>
         </div>
-        <div className="flex h-44 min-h-44 md:h-56 lg:min-h-[245px] gap-6 xl:gap-8 col-span-2 lg:col-span-2 xl:col-span-3 lg:self-start max-w-[280px] md:max-w-[810px] lg:w-full mb-10 md:mb-16">
-          <div className="self-start w-40 md:min-w-[520px] lg:min-w-[460px] xl:min-w-[540px] flex flex-col gap-y-4 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20 pr-3 body h-full">
+        <div className="flex h-44 min-h-44 md:h-56 lg:min-h-[245px] gap-6 xl:gap-8 col-span-2 lg:col-span-2 justify-self-start xl:col-span-3 lg:self-start min-w-[280px] md:max-w-[810px] lg:w-full mb-10 md:mb-16">
+          <div className="self-start max-w-[460px] min-w-40 md:min-w-[520px] lg:min-w-[460px] xl:min-w-[540px] flex flex-col justify-center gap-y-5 md:gap-y-5 shadow-card-shadow rounded-xl py-3 md:py-7 pl-8 md:pl-16 xl:pl-20 pr-3 body h-full">
             <div className="md:block text-[12px] md:text-[28px] xl:text-[32px] relative ">
               {name} {surname}
               <div className="absolute top-0 -left-6 md:-top-0 md:-left-12 text-[12px]">
@@ -127,8 +127,8 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           </div>
 
           {/*list last bookings */}
-          <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4 h-full ">
-            <div className="w-[100px] md:w-[160px] lg:w-[180px]  shadow-card-shadow rounded-xl p-3 px-2 lg:p-5 mx-auto h-full">
+          <div className="self-start md:self-start lg:justify-self-center col-start-3 col-end-4 h-full">
+            <div className="w-[100px] md:w-[160px] lg:w-[180px]  shadow-card-shadow rounded-xl p-3 px-1 lg:p-5 mx-auto h-full">
               <ul className="flex flex-col gap-y-1 max-h-[150px] md:max-h-[198px] lg:max-h-[205px] overflow-y-auto">
                 {bookings.map((booking: any, index: number) => (
                   <li
@@ -164,7 +164,7 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
         {/* bokings detail*/}
 
         {/* Your last bookings*/}
-        <div className="w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-2 lg:col-end-5 lg:row-end-4 xl:row-end-3 xl:col-start-4 xl:col-end-7">
+        <div className="min-w-[320px] md:w-full px-5 md:px-0 mb-10 lg:md:self-start col-span-2 md:col-span-3 lg:col-start-4 lg:row-start-2 lg:col-end-5 lg:row-end-5 xl:row-end-3 xl:col-start-4 xl:col-end-7">
           <div className="grid grid-cols-3 xl:grid-cols-4 gap-x-2 gap-y-1 md:gap-y-3 lg:gap-y-8 text-[12px] leading-6 md:text-[24px] md:leading-normal text-main ">
             <div className="flex flex-col gap-1 md:gap-3 lg:gap-8 xl:gap-10 lg:flex-row lg:col-span-3 xl:col-start-3">
               <div className="flex flex-col gap-1 ">
@@ -217,8 +217,8 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           </div>
         </div>
         {/* Your question*/}
-        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 xl:col-start-1 xl:col-end-3 xl:row-start-4 xl:self-start xl:min-h-[150px] rounded-md shadow-card-shadow">
-          <h3 className="text-[12px] md:text-2xl text-accent mb-3 md:mb-4">
+        <div className="min-w-[304px] w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 xl:col-start-1 xl:col-end-3 xl:row-start-4 xl:self-start xl:min-h-[150px] rounded-md shadow-card-shadow">
+          <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Your questions:
           </h3>
           <p className="text-[10px] md:text-[20px] md:leading-6 text-text line-clamp-3 hover:line-clamp-none">
@@ -226,7 +226,7 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           </p>
         </div>
         {/* Additional information*/}
-        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 xl:col-start-3 xl:col-end-5 xl:row-start-4 xl:self-start xl:min-h-[150px] rounded-md shadow-card-shadow">
+        <div className="min-w-[304px] w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 xl:col-start-3 xl:col-end-5 xl:row-start-4 xl:self-start xl:min-h-[150px] rounded-md shadow-card-shadow">
           <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Additional information:
           </h3>
@@ -235,7 +235,7 @@ export default function ClientBookings({ bookingId }: ClientBookingsProps) {
           </p>
         </div>
         {/* Special Instructions:*/}
-        <div className="w-[320px] md:w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 xl:col-start-5 xl:col-end-7 xl:row-start-4 xl:self-start xl:min-h-[150px] rounded-md shadow-card-shadow h-auto">
+        <div className="min-w-[304px] w-full p-2 md:px-5 md:py-4 lg:pr-8 mb-5 md:mb-10 col-span-2 md:col-span-3 xl:col-start-5 xl:col-end-7 xl:row-start-4 xl:self-start xl:min-h-[150px] rounded-md shadow-card-shadow">
           <h3 className="text-[12px] md:text-2xl text-accent mb-3">
             Special Instructions:
           </h3>
