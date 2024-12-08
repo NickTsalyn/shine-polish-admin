@@ -84,6 +84,16 @@ select:-webkit-autofill:focus {
   background-color: #de005d;
   color: #fff;
 }
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root + .MuiDivider-root {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* .css-6hp17o-MuiList-root-MuiMenu-list {
+  padding-top: 0;
+  padding-bottom: 0;
+
+} */
 .error {
   color: red;
   font-size: 12px;
@@ -117,20 +127,39 @@ select:-webkit-autofill:focus {
   background: #555;
 }
 
-
-.MuiFormControl-root .MuiTextField-root .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-  border: #E6BA95;
+.MuiFormControl-root
+  .MuiTextField-root
+  .css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+  border: #e6ba95;
 }
 
-.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
-  color: #E6BA95;
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+  color: #e6ba95;
 }
 
- .MuiOutlinedInput-notchedOutline {
-  border-color: #E6BA95;
+.MuiOutlinedInput-notchedOutline {
+  border-color: #e6ba95;
   border-radius: 12px;
 }
 
-.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover{
-  border-color: #E6BA95;
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover {
+  border-color: #e6ba95;
+}
+
+::-webkit-scrollbar {
+  /* Customize the scrollbar width */
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  /* Customize the scrollbar track */
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  /* Customize the scrollbar thumb */
+  background: #D9D9D9;
+    border-radius: 20px;
+    margin-left: 5px;
 }

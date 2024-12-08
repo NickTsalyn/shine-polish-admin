@@ -123,3 +123,8 @@ export const updatePrice = async (data: any) => {
   const res = await axios.put(`${BASE_URL}/admin/bookings/pricing/edit`, data);
   return res;
 };
+
+export const getClientBookings = async (id: string) => {
+    const res = await axios.get(`${BASE_URL}/bookings/${id}`);
+    return res.data;
+  }
